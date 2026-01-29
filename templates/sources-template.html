@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{title}} - Sources</title>
+    <style>
+      :root {
+        --text: #1a1a1a;
+        --muted: #555;
+        --rule: #e5e5e5;
+      }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: #fff;
+      }
+      main {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 32px 20px 56px;
+      }
+      header h1 {
+        margin: 0 0 6px;
+        font-size: 26px;
+      }
+      header p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .section {
+        margin-top: 24px;
+        border-top: 1px solid var(--rule);
+        padding-top: 16px;
+      }
+      .section h2 {
+        margin: 0 0 10px;
+        font-size: 20px;
+      }
+      ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      li {
+        margin: 6px 0;
+      }
+      a {
+        color: #1f5cff;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>{{title}} - Sources</h1>
+        <p>{{date}}</p>
+      </header>
+
+      <section class="section">
+        <h2>News</h2>
+        <ul>
+          <li><a href="{{news_source_1_url}}">{{news_source_1_label}}</a></li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>New Tools</h2>
+        <ul>
+          <li><a href="{{tools_source_1_url}}">{{tools_source_1_label}}</a></li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Analysis</h2>
+        <ul>
+          <li><a href="{{analysis_source_1_url}}">{{analysis_source_1_label}}</a></li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Education Impact</h2>
+        <ul>
+          <li><a href="{{education_source_1_url}}">{{education_source_1_label}}</a></li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Demonstrations</h2>
+        <ul>
+          <li><a href="{{demo_source_1_url}}">{{demo_source_1_label}}</a></li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

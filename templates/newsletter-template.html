@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{title}}</title>
+    <style>
+      :root {
+        --text: #1a1a1a;
+        --muted: #555;
+        --rule: #e5e5e5;
+        --accent: #1f5cff;
+      }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: #fff;
+      }
+      main {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 32px 20px 56px;
+      }
+      header h1 {
+        margin: 0 0 6px;
+        font-size: 28px;
+      }
+      header p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .section {
+        margin-top: 28px;
+        border-top: 1px solid var(--rule);
+        padding-top: 20px;
+      }
+      .section h2 {
+        margin: 0 0 14px;
+        font-size: 22px;
+      }
+      .item {
+        margin-bottom: 16px;
+      }
+      .item h3 {
+        margin: 0 0 6px;
+        font-size: 18px;
+      }
+      .item p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      figure {
+        margin: 0 0 16px;
+      }
+      figure img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid var(--rule);
+      }
+      figure figcaption {
+        color: var(--muted);
+        font-size: 14px;
+        margin-top: 6px;
+      }
+      .sources-link {
+        margin-top: 28px;
+      }
+      .sources-link a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      @media print {
+        .sources-link a {
+          color: var(--text);
+          text-decoration: underline;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>{{title}}</h1>
+        <p>{{date}}</p>
+      </header>
+
+      <section class="section" id="highlights">
+        <h2>Highlights</h2>
+        <div class="item">
+          <h3>{{highlight_1_title}}</h3>
+          <p>{{highlight_1_text}}</p>
+        </div>
+        <div class="item">
+          <h3>{{highlight_2_title}}</h3>
+          <p>{{highlight_2_text}}</p>
+        </div>
+        <div class="item">
+          <h3>{{highlight_3_title}}</h3>
+          <p>{{highlight_3_text}}</p>
+        </div>
+      </section>
+
+      <section class="section" id="news">
+        <h2>News</h2>
+        <div class="item">
+          <h3>{{news_1_title}}</h3>
+          <p>{{news_1_text}}</p>
+        </div>
+      </section>
+
+      <section class="section" id="new-tools">
+        <h2>New Tools</h2>
+        <div class="item">
+          <h3>{{tool_1_title}}</h3>
+          <p>{{tool_1_text}}</p>
+        </div>
+      </section>
+
+      <section class="section" id="analysis">
+        <h2>Analysis</h2>
+        <div class="item">
+          <h3>{{analysis_1_title}}</h3>
+          <p>{{analysis_1_text}}</p>
+        </div>
+      </section>
+
+      <section class="section" id="education-impact">
+        <h2>Education Impact</h2>
+        <div class="item">
+          <h3>{{education_1_title}}</h3>
+          <p>{{education_1_text}}</p>
+        </div>
+      </section>
+
+      <section class="section" id="demonstrations">
+        <h2>Demonstrations</h2>
+        <figure>
+          <img src="{{demo_image_1_url}}" alt="{{demo_image_1_alt}}">
+          <figcaption>{{demo_image_1_caption}}</figcaption>
+        </figure>
+      </section>
+
+      <div class="sources-link">
+        <a href="{{sources_url}}">Sources for this issue</a>
+      </div>
+    </main>
+  </body>
+</html>
