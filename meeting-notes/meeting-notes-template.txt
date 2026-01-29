@@ -1,18 +1,71 @@
-Meeting notes:
+Issue Date: YYYY-MM-DD
+Title: Artificial Insights
+
+Highlights:
+- Title:
+  Summary:
+  Tags:
+  Source:
+- Title:
+  Summary:
+  Tags:
+  Source:
+- Title:
+  Summary:
+  Tags:
+  Source:
+
 News:
-- 
+- Title:
+  Summary:
+  Tags:
+  Source:
 
 New Tools:
-- 
+- Title:
+  Summary:
+  Tags:
+  Source:
 
 Analysis:
-- 
+- Title:
+  Summary:
+  Tags:
+  Source:
 
 Education Impact:
-- 
+- Title:
+  Summary:
+  Tags:
+  Source:
 
 Demonstrations:
-- 
+- Title:
+  Summary:
+  Image:
+  Caption:
+  Source:
+
+Sources:
+News:
+- URL:
+  Label:
+
+New Tools:
+- URL:
+  Label:
+
+Analysis:
+- URL:
+  Label:
+
+Education Impact:
+- URL:
+  Label:
+
+Demonstrations:
+- URL:
+  Label:
 
 Follow-up tasks:
 - 
