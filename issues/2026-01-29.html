@@ -108,49 +108,52 @@
         background: var(--card);
         border: 1px solid var(--rule);
         border-radius: 12px;
-        padding: 20px 24px;
+        padding: 16px 20px;
         margin-bottom: 32px;
         box-shadow: var(--shadow);
       }
       .overview h2 {
-        font-size: 14px;
+        font-size: 12px;
         text-transform: uppercase;
         letter-spacing: 1px;
         color: var(--muted);
-        margin: 0 0 16px;
+        margin: 0 0 12px;
       }
       .overview ul {
         margin: 0;
         padding: 0;
         list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
       }
       .overview li {
-        padding: 8px 0;
-        border-bottom: 1px solid var(--rule);
+        padding: 0;
       }
-      .overview li:last-child { border-bottom: none; }
       .overview a {
         color: var(--text);
         text-decoration: none;
-        font-weight: 500;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .overview a:hover { color: var(--accent); }
-      .overview .section-tag {
-        font-size: 12px;
-        padding: 2px 8px;
-        border-radius: 4px;
         font-weight: 600;
+        font-size: 13px;
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: transform 0.15s, box-shadow 0.15s;
       }
-      .tag-quick-scan { background: #f3e8ff; color: var(--quick-scan); }
-      .tag-feed { background: #cffafe; color: var(--feed); }
-      .tag-tool-drop { background: #d1fae5; color: var(--tool-drop); }
-      .tag-breakdown { background: #fef3c7; color: var(--breakdown); }
-      .tag-ed-pulse { background: #fce7f3; color: var(--ed-pulse); }
-      .tag-in-action { background: #ede9fe; color: var(--in-action); }
-      .tag-try-this { background: #ccfbf1; color: var(--try-this); }
+      .overview a:hover { 
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      .overview .section-tag {
+        display: none;
+      }
+      .tag-quick-scan, .overview a[href="#quick-scan"] { background: #f3e8ff; color: var(--quick-scan); }
+      .tag-feed, .overview a[href="#the-feed"] { background: #cffafe; color: var(--feed); }
+      .tag-tool-drop, .overview a[href="#tool-drop"] { background: #d1fae5; color: var(--tool-drop); }
+      .tag-breakdown, .overview a[href="#the-breakdown"] { background: #fef3c7; color: var(--breakdown); }
+      .tag-ed-pulse, .overview a[href="#ed-pulse"] { background: #fce7f3; color: var(--ed-pulse); }
+      .tag-in-action, .overview a[href="#in-action"] { background: #ede9fe; color: var(--in-action); }
+      .tag-try-this, .overview a[href="#try-this"] { background: #ccfbf1; color: var(--try-this); }
       
       /* Section Divider */
       .section-divider {
@@ -363,13 +366,13 @@
       <div class="overview">
         <h2>In This Issue</h2>
         <ul>
-          <li><a href="#quick-scan"><span>Quick Scan</span><span class="section-tag tag-quick-scan">3 items</span></a></li>
-          <li><a href="#the-feed"><span>The Feed</span><span class="section-tag tag-feed">2 items</span></a></li>
-          <li><a href="#tool-drop"><span>Tool Drop</span><span class="section-tag tag-tool-drop">4 tools</span></a></li>
-          <li><a href="#the-breakdown"><span>The Breakdown</span><span class="section-tag tag-breakdown">Analysis</span></a></li>
-          <li><a href="#ed-pulse"><span>Ed Pulse</span><span class="section-tag tag-ed-pulse">2 items</span></a></li>
-          <li><a href="#in-action"><span>In Action</span><span class="section-tag tag-in-action">Demos</span></a></li>
-          <li><a href="#try-this"><span>Try This</span><span class="section-tag tag-try-this">Actionable</span></a></li>
+          <li><a href="#quick-scan">Quick Scan</a></li>
+          <li><a href="#the-feed">The Feed</a></li>
+          <li><a href="#tool-drop">Tool Drop</a></li>
+          <li><a href="#the-breakdown">The Breakdown</a></li>
+          <li><a href="#ed-pulse">Ed Pulse</a></li>
+          <li><a href="#in-action">In Action</a></li>
+          <li><a href="#try-this">Try This</a></li>
         </ul>
       </div>
       
