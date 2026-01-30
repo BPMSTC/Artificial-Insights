@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Artificial Insights —  - Sources</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #475569;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        --news: #0891b2;
+        --tools: #059669;
+        --analysis: #d97706;
+        --education: #db2777;
+        --demos: #7c3aed;
+      }
+      body {
+        font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: #f8fafc;
+      }
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 28px 20px 40px;
+      }
+      .back-link {
+        margin-bottom: 16px;
+      }
+      .back-link a {
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: color 0.15s ease;
+      }
+      .back-link a:hover {
+        color: var(--accent-hover);
+      }
+      .back-link a::before {
+        content: "← ";
+      }
+      header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      header img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+      }
+      header h1 {
+        margin: 0 0 6px;
+        font-size: 28px;
+        letter-spacing: 0.2px;
+      }
+      header p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .banner {
+        margin: 18px 0 8px;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+      .banner img {
+        width: 100%;
+        display: block;
+      }
+      .section {
+        margin-top: 22px;
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 16px 18px;
+        box-shadow: var(--shadow);
+        border-left: 4px solid var(--accent);
+      }
+      .section-news { border-left-color: var(--news); }
+      .section-tools { border-left-color: var(--tools); }
+      .section-analysis { border-left-color: var(--analysis); }
+      .section-education { border-left-color: var(--education); }
+      .section-demos { border-left-color: var(--demos); }
+      .section h2 {
+        margin: 0 0 10px;
+        font-size: 20px;
+      }
+      ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      li {
+        margin: 6px 0;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 0.15s ease;
+      }
+      a:hover {
+        color: var(--accent-hover);
+      }
+      footer {
+        margin-top: 40px;
+        padding: 20px 0;
+        border-top: 1px solid var(--rule);
+        text-align: center;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      footer a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 0.15s ease;
+      }
+      footer a:hover {
+        color: var(--accent-hover);
+      }
+      @media (max-width: 600px) {
+        main {
+          padding: 20px 16px 32px;
+        }
+        header {
+          gap: 12px;
+        }
+        header img {
+          width: 40px;
+          height: 40px;
+        }
+        header h1 {
+          font-size: 22px;
+        }
+        .banner {
+          margin: 14px 0 6px;
+          border-radius: 12px;
+        }
+        .section {
+          padding: 14px 16px;
+          border-radius: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="back-link">
+        <a href="../issues/2026-01-292026-01-29.html">Back to issue</a>
+      </div>
+
+      <header>
+        <img src="../assets/images/artificial_insights_logo.webp" alt="Artificial Insights logo">
+        <div>
+          <h1>Artificial Insights — </h1>
+          <p>Sources · Issue #1</p>
+        </div>
+      </header>
+
+      <div class="banner">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights banner">
+      </div>
+
+      <section class="section section-news">
+        <h2>News</h2>
+        <ul>
+          <li><a href="https://openai.com/index/our-approach-to-advertising-and-expanding-access/" target="_blank" rel="noopener">ChatGPT adds plan</a></li>
+          <li><a href="https://www.marketmaze.me/p/shopify-ai-transaction-fee-ebay-blocks-bots" target="_blank" rel="noopener">shopify sets Fee for AI shopping</a></li>
+          <li><a href="https://openai.com/index/our-approach-to-age-prediction/" target="_blank" rel="noopener">ChatGPT age prediction</a></li>
+        </ul>
+      </section>
+      <section class="section section-tools">
+        <h2>New Tools</h2>
+        <ul>
+          <li><a href="https://www.datacamp.com/tutorial/claude-in-excel" target="_blank" rel="noopener">Claude in Excel</a></li>
+          <li><a href="https://www.beckershospitalreview.com/healthcare-information-technology/ai/anthropic-rolls-out-claude-for-healthcare/" target="_blank" rel="noopener">Anthropic rolls out Claude for healthcare</a></li>
+          <li><a href="https://www.reuters.com/business/healthcare-pharmaceuticals/openai-launches-chatgpt-health-connect-medical-records-wellness-apps-2026-01-07/" target="_blank" rel="noopener">OpenAI launces ChatGPT Health</a></li>
+        </ul>
+      </section>
+      <section class="section section-analysis">
+        <h2>Analysis</h2>
+        <ul>
+          <li><a href="https://www.microsoft.com/en-us/microsoft-365-life-hacks/presentations/how-to-use-copilot-in-powerpoint" target="_blank" rel="noopener">AI as a productivity multiplier - PowerPoint</a></li>
+        </ul>
+      </section>
+      <section class="section section-education">
+        <h2>Education Impact</h2>
+        <ul>
+          <li><a href="https://www.brookings.edu/articles/ais-future-for-students-is-in-our-hands/" target="_blank" rel="noopener">AI's future for students is in our hands</a></li>
+        </ul>
+      </section>
+
+      <footer>
+        <p>Artificial Insights · Issue #1 · <br>
+        <a href="../index.html">View all issues</a> · <a href="../issues/2026-01-292026-01-29.html">Read this issue</a></p>
+      </footer>
+    </main>
+  </body>
+</html>
