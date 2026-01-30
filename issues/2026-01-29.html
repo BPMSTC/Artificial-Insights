@@ -168,8 +168,15 @@
         white-space: nowrap;
       }
       .section-header-img {
-        height: 36px;
-        width: auto;
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .section-divider-full {
+        margin: 40px 0 24px;
+      }
+      .section-divider-full .line {
+        display: none;
       }
       .section-divider .line {
         flex: 1;
@@ -381,9 +388,8 @@
       </div>
       
       <!-- QUICK SCAN -->
-      <div class="section-divider" id="quick-scan">
+      <div class="section-divider section-divider-full" id="quick-scan">
         <img src="../assets/images/quick_scan_header.png" alt="Quick Scan" class="section-header-img">
-        <div class="line line-quick-scan"></div>
       </div>
       
       <div class="content-card card-quick-scan">
