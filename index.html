@@ -3,241 +3,202 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Artificial Insights Index</title>
+    <title>Artificial Insights</title>
     <style>
       :root {
         --text: #0f172a;
-        --muted: #475569;
+        --muted: #64748b;
         --rule: #e2e8f0;
         --accent: #2563eb;
         --accent-hover: #1d4ed8;
         --accent-soft: #dbeafe;
         --card: #ffffff;
-        --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
-        --highlight: #8b5cf6;
-        --news: #0891b2;
-        --tools: #059669;
-        --analysis: #d97706;
-        --education: #db2777;
-        --demos: #7c3aed;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
       }
+      * { box-sizing: border-box; }
       body {
-        font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
         color: var(--text);
         margin: 0;
-        background: #f8fafc;
-      }
-      main {
-        max-width: 960px;
-        margin: 0 auto;
-        padding: 28px 20px 40px;
-      }
-      header {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-      }
-      header img {
-        width: 48px;
-        height: 48px;
-        object-fit: contain;
-      }
-      header h1 {
-        margin: 0 0 6px;
-        font-size: 30px;
-        letter-spacing: 0.2px;
-      }
-      header p {
-        margin: 0;
-        color: var(--muted);
-      }
-      .banner {
-        margin: 18px 0 8px;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: var(--shadow);
-      }
-      .banner img {
-        width: 100%;
-        display: block;
-      }
-      .intro {
-        margin-top: 20px;
-        background: var(--card);
-        border: 1px solid var(--rule);
-        border-radius: 14px;
-        padding: 18px 20px;
-        box-shadow: var(--shadow);
-      }
-      .intro p {
-        margin: 0;
-        color: var(--muted);
+        background: var(--bg);
         line-height: 1.6;
       }
-      .subscribe-cta {
-        margin-top: 18px;
-        background: linear-gradient(135deg, var(--accent) 0%, var(--highlight) 100%);
-        border-radius: 14px;
-        padding: 18px 20px;
-        box-shadow: var(--shadow);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 12px;
+      
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px;
       }
-      .subscribe-cta p {
-        margin: 0;
+      
+      .header {
+        text-align: center;
+        padding: 40px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 12px;
+      }
+      
+      .intro {
+        text-align: center;
+        padding: 24px 0 32px;
+        border-bottom: 1px solid var(--rule);
+        margin-bottom: 32px;
+      }
+      .intro h1 {
+        font-size: 36px;
+        margin: 0 0 12px;
+        letter-spacing: -0.5px;
+      }
+      .intro p {
+        color: var(--muted);
+        font-size: 18px;
+        margin: 0 0 20px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .intro .cta {
+        display: inline-block;
+        background: var(--accent);
         color: #fff;
-        font-weight: 600;
-      }
-      .subscribe-cta a {
-        background: #fff;
-        color: var(--accent);
-        padding: 8px 16px;
-        border-radius: 10px;
+        padding: 12px 24px;
+        border-radius: 8px;
         text-decoration: none;
         font-weight: 600;
-        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        transition: background 0.15s, transform 0.15s;
       }
-      .subscribe-cta a:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      .intro .cta:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
       }
-      .issue {
-        margin-top: 22px;
+      
+      .issues-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .issues-header h2 {
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--muted);
+        margin: 0;
+      }
+      
+      .issue-card {
         background: var(--card);
         border: 1px solid var(--rule);
-        border-radius: 14px;
-        padding: 16px 18px;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 16px;
         box-shadow: var(--shadow);
-        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        transition: transform 0.15s, box-shadow 0.15s;
       }
-      .issue:hover {
+      .issue-card:hover {
         transform: translateY(-2px);
-        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+        box-shadow: 0 8px 30px rgba(15, 23, 42, 0.1);
       }
-      .issue-header {
+      .issue-card .issue-header {
         display: flex;
-        align-items: baseline;
-        gap: 10px;
-        margin-bottom: 6px;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
       }
-      .issue h2 {
+      .issue-card h3 {
         margin: 0;
         font-size: 20px;
       }
-      .issue-number {
-        font-size: 13px;
+      .issue-card .issue-number {
+        font-size: 12px;
         color: var(--accent);
         font-weight: 600;
         background: var(--accent-soft);
-        padding: 2px 8px;
+        padding: 4px 10px;
         border-radius: 6px;
       }
-      .issue p {
-        margin: 0 0 12px;
+      .issue-card p {
         color: var(--muted);
+        margin: 0 0 16px;
+        font-size: 15px;
       }
-      .links a {
+      .issue-card .links {
+        display: flex;
+        gap: 12px;
+      }
+      .issue-card .links a {
         color: var(--accent);
         text-decoration: none;
+        font-size: 14px;
         font-weight: 600;
-        margin-right: 14px;
+        padding: 8px 16px;
         background: var(--accent-soft);
-        padding: 6px 10px;
-        border-radius: 10px;
-        display: inline-block;
-        transition: background 0.15s ease, transform 0.15s ease;
+        border-radius: 6px;
+        transition: background 0.15s;
       }
-      .links a:hover {
+      .issue-card .links a:hover {
         background: #bfdbfe;
-        transform: translateY(-1px);
       }
+      
       footer {
-        margin-top: 40px;
-        padding: 20px 0;
         border-top: 1px solid var(--rule);
+        padding: 32px 0;
         text-align: center;
         color: var(--muted);
-        font-size: 14px;
+        font-size: 13px;
+        margin-top: 40px;
       }
       footer a {
-        color: var(--accent);
+        color: var(--muted);
         text-decoration: none;
-        transition: color 0.15s ease;
       }
-      footer a:hover {
-        color: var(--accent-hover);
-      }
+      footer a:hover { color: var(--accent); }
+      
       @media (max-width: 600px) {
-        main {
-          padding: 20px 16px 32px;
-        }
-        header {
-          gap: 12px;
-        }
-        header img {
-          width: 40px;
-          height: 40px;
-        }
-        header h1 {
-          font-size: 24px;
-        }
-        .banner {
-          margin: 14px 0 6px;
-          border-radius: 12px;
-        }
-        .intro, .issue, .subscribe-cta {
-          padding: 14px 16px;
-          border-radius: 12px;
-        }
-        .subscribe-cta {
+        .intro h1 { font-size: 28px; }
+        .intro p { font-size: 16px; }
+        .issue-card { padding: 20px; }
+        .issue-card .issue-header {
           flex-direction: column;
-          text-align: center;
+          gap: 8px;
         }
       }
     </style>
   </head>
   <body>
-    <main>
-      <header>
-        <img src="assets/images/artificial_insights_logo.webp" alt="Artificial Insights logo">
-        <div>
-          <h1>Artificial Insights</h1>
-          <p>Bi-weekly updates for coworkers</p>
-        </div>
-      </header>
-
-      <div class="banner">
-        <img src="assets/images/artificial_insights_banner.webp" alt="Artificial Insights banner">
+    <div class="container">
+      <div class="header">
+        <img src="assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
       </div>
-
+      
       <div class="intro">
-        <p>Stay ahead of AI developments that matter. Artificial Insights delivers practical tips, new tools, and analysis to help you work smarter—whether you're just getting started with AI or already using it daily.</p>
+        <h1>Artificial Insights</h1>
+        <p>Your bi-weekly AI briefing. Practical tips, new tools, and analysis to help you work smarter.</p>
+        <a href="mailto:?subject=Subscribe%20to%20Artificial%20Insights" class="cta">Get Notified</a>
       </div>
-
-      <div class="subscribe-cta">
-        <p>Get notified when new issues drop</p>
-        <a href="mailto:?subject=Subscribe%20to%20Artificial%20Insights">Subscribe via Email</a>
+      
+      <div class="issues-header">
+        <h2>All Issues</h2>
       </div>
-
-      <section class="issue">
+      
+      <article class="issue-card">
         <div class="issue-header">
-          <h2>Jan 29, 2026</h2>
+          <h3>Jan 29, 2026</h3>
           <span class="issue-number">Issue #1</span>
         </div>
-        <p>Excel AI improvements, health/education initiatives, and new AI shopping and ads.</p>
+        <p>Excel AI improvements, health and education initiatives, new AI shopping and ads, plus actionable tips you can try today.</p>
         <div class="links">
-          <a href="issues/2026-01-29.html">Read issue</a>
+          <a href="issues/2026-01-29.html">Read Issue</a>
           <a href="sources/2026-01-29.html">Sources</a>
         </div>
-      </section>
-
+      </article>
+      
       <footer>
-        <p>Artificial Insights · Internal AI Newsletter<br>
-        Questions or ideas? <a href="mailto:">Contact us</a></p>
+        <p><strong>Artificial Insights</strong> · Internal AI Newsletter<br>
+        <a href="mailto:">Contact</a></p>
       </footer>
-    </main>
+    </div>
   </body>
 </html>

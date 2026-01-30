@@ -2,7 +2,7 @@ Issue Date: YYYY-MM-DD
 Issue Number: X
 Title: Artificial Insights
 
-Highlights:
+Quick Scan:
 - Title:
   Summary:
   Tags:
@@ -16,55 +16,74 @@ Highlights:
   Tags:
   Source:
 
-News:
+The Feed:
+- Title:
+  Summary:
+  Tags:
+  Source:
 - Title:
   Summary:
   Tags:
   Source:
 
-New Tools:
+Tool Drop:
+- Title:
+  Summary:
+  Tags:
+  Source:
 - Title:
   Summary:
   Tags:
   Source:
 
-Analysis:
+The Breakdown:
 - Title:
   Summary:
   Tags:
   Source:
 
-Education Impact:
+Ed Pulse:
 - Title:
   Summary:
   Tags:
   Source:
 
-Demonstrations:
+In Action:
+- Title:
+  Summary:
+  Image:
+  Caption:
+  Source:
 - Title:
   Summary:
   Image:
   Caption:
   Source:
 
+Try This:
+- Title:
+  Instructions:
+- Title:
+  Instructions:
+
 Sources:
-News:
+The Feed:
 - URL:
   Label:
 
-New Tools:
+Tool Drop:
 - URL:
   Label:
 
-Analysis:
+The Breakdown:
 - URL:
   Label:
 
-Education Impact:
+Ed Pulse:
 - URL:
   Label:
 
-Demonstrations:
+In Action:
 - URL:
   Label:
 

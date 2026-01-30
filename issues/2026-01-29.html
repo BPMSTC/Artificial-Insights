@@ -7,402 +7,515 @@
     <style>
       :root {
         --text: #0f172a;
-        --muted: #475569;
+        --muted: #64748b;
         --rule: #e2e8f0;
         --accent: #2563eb;
         --accent-hover: #1d4ed8;
         --accent-soft: #dbeafe;
         --card: #ffffff;
-        --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
-        --highlight: #8b5cf6;
-        --news: #0891b2;
-        --tools: #059669;
-        --analysis: #d97706;
-        --education: #db2777;
-        --demos: #7c3aed;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        --quick-scan: #8b5cf6;
+        --feed: #0891b2;
+        --tool-drop: #059669;
+        --breakdown: #d97706;
+        --ed-pulse: #db2777;
+        --in-action: #7c3aed;
+        --try-this: #0d9488;
       }
+      * { box-sizing: border-box; }
       body {
-        font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
         color: var(--text);
         margin: 0;
-        background: #f8fafc;
+        background: var(--bg);
+        line-height: 1.6;
       }
-      main {
-        max-width: 960px;
-        margin: 0 auto;
-        padding: 28px 20px 40px;
-      }
-      .back-link {
-        margin-bottom: 16px;
-      }
-      .back-link a {
-        color: var(--accent);
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 600;
-        transition: color 0.15s ease;
-      }
-      .back-link a:hover {
-        color: var(--accent-hover);
-      }
-      .back-link a::before {
-        content: "← ";
-      }
-      header {
+      
+      /* Top Bar */
+      .top-bar {
+        background: var(--text);
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 13px;
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        gap: 16px;
-      }
-      header img {
-        width: 48px;
-        height: 48px;
-        object-fit: contain;
-      }
-      header h1 {
-        margin: 0 0 6px;
-        font-size: 30px;
-        letter-spacing: 0.2px;
-      }
-      header p {
-        margin: 0;
-        color: var(--muted);
-      }
-      .banner {
-        margin: 18px 0 8px;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: var(--shadow);
-      }
-      .banner img {
-        width: 100%;
-        display: block;
-      }
-      .toc {
-        margin-top: 20px;
-        background: var(--card);
-        border: 1px solid var(--rule);
-        border-radius: 14px;
-        padding: 16px 20px;
-        box-shadow: var(--shadow);
-      }
-      .toc h2 {
-        margin: 0 0 12px;
-        font-size: 16px;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-      .toc ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        display: flex;
         flex-wrap: wrap;
         gap: 8px;
       }
-      .toc li a {
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      
+      /* Container */
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 12px;
+      }
+      
+      /* Nav Links */
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: color 0.15s;
+      }
+      .nav-links a:hover { color: var(--accent); }
+      
+      /* Issue Info */
+      .issue-info {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .issue-info h1 {
+        font-size: 32px;
+        margin: 0 0 8px;
+        letter-spacing: -0.5px;
+      }
+      .issue-info .meta {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      
+      /* Issue Overview */
+      .overview {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+      }
+      .overview h2 {
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--muted);
+        margin: 0 0 16px;
+      }
+      .overview ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .overview li {
+        padding: 8px 0;
+        border-bottom: 1px solid var(--rule);
+      }
+      .overview li:last-child { border-bottom: none; }
+      .overview a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 500;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .overview a:hover { color: var(--accent); }
+      .overview .section-tag {
+        font-size: 12px;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+      .tag-quick-scan { background: #f3e8ff; color: var(--quick-scan); }
+      .tag-feed { background: #cffafe; color: var(--feed); }
+      .tag-tool-drop { background: #d1fae5; color: var(--tool-drop); }
+      .tag-breakdown { background: #fef3c7; color: var(--breakdown); }
+      .tag-ed-pulse { background: #fce7f3; color: var(--ed-pulse); }
+      .tag-in-action { background: #ede9fe; color: var(--in-action); }
+      .tag-try-this { background: #ccfbf1; color: var(--try-this); }
+      
+      /* Section Divider */
+      .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 40px 0 24px;
+      }
+      .section-divider h2 {
+        margin: 0;
+        font-size: 24px;
+        white-space: nowrap;
+      }
+      .section-divider .line {
+        flex: 1;
+        height: 3px;
+        border-radius: 2px;
+      }
+      .line-quick-scan { background: var(--quick-scan); }
+      .line-feed { background: var(--feed); }
+      .line-tool-drop { background: var(--tool-drop); }
+      .line-breakdown { background: var(--breakdown); }
+      .line-ed-pulse { background: var(--ed-pulse); }
+      .line-in-action { background: var(--in-action); }
+      .line-try-this { background: var(--try-this); }
+      
+      /* Content Card */
+      .content-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        padding: 20px 24px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 4px solid var(--accent);
+      }
+      .card-quick-scan { border-left-color: var(--quick-scan); }
+      .card-feed { border-left-color: var(--feed); }
+      .card-tool-drop { border-left-color: var(--tool-drop); }
+      .card-breakdown { border-left-color: var(--breakdown); }
+      .card-ed-pulse { border-left-color: var(--ed-pulse); }
+      .card-in-action { border-left-color: var(--in-action); }
+      .card-try-this { 
+        border-left-color: var(--try-this);
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+      }
+      .content-card h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+      .content-card p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .content-card p + p {
+        margin-top: 12px;
+      }
+      
+      /* Try This Box */
+      .try-this-box {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        border: 2px solid var(--try-this);
+        border-radius: 12px;
+        padding: 20px 24px;
+        margin: 24px 0;
+      }
+      .try-this-box h3 {
+        color: var(--try-this);
+        margin: 0 0 12px;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .try-this-box p {
+        margin: 0;
+        color: var(--text);
+      }
+      .try-this-box code {
+        background: rgba(13, 148, 136, 0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      
+      /* Demo Figure */
+      figure {
+        margin: 16px 0;
+      }
+      figure img {
+        max-width: 100%;
+        border-radius: 8px;
+        border: 1px solid var(--rule);
+      }
+      figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 8px;
+        text-align: center;
+      }
+      
+      /* Share Section */
+      .share-section {
+        text-align: center;
+        padding: 32px 24px;
+        margin: 40px 0;
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+      }
+      .share-section h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+        color: var(--muted);
+      }
+      .share-section p {
+        margin: 0 0 16px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .share-link {
         display: inline-block;
-        padding: 6px 12px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        padding: 10px 20px;
         border-radius: 8px;
         text-decoration: none;
         font-weight: 600;
         font-size: 14px;
-        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        transition: background 0.15s, transform 0.15s;
       }
-      .toc li a:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
-      .toc-highlight { background: #fae8ff; color: var(--highlight); }
-      .toc-news { background: #cffafe; color: var(--news); }
-      .toc-tools { background: #d1fae5; color: var(--tools); }
-      .toc-analysis { background: #fef3c7; color: var(--analysis); }
-      .toc-education { background: #fce7f3; color: var(--education); }
-      .toc-demos { background: #ede9fe; color: var(--demos); }
-      .section {
-        margin-top: 22px;
-        background: var(--card);
-        border: 1px solid var(--rule);
-        border-radius: 14px;
-        padding: 16px 18px;
-        box-shadow: var(--shadow);
-        border-left: 4px solid var(--accent);
-      }
-      .section-highlight { border-left-color: var(--highlight); }
-      .section-news { border-left-color: var(--news); }
-      .section-tools { border-left-color: var(--tools); }
-      .section-analysis { border-left-color: var(--analysis); }
-      .section-education { border-left-color: var(--education); }
-      .section-demos { border-left-color: var(--demos); }
-      .section h2 {
-        margin: 0 0 14px;
-        font-size: 22px;
-      }
-      .item {
-        margin-bottom: 16px;
-      }
-      .item h3 {
-        margin: 0 0 6px;
-        font-size: 18px;
-      }
-      .item p {
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.6;
-      }
-      .item-expandable .item-summary {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-      .item-expandable.expanded .item-summary {
-        display: block;
-        -webkit-line-clamp: unset;
-      }
-      .read-more {
-        background: none;
-        border: none;
-        color: var(--accent);
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        padding: 4px 0;
-        margin-top: 4px;
-        transition: color 0.15s ease;
-      }
-      .read-more:hover {
-        color: var(--accent-hover);
-      }
-      figure {
-        margin: 0 0 16px;
-      }
-      figure img {
-        max-width: 100%;
-        height: auto;
-        border: 1px solid var(--rule);
-        border-radius: 12px;
-      }
-      figure figcaption {
-        color: var(--muted);
-        font-size: 14px;
-        margin-top: 6px;
-      }
-      .sources-link {
-        margin-top: 20px;
-      }
-      .sources-link a {
-        color: var(--accent);
-        text-decoration: none;
-        font-weight: 600;
-        background: var(--accent-soft);
-        padding: 6px 10px;
-        border-radius: 10px;
-        display: inline-block;
-        transition: background 0.15s ease, transform 0.15s ease;
-      }
-      .sources-link a:hover {
+      .share-link:hover {
         background: #bfdbfe;
         transform: translateY(-1px);
       }
+      
+      /* Footer */
       footer {
-        margin-top: 40px;
-        padding: 20px 0;
         border-top: 1px solid var(--rule);
+        padding: 32px 0;
         text-align: center;
         color: var(--muted);
-        font-size: 14px;
+        font-size: 13px;
       }
       footer a {
-        color: var(--accent);
+        color: var(--muted);
         text-decoration: none;
-        transition: color 0.15s ease;
+        transition: color 0.15s;
       }
-      footer a:hover {
-        color: var(--accent-hover);
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
       }
-      @media print {
-        body {
-          background: #fff;
-        }
-        .section {
-          box-shadow: none;
-        }
-        .sources-link a {
-          color: var(--text);
-          text-decoration: underline;
-          background: none;
-          padding: 0;
-        }
-        .back-link, .toc, .read-more {
-          display: none;
-        }
+      footer .footer-links a {
+        margin: 0 12px;
       }
+      footer .brand {
+        font-weight: 600;
+        color: var(--text);
+      }
+      
+      /* Responsive */
       @media (max-width: 600px) {
-        main {
-          padding: 20px 16px 32px;
+        .top-bar {
+          justify-content: center;
+          text-align: center;
         }
-        header {
-          gap: 12px;
+        .nav-links {
+          gap: 16px;
         }
-        header img {
-          width: 40px;
-          height: 40px;
+        .issue-info h1 {
+          font-size: 26px;
         }
-        header h1 {
-          font-size: 24px;
-        }
-        .banner {
-          margin: 14px 0 6px;
-          border-radius: 12px;
-        }
-        .toc, .section {
-          padding: 14px 16px;
-          border-radius: 12px;
-        }
-        .toc ul {
-          gap: 6px;
-        }
-        .toc li a {
-          padding: 5px 10px;
-          font-size: 13px;
-        }
-        .section h2 {
+        .section-divider h2 {
           font-size: 20px;
         }
-        .item h3 {
-          font-size: 16px;
+        .content-card, .overview, .try-this-box {
+          padding: 16px 18px;
         }
+      }
+      
+      @media print {
+        .top-bar, .nav-links, .share-section { display: none; }
+        body { background: #fff; }
+        .content-card, .overview { box-shadow: none; }
       }
     </style>
   </head>
   <body>
-    <main>
-      <div class="back-link">
-        <a href="../index.html">Back to all issues</a>
+    <div class="top-bar">
+      <span class="date">Jan 29, 2026 · Issue #1</span>
+      <a href="#">Read Online</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
       </div>
-
-      <header>
-        <img src="../assets/images/artificial_insights_logo.webp" alt="Artificial Insights logo">
-        <div>
-          <h1>Artificial Insights</h1>
-          <p>Jan 29, 2026 · Issue #1</p>
-        </div>
-      </header>
-
-      <div class="banner">
-        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights banner">
+      
+      <nav class="nav-links">
+        <a href="../index.html">All Issues</a>
+        <a href="../sources/2026-01-29.html">Sources</a>
+        <a href="#share">Share</a>
+      </nav>
+      
+      <div class="issue-info">
+        <h1>Artificial Insights</h1>
+        <p class="meta">Your bi-weekly AI briefing · 5 min read</p>
       </div>
-
-      <nav class="toc">
+      
+      <div class="overview">
         <h2>In This Issue</h2>
         <ul>
-          <li><a href="#highlights" class="toc-highlight">Highlights</a></li>
-          <li><a href="#news" class="toc-news">News</a></li>
-          <li><a href="#new-tools" class="toc-tools">New Tools</a></li>
-          <li><a href="#analysis" class="toc-analysis">Analysis</a></li>
-          <li><a href="#education-impact" class="toc-education">Education Impact</a></li>
-          <li><a href="#demonstrations" class="toc-demos">Demonstrations</a></li>
+          <li><a href="#quick-scan"><span>Quick Scan</span><span class="section-tag tag-quick-scan">3 items</span></a></li>
+          <li><a href="#the-feed"><span>The Feed</span><span class="section-tag tag-feed">2 items</span></a></li>
+          <li><a href="#tool-drop"><span>Tool Drop</span><span class="section-tag tag-tool-drop">4 tools</span></a></li>
+          <li><a href="#the-breakdown"><span>The Breakdown</span><span class="section-tag tag-breakdown">Analysis</span></a></li>
+          <li><a href="#ed-pulse"><span>Ed Pulse</span><span class="section-tag tag-ed-pulse">2 items</span></a></li>
+          <li><a href="#in-action"><span>In Action</span><span class="section-tag tag-in-action">Demos</span></a></li>
+          <li><a href="#try-this"><span>Try This</span><span class="section-tag tag-try-this">Actionable</span></a></li>
         </ul>
-      </nav>
-
-      <section class="section section-highlight" id="highlights">
-        <h2>Highlights</h2>
-        <div class="item item-expandable">
-          <h3>Claude and Copilot upgrades for Excel</h3>
-          <p class="item-summary">Claude is now available in Excel for paid plans and can build complex multi-tab spreadsheets. Microsoft plans to upgrade Copilot to the same model level within ~60 days.</p>
-          <button class="read-more" onclick="this.parentElement.classList.toggle('expanded'); this.textContent = this.parentElement.classList.contains('expanded') ? 'Show less' : 'Read more';">Read more</button>
-        </div>
-        <div class="item item-expandable">
-          <h3>Health and education initiatives are accelerating</h3>
-          <p class="item-summary">Claude, ChatGPT, and Amazon are rolling out health-focused extensions with strong diagnostic capabilities, while Anthropic and OpenAI are launching large-scale education programs.</p>
-          <button class="read-more" onclick="this.parentElement.classList.toggle('expanded'); this.textContent = this.parentElement.classList.contains('expanded') ? 'Show less' : 'Read more';">Read more</button>
-        </div>
-        <div class="item item-expandable">
-          <h3>New consumer features + practical demos</h3>
-          <p class="item-summary">Ads, shopping assistants, and age prediction are coming to ChatGPT and Perplexity. We also demoed translation, recurring reminders, news summaries, and advanced video/math analysis.</p>
-          <button class="read-more" onclick="this.parentElement.classList.toggle('expanded'); this.textContent = this.parentElement.classList.contains('expanded') ? 'Show less' : 'Read more';">Read more</button>
-        </div>
-      </section>
-
-      <section class="section section-news" id="news">
-        <h2>News</h2>
-        <div class="item">
-          <h3>Ads and shopping arrive in ChatGPT and Perplexity</h3>
-          <p>Free ChatGPT users will see targeted ads based on usage history, and both tools now support shopping workflows directly inside chat.</p>
-        </div>
-        <div class="item">
-          <h3>Age prediction for content guardrails</h3>
-          <p>OpenAI is rolling out age prediction to limit adult content for users identified as under 18. Use caution when sharing screens with ChatGPT outputs.</p>
-        </div>
-      </section>
-
-      <section class="section section-tools" id="new-tools">
-        <h2>New Tools</h2>
-        <div class="item">
-          <h3>Claude in Excel (paid plans)</h3>
-          <p>Can generate complex spreadsheets across multiple tabs and boost common business workflows.</p>
-        </div>
-        <div class="item">
-          <h3>Polyglotta translation</h3>
-          <p>Multilingual translation tool reported as a strong alternative to Google Translate for academics.</p>
-        </div>
-        <div class="item">
-          <h3>Gemini video and math analysis</h3>
-          <p>Handles video breakdowns and step-by-step math reasoning with graphical support.</p>
-        </div>
-        <div class="item">
-          <h3>Copilot email summarization</h3>
-          <p>Summarizes long threads into prioritized bullets and highlights implicit insights.</p>
-        </div>
-      </section>
-
-      <section class="section section-analysis" id="analysis">
-        <h2>Analysis</h2>
-        <div class="item item-expandable">
-          <h3>Privacy risks rising with health AI and wearables</h3>
-          <p class="item-summary">Uploading sensitive data for analysis is becoming more common. OpenAI and Apple wearable roadmaps include continuous data capture and facial recognition, so privacy policies matter.</p>
-          <button class="read-more" onclick="this.parentElement.classList.toggle('expanded'); this.textContent = this.parentElement.classList.contains('expanded') ? 'Show less' : 'Read more';">Read more</button>
-        </div>
-        <div class="item">
-          <h3>Automation opportunities for repetitive tasks</h3>
-          <p>Share time-consuming tasks to explore automation with current AI tools and workflows.</p>
-        </div>
-      </section>
-
-      <section class="section section-education" id="education-impact">
-        <h2>Education Impact</h2>
-        <div class="item item-expandable">
-          <h3>Teach for All and Education for Countries</h3>
-          <p class="item-summary">Anthropic aims to train 100,000 educators, while OpenAI is targeting national education systems with curriculum, tooling, and support programs.</p>
-          <button class="read-more" onclick="this.parentElement.classList.toggle('expanded'); this.textContent = this.parentElement.classList.contains('expanded') ? 'Show less' : 'Read more';">Read more</button>
-        </div>
-        <div class="item">
-          <h3>AI-assisted statistical validation</h3>
-          <p>Multiple tools (Julius AI, ChatGPT, and a statistician) produced consistent results for dissertation analysis, showing promise for research workflows.</p>
-        </div>
-      </section>
-
-      <section class="section section-demos" id="demonstrations">
-        <h2>Demonstrations</h2>
-        <div class="item">
-          <h3>Translation, reminders, and news summaries</h3>
-          <p>ChatGPT can generate recurring weather and news summaries and deliver them via email, calendar, or messaging tools like Slack and Teams.</p>
-        </div>
-        <div class="item">
-          <h3>Video analysis with Gemini</h3>
-          <p>Short sports clips can be analyzed for technical feedback when prompts specify what to assess.</p>
-        </div>
-      </section>
-
-      <div class="sources-link">
-        <a href="../sources/2026-01-29.html">Sources for this issue</a>
       </div>
-
+      
+      <!-- QUICK SCAN -->
+      <div class="section-divider" id="quick-scan">
+        <h2>Quick Scan</h2>
+        <div class="line line-quick-scan"></div>
+      </div>
+      
+      <div class="content-card card-quick-scan">
+        <h3>Claude and Copilot upgrades for Excel</h3>
+        <p>Claude is now available in Excel for paid plans and can build complex multi-tab spreadsheets. Microsoft plans to upgrade Copilot to the same model level within ~60 days.</p>
+      </div>
+      
+      <div class="content-card card-quick-scan">
+        <h3>Health and education initiatives are accelerating</h3>
+        <p>Claude, ChatGPT, and Amazon are rolling out health-focused extensions with strong diagnostic capabilities, while Anthropic and OpenAI are launching large-scale education programs.</p>
+      </div>
+      
+      <div class="content-card card-quick-scan">
+        <h3>New consumer features and practical demos</h3>
+        <p>Ads, shopping assistants, and age prediction are coming to ChatGPT and Perplexity. We also demoed translation, recurring reminders, news summaries, and advanced video/math analysis.</p>
+      </div>
+      
+      <!-- THE FEED -->
+      <div class="section-divider" id="the-feed">
+        <h2>The Feed</h2>
+        <div class="line line-feed"></div>
+      </div>
+      
+      <div class="content-card card-feed">
+        <h3>Ads and shopping arrive in ChatGPT and Perplexity</h3>
+        <p>Free ChatGPT users will see targeted ads based on usage history, and both tools now support shopping workflows directly inside chat.</p>
+      </div>
+      
+      <div class="content-card card-feed">
+        <h3>Age prediction for content guardrails</h3>
+        <p>OpenAI is rolling out age prediction to limit adult content for users identified as under 18. Use caution when sharing screens with ChatGPT outputs.</p>
+      </div>
+      
+      <!-- TOOL DROP -->
+      <div class="section-divider" id="tool-drop">
+        <h2>Tool Drop</h2>
+        <div class="line line-tool-drop"></div>
+      </div>
+      
+      <div class="content-card card-tool-drop">
+        <h3>Claude in Excel (paid plans)</h3>
+        <p>Can generate complex spreadsheets across multiple tabs and boost common business workflows.</p>
+      </div>
+      
+      <div class="content-card card-tool-drop">
+        <h3>Polyglotta translation</h3>
+        <p>Multilingual translation tool reported as a strong alternative to Google Translate for academics.</p>
+      </div>
+      
+      <div class="content-card card-tool-drop">
+        <h3>Gemini video and math analysis</h3>
+        <p>Handles video breakdowns and step-by-step math reasoning with graphical support.</p>
+      </div>
+      
+      <div class="content-card card-tool-drop">
+        <h3>Copilot email summarization</h3>
+        <p>Summarizes long threads into prioritized bullets and highlights implicit insights.</p>
+      </div>
+      
+      <!-- THE BREAKDOWN -->
+      <div class="section-divider" id="the-breakdown">
+        <h2>The Breakdown</h2>
+        <div class="line line-breakdown"></div>
+      </div>
+      
+      <div class="content-card card-breakdown">
+        <h3>Privacy risks rising with health AI and wearables</h3>
+        <p>Uploading sensitive data for analysis is becoming more common. OpenAI and Apple wearable roadmaps include continuous data capture and facial recognition, so privacy policies matter.</p>
+        <p>Before using any health-related AI feature, check whether your data is stored, shared, or used for training. Many tools now offer opt-out settings buried in preferences.</p>
+      </div>
+      
+      <div class="content-card card-breakdown">
+        <h3>Automation opportunities for repetitive tasks</h3>
+        <p>Share time-consuming tasks to explore automation with current AI tools and workflows. The barrier to useful automation is dropping fast.</p>
+      </div>
+      
+      <!-- ED PULSE -->
+      <div class="section-divider" id="ed-pulse">
+        <h2>Ed Pulse</h2>
+        <div class="line line-ed-pulse"></div>
+      </div>
+      
+      <div class="content-card card-ed-pulse">
+        <h3>Teach for All and Education for Countries</h3>
+        <p>Anthropic aims to train 100,000 educators, while OpenAI is targeting national education systems with curriculum, tooling, and support programs.</p>
+      </div>
+      
+      <div class="content-card card-ed-pulse">
+        <h3>AI-assisted statistical validation</h3>
+        <p>Multiple tools (Julius AI, ChatGPT, and a statistician) produced consistent results for dissertation analysis, showing promise for research workflows.</p>
+      </div>
+      
+      <!-- IN ACTION -->
+      <div class="section-divider" id="in-action">
+        <h2>In Action</h2>
+        <div class="line line-in-action"></div>
+      </div>
+      
+      <div class="content-card card-in-action">
+        <h3>Translation, reminders, and news summaries</h3>
+        <p>ChatGPT can generate recurring weather and news summaries and deliver them via email, calendar, or messaging tools like Slack and Teams.</p>
+      </div>
+      
+      <div class="content-card card-in-action">
+        <h3>Video analysis with Gemini</h3>
+        <p>Short sports clips can be analyzed for technical feedback when prompts specify what to assess.</p>
+      </div>
+      
+      <!-- TRY THIS -->
+      <div class="section-divider" id="try-this">
+        <h2>Try This</h2>
+        <div class="line line-try-this"></div>
+      </div>
+      
+      <div class="try-this-box">
+        <h3>Set up a daily AI briefing</h3>
+        <p>Ask ChatGPT to create a recurring task that sends you a summary of AI news every morning. Try: "Create a daily task at 7am to summarize the top 3 AI developments from the past 24 hours and send it to my email."</p>
+      </div>
+      
+      <div class="try-this-box">
+        <h3>Test Claude in Excel</h3>
+        <p>If you have a paid Microsoft 365 plan, try asking Claude to build a budget tracker with multiple tabs. Start simple: "Create a monthly expense tracker with categories, running totals, and a summary dashboard."</p>
+      </div>
+      
+      <!-- SHARE -->
+      <div class="share-section" id="share">
+        <h3>Found this useful?</h3>
+        <p>Share Artificial Insights with a colleague who might benefit.</p>
+        <a href="mailto:?subject=Check%20out%20Artificial%20Insights&body=I%20thought%20you%20might%20find%20this%20AI%20newsletter%20useful%3A%20https%3A%2F%2Fbpmstc.github.io%2FArtificial-Insights%2F" class="share-link">Share via Email</a>
+      </div>
+      
       <footer>
-        <p>Artificial Insights · Issue #1 · Jan 29, 2026<br>
-        <a href="../index.html">View all issues</a> · <a href="mailto:">Contact us</a></p>
+        <div class="footer-links">
+          <a href="../index.html">All Issues</a>
+          <a href="../sources/2026-01-29.html">Sources</a>
+          <a href="mailto:">Contact</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #1 · Jan 29, 2026</p>
       </footer>
-    </main>
+    </div>
   </body>
 </html>
