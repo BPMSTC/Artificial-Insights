@@ -6,34 +6,61 @@
     <title>Artificial Insights — Jan 29, 2026</title>
     <style>
       :root {
-        --text: #1a1a1a;
-        --muted: #555;
-        --rule: #e5e5e5;
-        --accent: #1f5cff;
+        --text: #0f172a;
+        --muted: #475569;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
       }
       body {
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: "Segoe UI", Arial, Helvetica, sans-serif;
         color: var(--text);
         margin: 0;
-        background: #fff;
+        background: #f8fafc;
       }
       main {
-        max-width: 900px;
+        max-width: 960px;
         margin: 0 auto;
-        padding: 32px 20px 56px;
+        padding: 28px 20px 64px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      header img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
       }
       header h1 {
         margin: 0 0 6px;
-        font-size: 28px;
+        font-size: 30px;
+        letter-spacing: 0.2px;
       }
       header p {
         margin: 0;
         color: var(--muted);
       }
+      .banner {
+        margin: 18px 0 8px;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+      .banner img {
+        width: 100%;
+        display: block;
+      }
       .section {
-        margin-top: 28px;
-        border-top: 1px solid var(--rule);
-        padding-top: 20px;
+        margin-top: 22px;
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 16px 18px;
+        box-shadow: var(--shadow);
       }
       .section h2 {
         margin: 0 0 14px;
@@ -49,7 +76,7 @@
       .item p {
         margin: 0;
         color: var(--muted);
-        line-height: 1.5;
+        line-height: 1.6;
       }
       figure {
         margin: 0 0 16px;
@@ -58,6 +85,7 @@
         max-width: 100%;
         height: auto;
         border: 1px solid var(--rule);
+        border-radius: 12px;
       }
       figure figcaption {
         color: var(--muted);
@@ -65,16 +93,29 @@
         margin-top: 6px;
       }
       .sources-link {
-        margin-top: 28px;
+        margin-top: 20px;
       }
       .sources-link a {
         color: var(--accent);
         text-decoration: none;
+        font-weight: 600;
+        background: var(--accent-soft);
+        padding: 6px 10px;
+        border-radius: 10px;
+        display: inline-block;
       }
       @media print {
+        body {
+          background: #fff;
+        }
+        .section {
+          box-shadow: none;
+        }
         .sources-link a {
           color: var(--text);
           text-decoration: underline;
+          background: none;
+          padding: 0;
         }
       }
     </style>
@@ -82,9 +123,16 @@
   <body>
     <main>
       <header>
-        <h1>Artificial Insights</h1>
-        <p>Jan 29, 2026</p>
+        <img src="../assets/images/artificial%20insights%20logo.png" alt="Artificial Insights logo">
+        <div>
+          <h1>Artificial Insights</h1>
+          <p>Jan 29, 2026</p>
+        </div>
       </header>
+
+      <div class="banner">
+        <img src="../assets/images/artificial%20insights%20header.png" alt="Artificial Insights banner">
+      </div>
 
       <section class="section" id="highlights">
         <h2>Highlights</h2>
