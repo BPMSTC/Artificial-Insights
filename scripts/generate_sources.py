@@ -101,7 +101,7 @@ def generate_html(sources: dict, issue_date: str, issue_number: str, issue_url: 
         
         css_class = section_classes.get(name, "")
         links = "\n".join(
-            f'          <li><a href="{item["url"]}">{item["label"]}</a></li>'
+            f'          <li><a href="{item["url"]}" target="_blank" rel="noopener">{item["label"]}</a></li>'
             for item in items if item["url"] and item["label"]
         )
         
