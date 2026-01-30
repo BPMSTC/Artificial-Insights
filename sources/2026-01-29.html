@@ -10,9 +10,15 @@
         --muted: #475569;
         --rule: #e2e8f0;
         --accent: #2563eb;
+        --accent-hover: #1d4ed8;
         --accent-soft: #dbeafe;
         --card: #ffffff;
         --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        --news: #0891b2;
+        --tools: #059669;
+        --analysis: #d97706;
+        --education: #db2777;
+        --demos: #7c3aed;
       }
       body {
         font-family: "Segoe UI", Arial, Helvetica, sans-serif;
@@ -23,7 +29,23 @@
       main {
         max-width: 960px;
         margin: 0 auto;
-        padding: 28px 20px 64px;
+        padding: 28px 20px 40px;
+      }
+      .back-link {
+        margin-bottom: 16px;
+      }
+      .back-link a {
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: color 0.15s ease;
+      }
+      .back-link a:hover {
+        color: var(--accent-hover);
+      }
+      .back-link a::before {
+        content: "← ";
       }
       header {
         display: flex;
@@ -61,7 +83,13 @@
         border-radius: 14px;
         padding: 16px 18px;
         box-shadow: var(--shadow);
+        border-left: 4px solid var(--accent);
       }
+      .section-news { border-left-color: var(--news); }
+      .section-tools { border-left-color: var(--tools); }
+      .section-analysis { border-left-color: var(--analysis); }
+      .section-education { border-left-color: var(--education); }
+      .section-demos { border-left-color: var(--demos); }
       .section h2 {
         margin: 0 0 10px;
         font-size: 20px;
@@ -76,20 +104,68 @@
       a {
         color: var(--accent);
         text-decoration: none;
+        transition: color 0.15s ease;
+      }
+      a:hover {
+        color: var(--accent-hover);
       }
       .note {
         color: var(--muted);
         margin-top: 6px;
+        font-size: 14px;
+      }
+      footer {
+        margin-top: 40px;
+        padding: 20px 0;
+        border-top: 1px solid var(--rule);
+        text-align: center;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      footer a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 0.15s ease;
+      }
+      footer a:hover {
+        color: var(--accent-hover);
+      }
+      @media (max-width: 600px) {
+        main {
+          padding: 20px 16px 32px;
+        }
+        header {
+          gap: 12px;
+        }
+        header img {
+          width: 40px;
+          height: 40px;
+        }
+        header h1 {
+          font-size: 22px;
+        }
+        .banner {
+          margin: 14px 0 6px;
+          border-radius: 12px;
+        }
+        .section {
+          padding: 14px 16px;
+          border-radius: 12px;
+        }
       }
     </style>
   </head>
   <body>
     <main>
+      <div class="back-link">
+        <a href="2026-01-29.html">Back to issue</a>
+      </div>
+
       <header>
         <img src="../assets/images/artificial%20insights%20logo.png" alt="Artificial Insights logo">
         <div>
           <h1>Artificial Insights — Jan 29, 2026</h1>
-          <p>Sources</p>
+          <p>Sources · Issue #1</p>
         </div>
       </header>
 
@@ -97,7 +173,7 @@
         <img src="../assets/images/artificial%20insights%20header.png" alt="Artificial Insights banner">
       </div>
 
-      <section class="section">
+      <section class="section section-news">
         <h2>News</h2>
         <ul>
           <li><a href="ADD-URL-HERE">Add source URL for ads in ChatGPT</a></li>
@@ -107,7 +183,7 @@
         <p class="note">Replace each placeholder with a real URL and label.</p>
       </section>
 
-      <section class="section">
+      <section class="section section-tools">
         <h2>New Tools</h2>
         <ul>
           <li><a href="ADD-URL-HERE">Claude in Excel release info</a></li>
@@ -117,7 +193,7 @@
         </ul>
       </section>
 
-      <section class="section">
+      <section class="section section-analysis">
         <h2>Analysis</h2>
         <ul>
           <li><a href="ADD-URL-HERE">Health AI extensions + privacy context</a></li>
@@ -125,7 +201,7 @@
         </ul>
       </section>
 
-      <section class="section">
+      <section class="section section-education">
         <h2>Education Impact</h2>
         <ul>
           <li><a href="ADD-URL-HERE">Anthropic Teach for All</a></li>
@@ -133,7 +209,7 @@
         </ul>
       </section>
 
-      <section class="section">
+      <section class="section section-demos">
         <h2>Demonstrations</h2>
         <ul>
           <li><a href="ADD-URL-HERE">ChatGPT recurring reminders</a></li>
@@ -141,6 +217,11 @@
           <li><a href="ADD-URL-HERE">Gemini video analysis</a></li>
         </ul>
       </section>
+
+      <footer>
+        <p>Artificial Insights · Issue #1 · Jan 29, 2026<br>
+        <a href="../index.html">View all issues</a> · <a href="../issues/2026-01-29.html">Read this issue</a></p>
+      </footer>
     </main>
   </body>
 </html>

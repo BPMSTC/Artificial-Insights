@@ -10,9 +10,16 @@
         --muted: #475569;
         --rule: #e2e8f0;
         --accent: #2563eb;
+        --accent-hover: #1d4ed8;
         --accent-soft: #dbeafe;
         --card: #ffffff;
         --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        --highlight: #8b5cf6;
+        --news: #0891b2;
+        --tools: #059669;
+        --analysis: #d97706;
+        --education: #db2777;
+        --demos: #7c3aed;
       }
       body {
         font-family: "Segoe UI", Arial, Helvetica, sans-serif;
@@ -23,7 +30,23 @@
       main {
         max-width: 960px;
         margin: 0 auto;
-        padding: 28px 20px 64px;
+        padding: 28px 20px 40px;
+      }
+      .back-link {
+        margin-bottom: 16px;
+      }
+      .back-link a {
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: color 0.15s ease;
+      }
+      .back-link a:hover {
+        color: var(--accent-hover);
+      }
+      .back-link a::before {
+        content: "← ";
       }
       header {
         display: flex;
@@ -54,6 +77,48 @@
         width: 100%;
         display: block;
       }
+      .toc {
+        margin-top: 20px;
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 16px 20px;
+        box-shadow: var(--shadow);
+      }
+      .toc h2 {
+        margin: 0 0 12px;
+        font-size: 16px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .toc ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .toc li a {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+      .toc li a:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .toc-highlight { background: #fae8ff; color: var(--highlight); }
+      .toc-news { background: #cffafe; color: var(--news); }
+      .toc-tools { background: #d1fae5; color: var(--tools); }
+      .toc-analysis { background: #fef3c7; color: var(--analysis); }
+      .toc-education { background: #fce7f3; color: var(--education); }
+      .toc-demos { background: #ede9fe; color: var(--demos); }
       .section {
         margin-top: 22px;
         background: var(--card);
@@ -61,7 +126,14 @@
         border-radius: 14px;
         padding: 16px 18px;
         box-shadow: var(--shadow);
+        border-left: 4px solid var(--accent);
       }
+      .section-highlight { border-left-color: var(--highlight); }
+      .section-news { border-left-color: var(--news); }
+      .section-tools { border-left-color: var(--tools); }
+      .section-analysis { border-left-color: var(--analysis); }
+      .section-education { border-left-color: var(--education); }
+      .section-demos { border-left-color: var(--demos); }
       .section h2 {
         margin: 0 0 14px;
         font-size: 22px;
@@ -77,6 +149,30 @@
         margin: 0;
         color: var(--muted);
         line-height: 1.6;
+      }
+      .item-expandable .item-summary {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .item-expandable.expanded .item-summary {
+        display: block;
+        -webkit-line-clamp: unset;
+      }
+      .read-more {
+        background: none;
+        border: none;
+        color: var(--accent);
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 4px 0;
+        margin-top: 4px;
+        transition: color 0.15s ease;
+      }
+      .read-more:hover {
+        color: var(--accent-hover);
       }
       figure {
         margin: 0 0 16px;
@@ -103,6 +199,27 @@
         padding: 6px 10px;
         border-radius: 10px;
         display: inline-block;
+        transition: background 0.15s ease, transform 0.15s ease;
+      }
+      .sources-link a:hover {
+        background: #bfdbfe;
+        transform: translateY(-1px);
+      }
+      footer {
+        margin-top: 40px;
+        padding: 20px 0;
+        border-top: 1px solid var(--rule);
+        text-align: center;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      footer a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 0.15s ease;
+      }
+      footer a:hover {
+        color: var(--accent-hover);
       }
       @media print {
         body {
@@ -117,16 +234,59 @@
           background: none;
           padding: 0;
         }
+        .back-link, .toc, .read-more {
+          display: none;
+        }
+      }
+      @media (max-width: 600px) {
+        main {
+          padding: 20px 16px 32px;
+        }
+        header {
+          gap: 12px;
+        }
+        header img {
+          width: 40px;
+          height: 40px;
+        }
+        header h1 {
+          font-size: 24px;
+        }
+        .banner {
+          margin: 14px 0 6px;
+          border-radius: 12px;
+        }
+        .toc, .section {
+          padding: 14px 16px;
+          border-radius: 12px;
+        }
+        .toc ul {
+          gap: 6px;
+        }
+        .toc li a {
+          padding: 5px 10px;
+          font-size: 13px;
+        }
+        .section h2 {
+          font-size: 20px;
+        }
+        .item h3 {
+          font-size: 16px;
+        }
       }
     </style>
   </head>
   <body>
     <main>
+      <div class="back-link">
+        <a href="../index.html">Back to all issues</a>
+      </div>
+
       <header>
         <img src="../assets/images/artificial%20insights%20logo.png" alt="Artificial Insights logo">
         <div>
           <h1>{{title}}</h1>
-          <p>{{date}}</p>
+          <p>{{date}} · Issue #{{issue_number}}</p>
         </div>
       </header>
 
@@ -134,23 +294,38 @@
         <img src="../assets/images/artificial%20insights%20header.png" alt="Artificial Insights banner">
       </div>
 
-      <section class="section" id="highlights">
+      <nav class="toc">
+        <h2>In This Issue</h2>
+        <ul>
+          <li><a href="#highlights" class="toc-highlight">Highlights</a></li>
+          <li><a href="#news" class="toc-news">News</a></li>
+          <li><a href="#new-tools" class="toc-tools">New Tools</a></li>
+          <li><a href="#analysis" class="toc-analysis">Analysis</a></li>
+          <li><a href="#education-impact" class="toc-education">Education Impact</a></li>
+          <li><a href="#demonstrations" class="toc-demos">Demonstrations</a></li>
+        </ul>
+      </nav>
+
+      <section class="section section-highlight" id="highlights">
         <h2>Highlights</h2>
-        <div class="item">
+        <div class="item item-expandable">
           <h3>{{highlight_1_title}}</h3>
-          <p>{{highlight_1_text}}</p>
+          <p class="item-summary">{{highlight_1_text}}</p>
+          <button class="read-more" onclick="this.parentElement.classList.toggle('expanded'); this.textContent = this.parentElement.classList.contains('expanded') ? 'Show less' : 'Read more';">Read more</button>
         </div>
-        <div class="item">
+        <div class="item item-expandable">
           <h3>{{highlight_2_title}}</h3>
-          <p>{{highlight_2_text}}</p>
+          <p class="item-summary">{{highlight_2_text}}</p>
+          <button class="read-more" onclick="this.parentElement.classList.toggle('expanded'); this.textContent = this.parentElement.classList.contains('expanded') ? 'Show less' : 'Read more';">Read more</button>
         </div>
-        <div class="item">
+        <div class="item item-expandable">
           <h3>{{highlight_3_title}}</h3>
-          <p>{{highlight_3_text}}</p>
+          <p class="item-summary">{{highlight_3_text}}</p>
+          <button class="read-more" onclick="this.parentElement.classList.toggle('expanded'); this.textContent = this.parentElement.classList.contains('expanded') ? 'Show less' : 'Read more';">Read more</button>
         </div>
       </section>
 
-      <section class="section" id="news">
+      <section class="section section-news" id="news">
         <h2>News</h2>
         <div class="item">
           <h3>{{news_1_title}}</h3>
@@ -158,7 +333,7 @@
         </div>
       </section>
 
-      <section class="section" id="new-tools">
+      <section class="section section-tools" id="new-tools">
         <h2>New Tools</h2>
         <div class="item">
           <h3>{{tool_1_title}}</h3>
@@ -166,7 +341,7 @@
         </div>
       </section>
 
-      <section class="section" id="analysis">
+      <section class="section section-analysis" id="analysis">
         <h2>Analysis</h2>
         <div class="item">
           <h3>{{analysis_1_title}}</h3>
@@ -174,7 +349,7 @@
         </div>
       </section>
 
-      <section class="section" id="education-impact">
+      <section class="section section-education" id="education-impact">
         <h2>Education Impact</h2>
         <div class="item">
           <h3>{{education_1_title}}</h3>
@@ -182,7 +357,7 @@
         </div>
       </section>
 
-      <section class="section" id="demonstrations">
+      <section class="section section-demos" id="demonstrations">
         <h2>Demonstrations</h2>
         <figure>
           <img src="{{demo_image_1_url}}" alt="{{demo_image_1_alt}}">
@@ -193,6 +368,11 @@
       <div class="sources-link">
         <a href="{{sources_url}}">Sources for this issue</a>
       </div>
+
+      <footer>
+        <p>Artificial Insights · Issue #{{issue_number}} · {{date}}<br>
+        <a href="../index.html">View all issues</a> · <a href="mailto:">Contact us</a></p>
+      </footer>
     </main>
   </body>
 </html>
