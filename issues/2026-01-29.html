@@ -254,6 +254,12 @@
       .content-card h3 .icon {
         font-size: 20px;
       }
+      .content-card h3 a {
+        transition: opacity 0.15s;
+      }
+      .content-card h3 a:hover {
+        opacity: 0.7;
+      }
       .content-card p {
         margin: 0;
         color: var(--muted);
@@ -457,128 +463,114 @@
           <li><a href="#try-this">💡 Try This</a></li>
         </ul>
       </div>
-      
+
       <!-- QUICK SCAN -->
       <div class="section-header" id="quick-scan">
         <img src="../assets/images/quick_scan_header.webp" alt="Quick Scan">
       </div>
-      
       <div class="content-card card-quick-scan">
-        <h3><span class="icon">⚡</span> Claude and Copilot upgrades for Excel</h3>
-        <p>Claude is now available in Excel for paid plans and can build complex multi-tab spreadsheets. Microsoft plans to upgrade Copilot to the same model level within ~60 days.</p>
+        <h3><span class="icon">⚡</span> <a href="https://www.datacamp.com/tutorial/claude-in-excel" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">AI expands inside Excel ↗</a></h3>
+        <p>Claude is now available in Excel for paid plans and can build complex multi-tab spreadsheets. It runs on a newer model than Copilot today, with Microsoft planning to upgrade Copilot to the same model in about 60 days.</p>
       </div>
-      
       <div class="content-card card-quick-scan">
-        <h3><span class="icon">🏥</span> Health and education initiatives are accelerating</h3>
-        <p>Claude, ChatGPT, and Amazon are rolling out health-focused extensions with strong diagnostic capabilities, while Anthropic and OpenAI are launching large-scale education programs.</p>
+        <h3><span class="icon">⚡</span> <a href="https://www.beckershospitalreview.com/healthcare-information-technology/ai/anthropic-rolls-out-claude-for-healthcare/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Health and education AI accelerate ↗</a></h3>
+        <p>Health-focused AI tools are integrating sources like ICD-10 and PubMed while major education initiatives from Anthropic and OpenAI aim to train educators and support national systems.</p>
       </div>
-      
       <div class="content-card card-quick-scan">
-        <h3><span class="icon">🆕</span> New consumer features and practical demos</h3>
-        <p>Ads, shopping assistants, and age prediction are coming to ChatGPT and Perplexity. We also demoed translation, recurring reminders, news summaries, and advanced video/math analysis.</p>
+        <h3><span class="icon">⚡</span> Privacy pressure increases</h3>
+        <p>AI wearables and medical analysis tools are increasing concerns around continuous data collection and privacy.</p>
       </div>
-      
+      <div class="content-card card-quick-scan">
+        <h3><span class="icon">⚡</span> AI reliability demonstrated in research</h3>
+        <p>Tools like Julius AI and ChatGPT showed high accuracy in validating dissertation-level statistical analysis.</p>
+      </div>
+
       <!-- THE FEED -->
       <div class="section-header" id="the-feed">
         <img src="../assets/images/the_feed_header.webp" alt="The Feed">
       </div>
-      
       <div class="content-card card-feed">
-        <h3><span class="icon">🛒</span> Ads and shopping arrive in ChatGPT and Perplexity</h3>
-        <p>Free ChatGPT users will see targeted ads based on usage history, and both tools now support shopping workflows directly inside chat.</p>
+        <h3><span class="icon">📰</span> <a href="https://openai.com/index/our-approach-to-advertising-and-expanding-access/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Ads introduced in ChatGPT ↗</a></h3>
+        <p>Free users will begin seeing targeted ads inside the chat interface.</p>
       </div>
-      
       <div class="content-card card-feed">
-        <h3><span class="icon">🔞</span> Age prediction for content guardrails</h3>
-        <p>OpenAI is rolling out age prediction to limit adult content for users identified as under 18. Use caution when sharing screens with ChatGPT outputs.</p>
+        <h3><span class="icon">📰</span> AI wearables on the horizon</h3>
+        <p>OpenAI and Apple are developing wearables that capture and summarize daily conversations.</p>
       </div>
-      
+      <div class="content-card card-feed">
+        <h3><span class="icon">📰</span> <a href="https://www.marketmaze.me/p/shopify-ai-transaction-fee-ebay-blocks-bots" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Shopify sets fee for AI shopping ↗</a></h3>
+        <p>Shopify introduces transaction fees for AI-powered shopping experiences.</p>
+      </div>
+      <div class="content-card card-feed">
+        <h3><span class="icon">📰</span> <a href="https://openai.com/index/our-approach-to-age-prediction/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">ChatGPT age prediction ↗</a></h3>
+        <p>OpenAI releases approach to age prediction in ChatGPT.</p>
+      </div>
+
       <!-- TOOL DROP -->
       <div class="section-header" id="tool-drop">
         <img src="../assets/images/tool_drop_header.webp" alt="Tool Drop">
       </div>
-      
       <div class="content-card card-tool-drop">
-        <h3><span class="icon">📊</span> Claude in Excel (paid plans)</h3>
-        <p>Can generate complex spreadsheets across multiple tabs and boost common business workflows.</p>
+        <h3><span class="icon">🛠️</span> <a href="https://www.datacamp.com/tutorial/claude-in-excel" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Claude in Excel ↗</a></h3>
+        <p>Claude can generate complex spreadsheets with multiple tabs for paid Excel users.</p>
       </div>
-      
       <div class="content-card card-tool-drop">
-        <h3><span class="icon">🌐</span> Polyglotta translation</h3>
-        <p>Multilingual translation tool reported as a strong alternative to Google Translate for academics.</p>
+        <h3><span class="icon">🛠️</span> <a href="https://www.beckershospitalreview.com/healthcare-information-technology/ai/anthropic-rolls-out-claude-for-healthcare/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Health AI extensions ↗</a></h3>
+        <p>Claude, ChatGPT, and Amazon introduced health-focused extensions.</p>
       </div>
-      
       <div class="content-card card-tool-drop">
-        <h3><span class="icon">🎥</span> Gemini video and math analysis</h3>
-        <p>Handles video breakdowns and step-by-step math reasoning with graphical support.</p>
+        <h3><span class="icon">🛠️</span> <a href="https://www.reuters.com/business/healthcare-pharmaceuticals/openai-launches-chatgpt-health-connect-medical-records-wellness-apps-2026-01-07/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">ChatGPT Health Connect ↗</a></h3>
+        <p>OpenAI launches ChatGPT Health Connect for medical records and wellness apps.</p>
       </div>
-      
-      <div class="content-card card-tool-drop">
-        <h3><span class="icon">📧</span> Copilot email summarization</h3>
-        <p>Summarizes long threads into prioritized bullets and highlights implicit insights.</p>
-      </div>
-      
+
       <!-- THE BREAKDOWN -->
       <div class="section-header" id="the-breakdown">
         <img src="../assets/images/the_breakdown_header.webp" alt="The Breakdown">
       </div>
-      
       <div class="content-card card-breakdown">
-        <h3><span class="icon">🔐</span> Privacy risks rising with health AI and wearables</h3>
-        <p>Uploading sensitive data for analysis is becoming more common. OpenAI and Apple wearable roadmaps include continuous data capture and facial recognition, so privacy policies matter.</p>
-        <p>Before using any health-related AI feature, check whether your data is stored, shared, or used for training. Many tools now offer opt-out settings buried in preferences.</p>
+        <h3><span class="icon">🔬</span> <a href="https://www.microsoft.com/en-us/microsoft-365-life-hacks/presentations/how-to-use-copilot-in-powerpoint" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">AI as a productivity multiplier ↗</a></h3>
+        <p>AI embedded in familiar tools reduces setup time for complex tasks.</p>
       </div>
-      
       <div class="content-card card-breakdown">
-        <h3><span class="icon">🤖</span> Automation opportunities for repetitive tasks</h3>
-        <p>Share time-consuming tasks to explore automation with current AI tools and workflows. The barrier to useful automation is dropping fast.</p>
+        <h3><span class="icon">🔬</span> AI for validation, not authority</h3>
+        <p>AI is valuable for cross-checking results and surfacing patterns.</p>
       </div>
-      
+
       <!-- ED PULSE -->
       <div class="section-header" id="ed-pulse">
         <img src="../assets/images/ed_pulse_header.webp" alt="Ed Pulse">
       </div>
-      
       <div class="content-card card-ed-pulse">
-        <h3><span class="icon">👩‍🏫</span> Teach for All and Education for Countries</h3>
-        <p>Anthropic aims to train 100,000 educators, while OpenAI is targeting national education systems with curriculum, tooling, and support programs.</p>
+        <h3><span class="icon">🎓</span> <a href="https://www.brookings.edu/articles/ais-future-for-students-is-in-our-hands/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Large-scale AI education initiatives ↗</a></h3>
+        <p>Anthropic and OpenAI are investing heavily in educator training and broader education support.</p>
       </div>
-      
       <div class="content-card card-ed-pulse">
-        <h3><span class="icon">📈</span> AI-assisted statistical validation</h3>
-        <p>Multiple tools (Julius AI, ChatGPT, and a statistician) produced consistent results for dissertation analysis, showing promise for research workflows.</p>
+        <h3><span class="icon">🎓</span> AI-assisted research skills</h3>
+        <p>Graduate-level research benefits from AI tools that assist validation.</p>
       </div>
-      
+
       <!-- IN ACTION -->
       <div class="section-header" id="in-action">
-        <img src="../assets/images/in_action_header.png" alt="In Action">
+        <img src="../assets/images/in_action_header.webp" alt="In Action">
       </div>
-      
       <div class="content-card card-in-action">
-        <h3><span class="icon">🔔</span> Translation, reminders, and news summaries</h3>
-        <p>ChatGPT can generate recurring weather and news summaries and deliver them via email, calendar, or messaging tools like Slack and Teams.</p>
+        <h3><span class="icon">🎬</span> Recurring tasks in ChatGPT</h3>
+        <p>Show how recurring tasks can be set in ChatGPT.</p>
+        <figure>
+          <img src="../assets/demos/2026-01-29/recurring-tasks.gif" alt="Setting up a recurring task in ChatGPT">
+          <figcaption>Setting up a recurring task in ChatGPT</figcaption>
+        </figure>
       </div>
-      
-      <div class="content-card card-in-action">
-        <h3><span class="icon">⚽</span> Video analysis with Gemini</h3>
-        <p>Short sports clips can be analyzed for technical feedback when prompts specify what to assess.</p>
-      </div>
-      
+
       <!-- TRY THIS -->
       <div class="section-header" id="try-this">
         <img src="../assets/images/try_this_header.webp" alt="Try This">
       </div>
-      
       <div class="try-this-box">
-        <h3>Set up a daily AI briefing</h3>
-        <p>Ask ChatGPT to create a recurring task that sends you a summary of AI news every morning. Try: <code>"Create a daily task at 7am to summarize the top 3 AI developments from the past 24 hours and send it to my email."</code></p>
+        <h3>Instructions:</h3>
+        <p></p>
       </div>
-      
-      <div class="try-this-box">
-        <h3>Test Claude in Excel</h3>
-        <p>If you have a paid Microsoft 365 plan, try asking Claude to build a budget tracker with multiple tabs. Start simple: <code>"Create a monthly expense tracker with categories, running totals, and a summary dashboard."</code></p>
-      </div>
-      
+
       <!-- SHARE -->
       <div class="share-section" id="share">
         <h3>Found this useful?</h3>

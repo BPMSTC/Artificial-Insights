@@ -6,86 +6,67 @@ Quick Scan:
 - Title:
   Summary:
   Tags:
-  Source:
+  URL:
 - Title:
   Summary:
   Tags:
-  Source:
+  URL:
 - Title:
   Summary:
   Tags:
-  Source:
+  URL:
 
 The Feed:
 - Title:
   Summary:
   Tags:
-  Source:
+  URL:
 - Title:
   Summary:
   Tags:
-  Source:
+  URL:
 
 Tool Drop:
 - Title:
   Summary:
   Tags:
-  Source:
+  URL:
 - Title:
   Summary:
   Tags:
-  Source:
+  URL:
 
 The Breakdown:
 - Title:
   Summary:
   Tags:
-  Source:
+  URL:
 
 Ed Pulse:
 - Title:
   Summary:
   Tags:
-  Source:
+  URL:
 
 In Action:
 - Title:
   Summary:
   Image:
   Caption:
-  Source:
+  URL:
 - Title:
   Summary:
   Image:
   Caption:
-  Source:
+  URL:
 
 Try This:
 - Title:
   Instructions:
+  URL:
 - Title:
   Instructions:
-
-Sources:
-The Feed:
-- URL:
-  Label:
-
-Tool Drop:
-- URL:
-  Label:
-
-The Breakdown:
-- URL:
-  Label:
-
-Ed Pulse:
-- URL:
-  Label:
-
-In Action:
-- URL:
-  Label:
+  URL:
 
 Follow-up tasks:
 - 
