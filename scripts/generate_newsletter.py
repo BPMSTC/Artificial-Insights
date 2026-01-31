@@ -77,7 +77,7 @@ def parse_items(section_content: str, section_name: str) -> list:
     item_blocks = re.split(r'^- Title:', section_content, flags=re.MULTILINE)
     
     for block in item_blocks[1:]:  # Skip first empty split
-        item = {'Title': ''}
+        item = {'Title': '', 'URLs': []}  # URLs is a list to handle multiple
         
         # First line is the title
         lines = block.strip().split('\n')
@@ -94,7 +94,14 @@ def parse_items(section_content: str, section_name: str) -> list:
             if field_match:
                 # Save previous field if exists
                 if current_field:
-                    item[current_field] = ' '.join(current_value).strip()
+                    if current_field == 'URL':
+                        # Add to URLs list if not empty
+                        url_val = ' '.join(current_value).strip()
+                        if url_val:
+                            item['URLs'].append(url_val)
+                    else:
+                        item[current_field] = ' '.join(current_value).strip()
+                
                 current_field = field_match.group(1)
                 current_value = [field_match.group(2).strip()] if field_match.group(2).strip() else []
             elif current_field and line.strip():
@@ -103,7 +110,12 @@ def parse_items(section_content: str, section_name: str) -> list:
         
         # Save last field
         if current_field:
-            item[current_field] = ' '.join(current_value).strip()
+            if current_field == 'URL':
+                url_val = ' '.join(current_value).strip()
+                if url_val:
+                    item['URLs'].append(url_val)
+            else:
+                item[current_field] = ' '.join(current_value).strip()
         
         # Only add items with a title
         if item['Title']:
@@ -125,17 +137,29 @@ def generate_card_html(item: dict, card_class: str, icon: str) -> str:
     """Generate HTML for a content card."""
     title = item.get('Title', '')
     summary = item.get('Summary', '')
-    url = item.get('URL', '')
+    urls = item.get('URLs', [])
     
-    # If URL exists, make title a link
-    if url:
-        title_html = f'<a href="{url}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">{title} ↗</a>'
+    # If URLs exist, make title a link to the first one
+    if urls:
+        title_html = f'<a href="{urls[0]}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">{title} ↗</a>'
     else:
         title_html = title
     
+    # Build links section if multiple URLs
+    links_html = ''
+    if len(urls) > 1:
+        links_html = '\n        <p class="source-links">Sources: '
+        link_parts = []
+        for i, url in enumerate(urls):
+            # Extract domain for display
+            domain = url.split('/')[2] if '/' in url else url
+            domain = domain.replace('www.', '')
+            link_parts.append(f'<a href="{url}" target="_blank" rel="noopener">{domain} ↗</a>')
+        links_html += ' · '.join(link_parts) + '</p>'
+    
     return f'''      <div class="content-card {card_class}">
         <h3><span class="icon">{icon}</span> {title_html}</h3>
-        <p>{summary}</p>
+        <p>{summary}</p>{links_html}
       </div>
 '''
 
@@ -146,11 +170,11 @@ def generate_in_action_html(item: dict, issue_date: str) -> str:
     summary = item.get('Summary', '')
     image = item.get('Image', '')
     caption = item.get('Caption', '')
-    url = item.get('URL', '')
+    urls = item.get('URLs', [])
     
-    # If URL exists, make title a link
-    if url:
-        title_html = f'<a href="{url}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">{title} ↗</a>'
+    # If URLs exist, make title a link to the first one
+    if urls:
+        title_html = f'<a href="{urls[0]}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">{title} ↗</a>'
     else:
         title_html = title
     
@@ -175,15 +199,19 @@ def generate_try_this_html(item: dict) -> str:
     """Generate HTML for Try This items."""
     title = item.get('Title', '')
     instructions = item.get('Instructions', '')
-    url = item.get('URL', '')
+    urls = item.get('URLs', [])
     
     if not title:
         return ''
     
-    # Add link if URL exists
+    # Add links if URLs exist
     url_html = ''
-    if url:
-        url_html = f' <a href="{url}" target="_blank" rel="noopener" style="color: var(--try-this);">Learn more ↗</a>'
+    if urls:
+        if len(urls) == 1:
+            url_html = f' <a href="{urls[0]}" target="_blank" rel="noopener" style="color: var(--try-this);">Learn more ↗</a>'
+        else:
+            links = [f'<a href="{u}" target="_blank" rel="noopener" style="color: var(--try-this);">Source {i+1} ↗</a>' for i, u in enumerate(urls)]
+            url_html = ' ' + ' · '.join(links)
     
     return f'''      <div class="try-this-box">
         <h3>{title}</h3>
@@ -543,6 +571,19 @@ def generate_issue_html(data: dict) -> str:
       .content-card p + p {{
         margin-top: 12px;
       }}
+      .content-card .source-links {{
+        font-size: 13px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--rule);
+      }}
+      .content-card .source-links a {{
+        color: var(--accent);
+        text-decoration: none;
+      }}
+      .content-card .source-links a:hover {{
+        text-decoration: underline;
+      }}
       
       /* Try This Box */
       .try-this-box {{
@@ -774,17 +815,18 @@ def generate_sources_html(data: dict) -> str:
     sources_html = ''
     for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Ed Pulse', 'In Action', 'Try This']:
         items = data['sections'].get(section_name, [])
-        urls = []
+        url_entries = []
         for item in items:
-            url = item.get('URL', '').strip()
-            if url:
-                label = item.get('Title', url)
-                urls.append((url, label))
+            item_urls = item.get('URLs', [])
+            label = item.get('Title', '')
+            for url in item_urls:
+                if url:
+                    url_entries.append((url, label))
         
-        if urls:
+        if url_entries:
             icon = section_icons.get(section_name, '📌')
             sources_html += f'      <h3>{icon} {section_name}</h3>\n      <ul>\n'
-            for url, label in urls:
+            for url, label in url_entries:
                 sources_html += f'        <li><a href="{url}" target="_blank" rel="noopener">{label} ↗</a></li>\n'
             sources_html += '      </ul>\n'
     
