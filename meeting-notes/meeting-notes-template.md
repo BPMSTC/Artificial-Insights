@@ -36,10 +36,10 @@ The Breakdown:
 Ed Pulse:
 - Title:
   Content:
-  LinkText:
   URL:
 - Title:
   Content:
+  LinkText:
   URL:
 
 In Action:
@@ -54,7 +54,6 @@ Try This:
 - Title:
   Intro:
   ThePrompt:
-  WhyItWorks:
   URL:
 
 Follow-up tasks:
