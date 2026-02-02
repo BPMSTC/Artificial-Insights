@@ -1,32 +1,164 @@
-Artificial Insights
+# Artificial Insights
 
-Goal
-Produce a bi-weekly internal AI newsletter for coworkers (generalist to mid-level)
-with concise highlights at the top and deeper details below.
+A bi-weekly AI newsletter for coworkers (generalist to mid-level AI experts) featuring concise highlights, deep-dive analysis, and practical tips.
 
-Folder layout
-- meeting-notes/        Raw meeting notes per issue (source input)
-- issues/               Published HTML issues (one file per issue)
-- sources/              Source pages per issue (one file per issue)
-- templates/            Reusable HTML templates
-- assets/images/        Images used in issues
+## Overview
 
-Issue naming
-Use ISO dates for filenames:
-- issues/YYYY-MM-DD.html
-- sources/YYYY-MM-DD.html
+This newsletter uses a two-tier editorial format:
+- **Quick Scan**: Brief teasers (2 sentences) with links for quick reading
+- **Deep Dives**: Detailed sections with personal analysis and lessons learned
 
-Recommended sections
-- Highlights (short paragraphs with headings)
-- News
-- New Tools
-- Analysis
-- Education Impact
-- Demonstrations (images + captions)
+## Project Structure
 
-Workflow (draft)
-1) Capture meeting notes in meeting-notes/.
-2) Add links to the issue's sources page in sources/.
-3) Auto-generate a draft from notes/links (future automation).
-4) Review and edit the HTML issue in issues/.
-5) Publish the HTML and share the link.
+```
+newsletter/
+├── meeting-notes/          # Structured markdown files (your content source)
+│   ├── meeting-notes-template.md
+│   └── cop 012926.md
+├── issues/                 # Generated HTML newsletter issues
+│   └── YYYY-MM-DD.html
+├── sources/                # Generated source/reference pages
+│   └── YYYY-MM-DD.html
+├── assets/
+│   ├── images/            # Banner, logo, section headers (webp format)
+│   └── demos/             # Demo GIFs organized by issue date
+│       └── YYYY-MM-DD/
+├── scripts/
+│   └── generate_newsletter.py  # Markdown → HTML generator
+└── .git/hooks/
+    └── pre-commit         # Auto-regenerates on commit
+```
+
+## Newsletter Sections
+
+1. **Quick Scan**: 2-sentence teasers with "Read More" links
+2. **Tool Drop**: "The News" + "My Take" format for tool reviews
+3. **The Breakdown**: Analysis with highlighted "The Lesson" callouts
+4. **Ed Pulse**: Education impact and pedagogy insights
+5. **In Action**: Demonstrations with GIFs and guides
+6. **Try This**: Actionable prompts with "Why it works" explanations
+
+## Workflow
+
+### 1. Create/Edit Meeting Notes
+
+Edit the markdown file in `meeting-notes/`:
+
+```markdown
+Issue Date: 2026-01-29
+Issue Number: 1
+Title: Artificial Insights
+
+Quick Scan:
+- Title: Claude Embeds in Excel
+  Teaser: Paid users can now run Claude directly inside Excel...
+  LinkText: Read Tutorial
+  URL: https://example.com
+
+Tool Drop:
+- Title: Deep Dive on Claude in Excel
+  TheNews: Claude can now generate complex spreadsheets...
+  MyTake: While the "paid version" requirement is a hurdle...
+  URL: https://example.com
+```
+
+See `meeting-notes/meeting-notes-template.md` for the complete structure.
+
+### 2. Add Demo Assets (if needed)
+
+Place GIFs in `assets/demos/YYYY-MM-DD/` matching the filename in your markdown:
+
+```markdown
+In Action:
+- Title: The Recurring Task
+  Content: ChatGPT is the endlessly patient colleague...
+  Image: recurring-tasks.gif    # Goes in assets/demos/2026-01-29/
+  Caption: Setting up a recurring task
+  URL: https://example.com
+```
+
+### 3. Generate Newsletter
+
+**Option A: Manual generation**
+```bash
+python scripts/generate_newsletter.py "meeting-notes/cop 012926.md"
+```
+
+**Option B: Automatic (recommended)**
+```bash
+git add meeting-notes/cop\ 012926.md
+git commit -m "Update newsletter content"
+# Pre-commit hook automatically regenerates HTML
+```
+
+### 4. Push to GitHub Pages
+
+```bash
+git push
+# Also push to gh-pages branch:
+git checkout gh-pages && git merge master && git push && git checkout master
+```
+
+Live site: https://bpmstc.github.io/Artificial-Insights/
+
+## Markdown Format Reference
+
+### Quick Scan Fields
+- `Title`: Headline
+- `Teaser`: 2-sentence summary
+- `LinkText`: Custom link text (e.g., "Read Tutorial")
+- `URL`: Source link
+
+### Tool Drop Fields
+- `Title`: Tool name
+- `TheNews`: Brief description
+- `MyTake`: Your analysis/opinion
+- `URL`: Reference link
+
+### The Breakdown Fields
+- `Title`: Topic
+- `Analysis`: Main discussion
+- `TheLesson`: Key takeaway (displayed in highlighted box)
+- `LinkText`: Custom link text
+- `URL`: Reference link
+
+### Ed Pulse Fields
+- `Title`: Topic
+- `Content`: Discussion
+- `LinkText`: Optional custom link text
+- `URL`: Optional reference link
+
+### In Action Fields
+- `Title`: Demo name
+- `Content`: Description
+- `Image`: Filename of GIF in `assets/demos/YYYY-MM-DD/`
+- `Caption`: Image caption
+- `LinkText`: Optional custom link text
+- `URL`: Optional guide link
+
+### Try This Fields
+- `Title`: Prompt name
+- `Intro`: Context/setup
+- `ThePrompt`: The actual prompt text (displayed in special box)
+- `WhyItWorks`: Explanation
+- `URL`: Optional reference link
+
+## Features
+
+- **Automated generation**: Pre-commit hook regenerates newsletter on markdown changes
+- **Multiple URLs**: Add multiple `URL:` lines for items with multiple sources
+- **Responsive design**: Mobile-friendly layout
+- **WebP optimization**: All images converted to WebP for performance
+- **GitHub Pages hosting**: Automatic deployment to gh-pages branch
+
+## Repository
+
+- **GitHub**: https://github.com/BPMSTC/Artificial-Insights
+- **Live Site**: https://bpmstc.github.io/Artificial-Insights/
+
+## Notes
+
+- Always use ISO date format `YYYY-MM-DD` for issue dates
+- Demo GIFs should be optimized for web (< 500 KB recommended)
+- Pre-commit hook handles both `issues/` and `sources/` generation automatically
+- Section header images are in `assets/images/` as webp files
