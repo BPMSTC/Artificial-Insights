@@ -4,68 +4,57 @@ Title: Artificial Insights
 
 Quick Scan:
 - Title:
-  Summary:
-  Tags:
+  Teaser:
+  LinkText:
   URL:
 - Title:
-  Summary:
-  Tags:
+  Teaser:
+  LinkText:
   URL:
 - Title:
-  Summary:
-  Tags:
-  URL:
-
-The Feed:
-- Title:
-  Summary:
-  Tags:
+  Teaser:
+  LinkText:
   URL:
 - Title:
-  Summary:
-  Tags:
+  Teaser:
+  LinkText:
   URL:
 
 Tool Drop:
 - Title:
-  Summary:
-  Tags:
-  URL:
-- Title:
-  Summary:
-  Tags:
+  TheNews:
+  MyTake:
   URL:
 
 The Breakdown:
 - Title:
-  Summary:
-  Tags:
+  Analysis:
+  TheLesson:
+  LinkText:
   URL:
 
 Ed Pulse:
 - Title:
-  Summary:
-  Tags:
+  Content:
+  LinkText:
+  URL:
+- Title:
+  Content:
   URL:
 
 In Action:
 - Title:
-  Summary:
+  Content:
   Image:
   Caption:
-  URL:
-- Title:
-  Summary:
-  Image:
-  Caption:
+  LinkText:
   URL:
 
 Try This:
 - Title:
-  Instructions:
-  URL:
-- Title:
-  Instructions:
+  Intro:
+  ThePrompt:
+  WhyItWorks:
   URL:
 
 Follow-up tasks:

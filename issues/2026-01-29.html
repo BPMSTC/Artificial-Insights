@@ -282,6 +282,64 @@
         text-decoration: underline;
       }
       
+      /* Quick Scan Items */
+      .quick-scan-item {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--quick-scan);
+        transition: all 0.2s ease;
+      }
+      .quick-scan-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .quick-scan-item h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: var(--text);
+      }
+      .quick-scan-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      
+      /* Read More Links */
+      .read-more {
+        margin-top: 12px !important;
+      }
+      .read-more a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .read-more a:hover {
+        text-decoration: underline;
+      }
+      
+      /* My Take styling */
+      .my-take {
+        margin-top: 16px !important;
+        padding-top: 12px;
+        border-top: 1px dashed var(--rule);
+        color: var(--text) !important;
+      }
+      
+      /* The Lesson styling */
+      .the-lesson {
+        margin-top: 16px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--text);
+      }
+      
       /* Try This Box */
       .try-this-box {
         background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
@@ -323,6 +381,35 @@
         border-radius: 4px;
         font-size: 14px;
         font-family: "Consolas", monospace;
+      }
+      
+      /* The Prompt styling */
+      .the-prompt {
+        margin: 16px 0;
+        padding: 16px 20px;
+        background: rgba(13, 148, 136, 0.08);
+        border-radius: 10px;
+        border-left: 4px solid var(--try-this);
+      }
+      .the-prompt .prompt-label {
+        font-weight: 700;
+        color: var(--try-this);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 10px;
+      }
+      .the-prompt blockquote {
+        margin: 0;
+        font-style: italic;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      .why-it-works {
+        margin-top: 14px !important;
+        font-size: 14px;
+        color: var(--muted) !important;
       }
       
       /* Demo Figure */
@@ -468,7 +555,6 @@
         <h2>In This Issue</h2>
         <ul>
           <li><a href="#quick-scan">⚡ Quick Scan</a></li>
-          <li><a href="#the-feed">📰 The Feed</a></li>
           <li><a href="#tool-drop">🛠️ Tool Drop</a></li>
           <li><a href="#the-breakdown">🔬 The Breakdown</a></li>
           <li><a href="#ed-pulse">🎓 Ed Pulse</a></li>
@@ -481,39 +567,25 @@
       <div class="section-header" id="quick-scan">
         <img src="../assets/images/quick_scan_header.webp" alt="Quick Scan">
       </div>
-      <div class="content-card card-quick-scan">
-        <h3><span class="icon">⚡</span> <a href="https://www.datacamp.com/tutorial/claude-in-excel" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">AI expands inside Excel ↗</a></h3>
-        <p>Claude is now available in Excel for paid plans and can build complex multi-tab spreadsheets. It runs on a newer model than Copilot today, with Microsoft planning to upgrade Copilot to the same model in about 60 days.  The inital tests I did on this were very impressive, where it was able to go out and track down data on the internet, put it in a table, create a pivot table, and create several graphs and charts.</p>
+      <div class="quick-scan-item">
+        <h3>Claude Embeds in Excel</h3>
+        <p>Paid users can now run Claude directly inside Excel to build multi-tab spreadsheets and pull live web data. It currently runs on a newer model than Copilot, though Microsoft plans to close that gap within 60 days.</p>
+        <p class="read-more"><a href="https://www.datacamp.com/tutorial/claude-in-excel" target="_blank" rel="noopener">Read Tutorial ↗</a></p>
       </div>
-      <div class="content-card card-quick-scan">
-        <h3><span class="icon">⚡</span> <a href="https://www.beckershospitalreview.com/healthcare-information-technology/ai/anthropic-rolls-out-claude-for-healthcare/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Health and education AI accelerate ↗</a></h3>
-        <p>Health-focused AI tools are integrating sources like ICD-10 and PubMed while major education initiatives from Anthropic and OpenAI plan to train educators and support national systems.  Right now these tolls are available in Claude.  ChatGPT is rolling out the health GPT very soon.  ChatGPT recently noted that the most common use case they have is mental healt and relationship advice.</p>
+      <div class="quick-scan-item">
+        <h3>Health & Education Accelerate</h3>
+        <p>Anthropic launched a HIPAA-ready toolkit for clinical systems, while ChatGPT Health Connect (rolling out this week) creates a dedicated tab for wellness and lab data.</p>
+        <p class="read-more"><a href="https://www.beckershospitalreview.com/healthcare-information-technology/ai/anthropic-rolls-out-claude-for-healthcare/" target="_blank" rel="noopener">Read More ↗</a></p>
       </div>
-      <div class="content-card card-quick-scan">
-        <h3><span class="icon">⚡</span> <a href="https://www.macrumors.com/2025/05/22/details-leak-jony-ive-openai-device/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Privacy pressure increases ↗</a></h3>
-        <p>AI wearables and medical analysis tools are increasing concerns around continuous data collection and privacy.  OpenAI has a wearable device coming this year that is rumored to be earbuds or something that is pen-shaped.  In many ways the privacy ship has sailed with regard to our data, but this will push that envelope a bit further.</p>
-        <p class="source-links">Sources: <a href="https://www.macrumors.com/2025/05/22/details-leak-jony-ive-openai-device/" target="_blank" rel="noopener">macrumors.com ↗</a> · <a href="https://www.helpnetsecurity.com/2026/01/30/wearable-data-privacy-tech/" target="_blank" rel="noopener">helpnetsecurity.com ↗</a></p>
+      <div class="quick-scan-item">
+        <h3>Ads Arrive in ChatGPT</h3>
+        <p>Free users will begin seeing context-aware ads at the bottom of the chat interface. OpenAI claims these aren't search-style ads, but rather suggestions based on your conversation history.</p>
+        <p class="read-more"><a href="https://openai.com/index/our-approach-to-advertising-and-expanding-access/" target="_blank" rel="noopener">OpenAI Announcement ↗</a></p>
       </div>
-
-      <!-- THE FEED -->
-      <div class="section-header" id="the-feed">
-        <img src="../assets/images/the_feed_header.webp" alt="The Feed">
-      </div>
-      <div class="content-card card-feed">
-        <h3><span class="icon">📰</span> <a href="https://openai.com/index/our-approach-to-advertising-and-expanding-access/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Ads introduced in ChatGPT ↗</a></h3>
-        <p>Free users will begin seeing targeted ads inside the chat interface.  The ads will be only on free accounts, and will be at the bottom of the page.  Early indications are that the adds will be based upon the context that OpenAI understands about you from your chat history.  The claim is that ads will not be like search engine ads, but rather more focused on what you would like/need.</p>
-      </div>
-      <div class="content-card card-feed">
-        <h3><span class="icon">📰</span> AI wearables on the horizon</h3>
-        <p>OpenAI and Apple are developing wearables that capture and summarize daily conversations.</p>
-      </div>
-      <div class="content-card card-feed">
-        <h3><span class="icon">📰</span> <a href="https://www.marketmaze.me/p/shopify-ai-transaction-fee-ebay-blocks-bots" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Shopify sets fee for AI shopping ↗</a></h3>
-        <p>Shopify introduces transaction fees for AI-powered shopping experiences.</p>
-      </div>
-      <div class="content-card card-feed">
-        <h3><span class="icon">📰</span> <a href="https://openai.com/index/our-approach-to-age-prediction/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">ChatGPT age prediction ↗</a></h3>
-        <p>OpenAI releases approach to age prediction in ChatGPT.</p>
+      <div class="quick-scan-item">
+        <h3>The Wearable Wave</h3>
+        <p>Rumors are heating up around OpenAI and Apple developing "ambient" devices (pen or earbud form factors) to capture and summarize daily life. The privacy ship may have already sailed, but this pushes the envelope further.</p>
+        <p class="read-more"><a href="https://www.helpnetsecurity.com/2026/01/30/wearable-data-privacy-tech/" target="_blank" rel="noopener">Security Report ↗</a></p>
       </div>
 
       <!-- TOOL DROP -->
@@ -521,16 +593,10 @@
         <img src="../assets/images/tool_drop_header.webp" alt="Tool Drop">
       </div>
       <div class="content-card card-tool-drop">
-        <h3><span class="icon">🛠️</span> <a href="https://www.datacamp.com/tutorial/claude-in-excel" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Claude in Excel ↗</a></h3>
-        <p>Claude can generate complex spreadsheets with multiple tabs for Excel users.  Unfortunately, you need a paid version of Claude to use this, but the capabilities of claude inside of Excel are truly impressive.   Claude was able to research a data set for student success in intro classes, pull the data into excel, and provide several graphs-- all within 1 minute.</p>
-      </div>
-      <div class="content-card card-tool-drop">
-        <h3><span class="icon">🛠️</span> <a href="https://www.beckershospitalreview.com/healthcare-information-technology/ai/anthropic-rolls-out-claude-for-healthcare/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Health AI extensions for Claude ↗</a></h3>
-        <p>Claude’s new health-focused capabilities center on a HIPAA-ready “Claude for Healthcare” toolkit that plugs into clinical systems such as EHR, claims, or coverage rules. The extensions are all available now, even on free versions of Claude.</p>
-      </div>
-      <div class="content-card card-tool-drop">
-        <h3><span class="icon">🛠️</span> <a href="https://www.reuters.com/business/healthcare-pharmaceuticals/openai-launches-chatgpt-health-connect-medical-records-wellness-apps-2026-01-07/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">ChatGPT Health Connect ↗</a></h3>
-        <p>ChatGPT Health will be a dedicated tab inside ChatGPT where you can ask health and wellness questions and, if you choose, hook in data like medical records or Apple Health so the responses are tailored to your situation. Under the hood it leans on integrations to pull in labs, activity, sleep, and other app data, then helps users make sense of results, prep for appointments, and think through day‑to‑day health decisions—with clinicians still in the loop, not replaced.  Tags: health, chatgpt</p>
+        <h3><span class="icon">🛠️</span> Deep Dive on Claude in Excel</h3>
+        <p><strong>The News:</strong> Claude can now generate complex spreadsheets with multiple tabs.</p>
+        <p class="my-take"><strong>My Take:</strong> While the "paid version" requirement is a hurdle, the efficiency is undeniable. I recently tested this using a dataset for student success in intro classes. Within 60 seconds, Claude researched external benchmarks, structured the table, and generated three comparative charts. As we discuss in class, these tools are "patient colleagues," not infallible experts. When using the new Excel integration, I found it excellent at structure (pivots, graphs), but the data logic still required a human "code review." It is a massive productivity multiplier, but only if you audit the work.</p>
+        <p class="read-more"><a href="https://www.datacamp.com/tutorial/claude-in-excel" target="_blank" rel="noopener">Learn More ↗</a></p>
       </div>
 
       <!-- THE BREAKDOWN -->
@@ -538,8 +604,10 @@
         <img src="../assets/images/the_breakdown_header.webp" alt="The Breakdown">
       </div>
       <div class="content-card card-breakdown">
-        <h3><span class="icon">🔬</span> <a href="https://www.microsoft.com/en-us/microsoft-365-life-hacks/presentations/how-to-use-copilot-in-powerpoint" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Copilot as a productivity multiplier ↗</a></h3>
-        <p>AI embedded in office tools are highly dependent upon the quality of the data that we are providing.   For example, the powerpoint for this weeks meeting was generated by AI, however, it's not very elegant because the data I gave it was not well-structured.  The key to these tools being as helpful as possible is to have the data formatted the way it will best be understood.  This is a lot of trial and error, I believe.</p>
+        <h3><span class="icon">🔬</span> Copilot & Data Hygiene</h3>
+        <p>AI embedded in office tools (like Copilot in PowerPoint) is highly dependent on the quality of the input data. I generated a slide deck for a meeting this week using Copilot, and frankly, it wasn't elegant because my source data wasn't well-structured.</p>
+        <div class="the-lesson"><strong>The Lesson:</strong> The key to these tools is formatting your data the way a machine understands it best. It's still a lot of trial and error, but "garbage in, garbage out" has never been more true.</div>
+        <p class="read-more"><a href="https://www.microsoft.com/en-us/microsoft-365-life-hacks/presentations/how-to-use-copilot-in-powerpoint" target="_blank" rel="noopener">Microsoft Guide: Copilot in PowerPoint ↗</a></p>
       </div>
 
       <!-- ED PULSE -->
@@ -547,12 +615,13 @@
         <img src="../assets/images/ed_pulse_header.webp" alt="Ed Pulse">
       </div>
       <div class="content-card card-ed-pulse">
-        <h3><span class="icon">🎓</span> <a href="https://www.brookings.edu/articles/ais-future-for-students-is-in-our-hands/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Large-scale AI education initiatives ↗</a></h3>
-        <p>Anthropic and OpenAI are investing heavily in educator training and broader education support.  Anthropic launched Claude for Education, a version of Claude tailored for universities, with features like “Learning mode” that use Socratic questioning to guide students instead of dumping answers. OpenAI has an education line built around ChatGPT Edu and other education-focused tools, noting that a large share of college‑age users already use ChatGPT for learning</p>
+        <h3><span class="icon">🎓</span> Socratic vs. Answers</h3>
+        <p>Anthropic's "Claude for Education" is distinguishing itself with a "Learning Mode" that uses Socratic questioning to guide students rather than dumping answers. This aligns perfectly with how we want to scaffold learning in the lab.</p>
       </div>
       <div class="content-card card-ed-pulse">
-        <h3><span class="icon">🎓</span> AI-assisted research skills</h3>
-        <p>Generative AI could significantly enrich student learning, but its current use poses serious cognitive, emotional, social, and equity risks that must be actively managed.  Benefits such as personalized learning pathways, rapid feedback, better assessment design, and expanded access—especially for under-resourced schools, students with disabilities, neurodivergent, and multilingual learners are possible.</p>
+        <h3><span class="icon">🎓</span> Managing the Risk</h3>
+        <p>Generative AI offers personalized learning pathways, but it poses equity risks for under-resourced schools. This semester, I'm focusing on how we can use these tools to assist research without replacing the critical thinking required to vet that research.</p>
+        <p class="read-more"><a href="https://www.brookings.edu/articles/ais-future-for-students-is-in-our-hands/" target="_blank" rel="noopener">Brookings Institute Report ↗</a></p>
       </div>
 
       <!-- IN ACTION -->
@@ -560,21 +629,27 @@
         <img src="../assets/images/in_action_header.webp" alt="In Action">
       </div>
       <div class="content-card card-in-action">
-        <h3><span class="icon">🎬</span> <a href="https://help.openai.com/en/articles/10291617-tasks-in-chatgpt" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Recurring tasks in ChatGPT ↗</a></h3>
-        <p>ChatGPT is the endlessly patient colleague who takes first pass at everything: drafting, rewriting, summarizing, and untangling messy thoughts into clean prose. It jumps from code to policy memos to lesson plans without blinking, quietly absorbing whatever files and context you throw at it. Once you plug it into your documents and workflows, it becomes that ultra-prepared team member who’s always read ahead—and doesn’t mind being asked the same question five different ways</p>
+        <h3><span class="icon">🎬</span> The Recurring Task</h3>
+        <p>ChatGPT is the endlessly patient colleague who doesn't mind being asked the same question five different ways. I've started using it to draft recurring administrative tasks—once you plug it into your workflow, it becomes the team member who has always "read ahead."</p>
         <figure>
           <img src="../assets/demos/2026-01-29/recurring-tasks.gif" alt="Setting up a recurring task in ChatGPT">
           <figcaption>Setting up a recurring task in ChatGPT</figcaption>
         </figure>
-      </div>
+
+        <p class="read-more"><a href="https://help.openai.com/en/articles/10291617-tasks-in-chatgpt" target="_blank" rel="noopener">Guide: Tasks in ChatGPT ↗</a></p>      </div>
 
       <!-- TRY THIS -->
       <div class="section-header" id="try-this">
         <img src="../assets/images/try_this_header.webp" alt="Try This">
       </div>
       <div class="try-this-box">
-        <h3>Instructions:</h3>
-        <p></p>
+        <h3>The Socratic Code Auditor</h3>
+        <p>Since we are focusing on "auditing" AI rather than letting it do the work, try this prompt. It forces the AI to act as a mentor.</p>
+        <div class="the-prompt">
+          <p class="prompt-label">The Prompt:</p>
+          <blockquote>"I am a student working on [insert topic, e.g., C# async/await]. I have written the code below, but I want to improve it. Do not give me the corrected code. Instead, act as a Socratic tutor: ask me 2-3 targeted questions about my logic that will help me find the inefficiencies or potential bugs myself. Once I answer, guide me to the next step."</blockquote>
+        </div>
+        <p class="why-it-works"><strong>Why it works:</strong> It prevents the "copy-paste" trap and forces you (or your students) to articulate the why behind the code.</p>
       </div>
 
       <!-- SHARE -->

@@ -73,6 +73,14 @@ def parse_items(section_content: str, section_name: str) -> list:
     """Parse items from a section's content."""
     items = []
     
+    # All possible field names
+    field_names = [
+        'Summary', 'Tags', 'URL', 'Image', 'Caption', 'Instructions',
+        'Teaser', 'LinkText', 'TheNews', 'MyTake', 'Analysis', 'TheLesson',
+        'Content', 'Intro', 'ThePrompt', 'WhyItWorks'
+    ]
+    field_pattern = '|'.join(field_names)
+    
     # Split by item markers (- Title:)
     item_blocks = re.split(r'^- Title:', section_content, flags=re.MULTILINE)
     
@@ -90,7 +98,7 @@ def parse_items(section_content: str, section_name: str) -> list:
         
         for line in lines[1:]:
             # Check for field markers
-            field_match = re.match(r'^\s*(Summary|Tags|URL|Image|Caption|Instructions):\s*(.*)$', line)
+            field_match = re.match(rf'^\s*({field_pattern}):\s*(.*)$', line)
             if field_match:
                 # Save previous field if exists
                 if current_field:
@@ -133,10 +141,93 @@ def format_date_display(date_str: str) -> str:
         return date_str
 
 
-def generate_card_html(item: dict, card_class: str, icon: str) -> str:
-    """Generate HTML for a content card."""
+def generate_quick_scan_html(item: dict) -> str:
+    """Generate HTML for Quick Scan items - brief teasers with links."""
     title = item.get('Title', '')
-    summary = item.get('Summary', '')
+    teaser = item.get('Teaser', '') or item.get('Summary', '')
+    link_text = item.get('LinkText', 'Read More')
+    urls = item.get('URLs', [])
+    
+    link_html = ''
+    if urls:
+        link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{link_text} ↗</a></p>'
+    
+    return f'''      <div class="quick-scan-item">
+        <h3>{title}</h3>
+        <p>{teaser}</p>{link_html}
+      </div>
+'''
+
+
+def generate_tool_drop_html(item: dict) -> str:
+    """Generate HTML for Tool Drop - The News + My Take format."""
+    title = item.get('Title', '')
+    the_news = item.get('TheNews', '') or item.get('Summary', '')
+    my_take = item.get('MyTake', '')
+    urls = item.get('URLs', [])
+    
+    link_html = ''
+    if urls:
+        link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">Learn More ↗</a></p>'
+    
+    my_take_html = ''
+    if my_take:
+        my_take_html = f'\n        <p class="my-take"><strong>My Take:</strong> {my_take}</p>'
+    
+    return f'''      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> {title}</h3>
+        <p><strong>The News:</strong> {the_news}</p>{my_take_html}{link_html}
+      </div>
+'''
+
+
+def generate_breakdown_html(item: dict) -> str:
+    """Generate HTML for The Breakdown - Analysis + The Lesson format."""
+    title = item.get('Title', '')
+    analysis = item.get('Analysis', '') or item.get('Summary', '')
+    the_lesson = item.get('TheLesson', '')
+    link_text = item.get('LinkText', 'Read More')
+    urls = item.get('URLs', [])
+    
+    lesson_html = ''
+    if the_lesson:
+        lesson_html = f'\n        <div class="the-lesson"><strong>The Lesson:</strong> {the_lesson}</div>'
+    
+    link_html = ''
+    if urls:
+        link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{link_text} ↗</a></p>'
+    
+    return f'''      <div class="content-card card-breakdown">
+        <h3><span class="icon">🔬</span> {title}</h3>
+        <p>{analysis}</p>{lesson_html}{link_html}
+      </div>
+'''
+
+
+def generate_ed_pulse_html(item: dict) -> str:
+    """Generate HTML for Ed Pulse items."""
+    title = item.get('Title', '')
+    content = item.get('Content', '') or item.get('Summary', '')
+    link_text = item.get('LinkText', '')
+    urls = item.get('URLs', [])
+    
+    link_html = ''
+    if urls and link_text:
+        link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{link_text} ↗</a></p>'
+    elif urls:
+        link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">Read More ↗</a></p>'
+    
+    return f'''      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> {title}</h3>
+        <p>{content}</p>{link_html}
+      </div>
+'''
+
+
+def generate_card_html(item: dict, card_class: str, icon: str) -> str:
+    """Generate HTML for a generic content card (fallback)."""
+    title = item.get('Title', '')
+    summary = item.get('Summary', '') or item.get('Content', '') or item.get('Teaser', '')
     urls = item.get('URLs', [])
     
     # If URLs exist, make title a link to the first one
@@ -167,20 +258,20 @@ def generate_card_html(item: dict, card_class: str, icon: str) -> str:
 def generate_in_action_html(item: dict, issue_date: str) -> str:
     """Generate HTML for In Action items with optional demo image."""
     title = item.get('Title', '')
-    summary = item.get('Summary', '')
+    content = item.get('Content', '') or item.get('Summary', '')
     image = item.get('Image', '')
     caption = item.get('Caption', '')
+    link_text = item.get('LinkText', '')
     urls = item.get('URLs', [])
     
-    # If URLs exist, make title a link to the first one
+    link_html = ''
     if urls:
-        title_html = f'<a href="{urls[0]}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">{title} ↗</a>'
-    else:
-        title_html = title
+        label = link_text if link_text else 'Learn More'
+        link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{label} ↗</a></p>'
     
     html = f'''      <div class="content-card card-in-action">
-        <h3><span class="icon">🎬</span> {title_html}</h3>
-        <p>{summary}</p>
+        <h3><span class="icon">🎬</span> {title}</h3>
+        <p>{content}</p>
 '''
     
     if image:
@@ -191,31 +282,45 @@ def generate_in_action_html(item: dict, issue_date: str) -> str:
         </figure>
 '''
     
+    html += link_html
     html += '      </div>\n'
     return html
 
 
 def generate_try_this_html(item: dict) -> str:
-    """Generate HTML for Try This items."""
+    """Generate HTML for Try This items with Intro, Prompt, and Why It Works."""
     title = item.get('Title', '')
-    instructions = item.get('Instructions', '')
+    intro = item.get('Intro', '') or item.get('Instructions', '')
+    the_prompt = item.get('ThePrompt', '')
+    why_it_works = item.get('WhyItWorks', '')
     urls = item.get('URLs', [])
     
     if not title:
         return ''
     
-    # Add links if URLs exist
+    # Build the content
+    intro_html = f'<p>{intro}</p>' if intro else ''
+    
+    prompt_html = ''
+    if the_prompt:
+        prompt_html = f'''
+        <div class="the-prompt">
+          <p class="prompt-label">The Prompt:</p>
+          <blockquote>"{the_prompt}"</blockquote>
+        </div>'''
+    
+    why_html = ''
+    if why_it_works:
+        why_html = f'\n        <p class="why-it-works"><strong>Why it works:</strong> {why_it_works}</p>'
+    
+    # Add link if URL exists
     url_html = ''
     if urls:
-        if len(urls) == 1:
-            url_html = f' <a href="{urls[0]}" target="_blank" rel="noopener" style="color: var(--try-this);">Learn more ↗</a>'
-        else:
-            links = [f'<a href="{u}" target="_blank" rel="noopener" style="color: var(--try-this);">Source {i+1} ↗</a>' for i, u in enumerate(urls)]
-            url_html = ' ' + ' · '.join(links)
+        url_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener" style="color: var(--try-this);">Learn more ↗</a></p>'
     
     return f'''      <div class="try-this-box">
         <h3>{title}</h3>
-        <p>{instructions}{url_html}</p>
+        {intro_html}{prompt_html}{why_html}{url_html}
       </div>
 '''
 
@@ -284,7 +389,15 @@ def generate_issue_html(data: dict) -> str:
 '''
         
         for item in items:
-            if section_name == 'In Action':
+            if section_name == 'Quick Scan':
+                sections_html += generate_quick_scan_html(item)
+            elif section_name == 'Tool Drop':
+                sections_html += generate_tool_drop_html(item)
+            elif section_name == 'The Breakdown':
+                sections_html += generate_breakdown_html(item)
+            elif section_name == 'Ed Pulse':
+                sections_html += generate_ed_pulse_html(item)
+            elif section_name == 'In Action':
                 sections_html += generate_in_action_html(item, data['issue_date'])
             elif section_name == 'Try This':
                 sections_html += generate_try_this_html(item)
@@ -585,6 +698,64 @@ def generate_issue_html(data: dict) -> str:
         text-decoration: underline;
       }}
       
+      /* Quick Scan Items */
+      .quick-scan-item {{
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--quick-scan);
+        transition: all 0.2s ease;
+      }}
+      .quick-scan-item:hover {{
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }}
+      .quick-scan-item h3 {{
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: var(--text);
+      }}
+      .quick-scan-item p {{
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }}
+      
+      /* Read More Links */
+      .read-more {{
+        margin-top: 12px !important;
+      }}
+      .read-more a {{
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }}
+      .read-more a:hover {{
+        text-decoration: underline;
+      }}
+      
+      /* My Take styling */
+      .my-take {{
+        margin-top: 16px !important;
+        padding-top: 12px;
+        border-top: 1px dashed var(--rule);
+        color: var(--text) !important;
+      }}
+      
+      /* The Lesson styling */
+      .the-lesson {{
+        margin-top: 16px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--text);
+      }}
+      
       /* Try This Box */
       .try-this-box {{
         background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
@@ -626,6 +797,35 @@ def generate_issue_html(data: dict) -> str:
         border-radius: 4px;
         font-size: 14px;
         font-family: "Consolas", monospace;
+      }}
+      
+      /* The Prompt styling */
+      .the-prompt {{
+        margin: 16px 0;
+        padding: 16px 20px;
+        background: rgba(13, 148, 136, 0.08);
+        border-radius: 10px;
+        border-left: 4px solid var(--try-this);
+      }}
+      .the-prompt .prompt-label {{
+        font-weight: 700;
+        color: var(--try-this);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 10px;
+      }}
+      .the-prompt blockquote {{
+        margin: 0;
+        font-style: italic;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.7;
+      }}
+      .why-it-works {{
+        margin-top: 14px !important;
+        font-size: 14px;
+        color: var(--muted) !important;
       }}
       
       /* Demo Figure */
