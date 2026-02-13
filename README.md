@@ -14,7 +14,7 @@ This newsletter uses a two-tier editorial format:
 newsletter/
 ├── meeting-notes/          # Structured markdown files (your content source)
 │   ├── meeting-notes-template.md
-│   └── cop 012926.md
+│   └── 2026-01-29.md      # Named YYYY-MM-DD to match issue date
 ├── issues/                 # Generated HTML newsletter issues
 │   └── YYYY-MM-DD.html
 ├── sources/                # Generated source/reference pages
@@ -24,6 +24,7 @@ newsletter/
 │   └── demos/             # Demo GIFs organized by issue date
 │       └── YYYY-MM-DD/
 ├── scripts/
+│   ├── new_newsletter.py       # Create new issue (run this first)
 │   └── generate_newsletter.py  # Markdown → HTML generator
 └── .git/hooks/
     └── pre-commit         # Auto-regenerates on commit
@@ -38,11 +39,38 @@ newsletter/
 5. **In Action**: Demonstrations with GIFs and guides
 6. **Try This**: Actionable prompts with "Why it works" explanations
 
+## Creating a New Newsletter
+
+Run one command with the meeting/newsletter date:
+
+```bash
+python scripts/new_newsletter.py 2026-02-14
+```
+
+Or run without arguments to be prompted for the date:
+
+```bash
+python scripts/new_newsletter.py
+# Enter issue date (YYYY-MM-DD): 2026-02-14
+```
+
+**This automatically:**
+1. Creates `meeting-notes/YYYY-MM-DD.md` from the template (with date and issue number filled in)
+2. Creates `assets/demos/YYYY-MM-DD/` folder for demo GIFs
+3. Generates `issues/YYYY-MM-DD.html` and `sources/YYYY-MM-DD.html`
+4. Adds the new issue card to `index.html`
+
+**Then you:**
+1. Edit `meeting-notes/YYYY-MM-DD.md` with your content
+2. Add demo GIFs to `assets/demos/YYYY-MM-DD/` (if needed)
+3. Update the description in `index.html` for the new issue card (optional)
+4. Commit and push
+
+---
+
 ## Workflow
 
-### 1. Create/Edit Meeting Notes
-
-Edit the markdown file in `meeting-notes/`:
+### 1. Create Meeting Notes (or edit existing)
 
 ```markdown
 Issue Date: 2026-01-29
@@ -64,9 +92,9 @@ Tool Drop:
 
 See `meeting-notes/meeting-notes-template.md` for the complete structure.
 
-### 2. Add Demo Assets (if needed)
+### 2. Create Demos Folder and Add Assets (if needed)
 
-Place GIFs in `assets/demos/YYYY-MM-DD/` matching the filename in your markdown:
+Create the folder `assets/demos/YYYY-MM-DD/` (the date must match your `Issue Date:` in the markdown). Place GIFs there; filenames must match the `Image:` field in your markdown:
 
 ```markdown
 In Action:
@@ -77,16 +105,16 @@ In Action:
   URL: https://example.com
 ```
 
-### 3. Generate Newsletter
+### 3. Generate Newsletter (when editing existing content)
 
 **Option A: Manual generation**
 ```bash
-python scripts/generate_newsletter.py "meeting-notes/cop 012926.md"
+python scripts/generate_newsletter.py "meeting-notes/2026-01-29.md"
 ```
 
 **Option B: Automatic (recommended)**
 ```bash
-git add meeting-notes/cop\ 012926.md
+git add meeting-notes/2026-01-29.md
 git commit -m "Update newsletter content"
 # Pre-commit hook automatically regenerates HTML
 ```
@@ -162,3 +190,5 @@ Live site: https://bpmstc.github.io/Artificial-Insights/
 - Demo GIFs should be optimized for web (< 500 KB recommended)
 - Pre-commit hook handles both `issues/` and `sources/` generation automatically
 - Section header images are in `assets/images/` as webp files
+- **Naming:** Meeting notes use `YYYY-MM-DD.md` (e.g., `2026-01-29.md`)
+- **Issue numbers** auto-increment when you run `new_newsletter.py`

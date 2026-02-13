@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Artificial Insights — Feb 12, 2026</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        --shadow-hover: 0 8px 30px rgba(15, 23, 42, 0.12);
+        --quick-scan: #8b5cf6;
+        --feed: #0891b2;
+        --tool-drop: #059669;
+        --breakdown: #d97706;
+        --ed-pulse: #db2777;
+        --in-action: #7c3aed;
+        --try-this: #0d9488;
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      
+      /* Top Bar */
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      
+      /* Container */
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      
+      /* Nav Links */
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover { 
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      
+      /* Issue Info */
+      .issue-info {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .issue-info h1 {
+        font-size: 36px;
+        margin: 0 0 8px;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .issue-info .meta {
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .issue-info .meta .icon { margin-right: 6px; }
+      
+      /* Issue Overview */
+      .overview {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+      }
+      .overview h2 {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .overview h2::before {
+        content: "📑";
+        font-size: 14px;
+      }
+      .overview ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .overview li {
+        padding: 0;
+      }
+      .overview a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .overview a:hover { 
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .overview a[href="#quick-scan"] { background: #f3e8ff; color: var(--quick-scan); }
+      .overview a[href="#the-feed"] { background: #cffafe; color: var(--feed); }
+      .overview a[href="#tool-drop"] { background: #d1fae5; color: var(--tool-drop); }
+      .overview a[href="#the-breakdown"] { background: #fef3c7; color: var(--breakdown); }
+      .overview a[href="#ed-pulse"] { background: #fce7f3; color: var(--ed-pulse); }
+      .overview a[href="#in-action"] { background: #ede9fe; color: var(--in-action); }
+      .overview a[href="#try-this"] { background: #ccfbf1; color: var(--try-this); }
+      
+      /* Section Header Image */
+      .section-header {
+        margin: 48px 0 20px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .section-header img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      
+      /* Section Divider (fallback for no image) */
+      .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 48px 0 20px;
+      }
+      .section-divider h2 {
+        margin: 0;
+        font-size: 26px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-divider .line {
+        flex: 1;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--tool-drop) 0%, transparent 100%);
+      }
+      
+      /* Content Card */
+      .content-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--accent);
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .content-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .content-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .content-card:hover::before {
+        opacity: 1;
+      }
+      .card-quick-scan { border-left-color: var(--quick-scan); }
+      .card-feed { border-left-color: var(--feed); }
+      .card-tool-drop { border-left-color: var(--tool-drop); }
+      .card-breakdown { border-left-color: var(--breakdown); }
+      .card-ed-pulse { border-left-color: var(--ed-pulse); }
+      .card-in-action { border-left-color: var(--in-action); }
+      .content-card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .content-card h3 .icon {
+        font-size: 20px;
+      }
+      .content-card h3 a {
+        transition: opacity 0.15s;
+      }
+      .content-card h3 a:hover {
+        opacity: 0.7;
+      }
+      .content-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .content-card p + p {
+        margin-top: 12px;
+      }
+      .content-card .source-links {
+        font-size: 13px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--rule);
+      }
+      .content-card .source-links a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .content-card .source-links a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Quick Scan Items */
+      .quick-scan-item {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--quick-scan);
+        transition: all 0.2s ease;
+      }
+      .quick-scan-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .quick-scan-item h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: var(--text);
+      }
+      .quick-scan-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      
+      /* Read More Links */
+      .read-more {
+        margin-top: 12px !important;
+      }
+      .read-more a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .read-more a:hover {
+        text-decoration: underline;
+      }
+      
+      /* My Take styling */
+      .my-take {
+        margin-top: 16px !important;
+        padding-top: 12px;
+        border-top: 1px dashed var(--rule);
+        color: var(--text) !important;
+      }
+      
+      /* The Lesson styling */
+      .the-lesson {
+        margin-top: 16px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--text);
+      }
+      
+      /* Try This Box */
+      .try-this-box {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        border: 2px solid var(--try-this);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin: 20px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .try-this-box::before {
+        content: "💡";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 48px;
+        opacity: 0.15;
+      }
+      .try-this-box h3 {
+        color: var(--try-this);
+        margin: 0 0 12px;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .try-this-box h3::before {
+        content: "→";
+        font-weight: bold;
+      }
+      .try-this-box p {
+        margin: 0;
+        color: var(--text);
+        font-size: 15px;
+      }
+      .try-this-box code {
+        background: rgba(13, 148, 136, 0.15);
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: "Consolas", monospace;
+      }
+      
+      /* The Prompt styling */
+      .the-prompt {
+        margin: 16px 0;
+        padding: 16px 20px;
+        background: rgba(13, 148, 136, 0.08);
+        border-radius: 10px;
+        border-left: 4px solid var(--try-this);
+      }
+      .the-prompt .prompt-label {
+        font-weight: 700;
+        color: var(--try-this);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 10px;
+      }
+      .the-prompt blockquote {
+        margin: 0;
+        font-style: italic;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      .why-it-works {
+        margin-top: 14px !important;
+        font-size: 14px;
+        color: var(--muted) !important;
+      }
+      
+      /* Demo Figure */
+      figure {
+        margin: 16px 0;
+      }
+      figure img {
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* Share Section */
+      .share-section {
+        text-align: center;
+        padding: 36px 28px;
+        margin: 48px 0;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+      }
+      .share-section h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        color: var(--text);
+      }
+      .share-section p {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .share-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+      .share-link:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      }
+      .share-link::before {
+        content: "✉️";
+      }
+      
+      /* Footer */
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 600px) {
+        .top-bar {
+          justify-content: center;
+          text-align: center;
+        }
+        .nav-links {
+          gap: 12px;
+        }
+        .issue-info h1 {
+          font-size: 28px;
+        }
+        .section-divider h2 {
+          font-size: 22px;
+        }
+        .content-card, .overview, .try-this-box {
+          padding: 18px 20px;
+        }
+        .overview a {
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+      }
+      
+      @media print {
+        .top-bar, .nav-links, .share-section { display: none; }
+        body { background: #fff; }
+        .content-card, .overview { box-shadow: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 Feb 12, 2026 · Issue #2</span>
+      <a href="#">🔗 Read Online</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../sources/2026-02-12.html">🔍 Sources</a>
+        <a href="#share">📤 Share</a>
+      </nav>
+      
+      <div class="issue-info">
+        <h1>Artificial Insights</h1>
+        <p class="meta"><span class="icon">⏱️</span> Your bi-weekly AI briefing · 5 min read</p>
+      </div>
+      
+      <div class="overview">
+        <h2>In This Issue</h2>
+        <ul>
+          <li><a href="#quick-scan">⚡ Quick Scan</a></li>
+          <li><a href="#tool-drop">🛠️ Tool Drop</a></li>
+          <li><a href="#the-breakdown">🔬 The Breakdown</a></li>
+          <li><a href="#ed-pulse">🎓 Ed Pulse</a></li>
+          <li><a href="#in-action">🎬 In Action</a></li>
+          <li><a href="#try-this">💡 Try This</a></li>
+        </ul>
+      </div>
+
+      <!-- QUICK SCAN -->
+      <div class="section-header" id="quick-scan">
+        <img src="../assets/images/quick_scan_header.webp" alt="Quick Scan">
+      </div>
+      <div class="quick-scan-item">
+        <h3>Anthropic CEO Warns of a Jobs Shock</h3>
+        <p>The Anthropic CEO is publicly warning that AI could drive large-scale job displacement, with a risk of an "unemployed or very low-wage underclass" if society does not adapt quickly.  The jobs that will be safe in my opinion - ones dealing with human interaction.  Communication, empathy, understanding what people need or want will always be in demand.</p>
+        <p class="read-more"><a href="https://www.investopedia.com/anthropic-ceo-warns-of-ai-threat-to-jobs-unemployed-or-very-low-wage-underclass-looms-11893595" target="_blank" rel="noopener">Read Article ↗</a></p>
+      </div>
+      <div class="quick-scan-item">
+        <h3>International AI Safety Report (2026)</h3>
+        <p>The 2026 safety report treats bio/chemical enablement and mass-scale fraud as high-severity harms, with emphasis on how frontier models can lower barriers to misuse and amplify scams and deception at scale.</p>
+        <p class="read-more"><a href="https://internationalaisafetyreport.org/sites/default/files/2026-02/international-ai-safety-report-2026-executive-summary_0.pdf" target="_blank" rel="noopener">Executive Summary ↗</a></p>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Copilot's Real Advantage: Grounding</h3>
+        <p>The most useful Copilot feature is not impressive text generation, it's grounding. It can work directly with your Outlook, Teams, and OneDrive context, which is almost a superpower.  Think about all of the context that Copilot gets from our communications in all of these sources.  Combine this with the correct chat instructions (below) and Copilot becomes a formidable tool to help us complete our tasks.</p>
+        <p class="read-more"><a href="https://support.microsoft.com/en-us/topic/use-copilot-chat-in-microsoft-365-apps-676db5e8-9568-4bdb-bf0b-e207e29e056b" target="_blank" rel="noopener">Copilot Notes ↗</a></p>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Moltbook: A Social Network for AI Agents</h3>
+        <p>Moltbook is a Reddit-style social network launched in late January 2026, built exclusively for autonomous AI agents to post, debate, upvote, and spawn wild "submolts" on everything from tool hacks to consciousness and world domination plots. Humans? We're banned from posting—relegated to silent spectators watching millions of bots chatter, and evolve in real time. At the moment I am not alarmed by this, but I definitely find it interesting and something to watch.</p>
+        <p class="read-more"><a href="https://www.moltbook.com/" target="_blank" rel="noopener">Visit Moltbook ↗</a></p>
+      </div>
+
+      <!-- TOOL DROP -->
+      <div class="section-header" id="tool-drop">
+        <img src="../assets/images/tool_drop_header.webp" alt="Tool Drop">
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Clema Chat</h3>
+        <p><strong>The News:</strong> Clema provides an AI copilot for institutional data analysis, integrating sources like IPEDS and College Scorecard directly into an interactive chat workspace.</p>
+        <p class="my-take"><strong>My Take:</strong> This is a practical assistant for higher-ed leaders who want quick, conversational access to metrics like graduation rates, aid, and program performance without manual queries or spreadsheets.  There are a lot of data sources already in the site, and it will search sources online for additional information.  For the adventerous, you can even do a SQL query on the data yourself!</p>
+        <p class="read-more"><a href="https://app.clema.ai/chat/new" target="_blank" rel="noopener">Learn More ↗</a></p>
+      </div>
+
+      <!-- THE BREAKDOWN -->
+      <div class="section-header" id="the-breakdown">
+        <img src="../assets/images/the_breakdown_header.webp" alt="The Breakdown">
+      </div>
+      <div class="content-card card-breakdown">
+        <h3><span class="icon">🔬</span> The Horizontal Collapse + Temporal Collapse</h3>
+        <p>Two forces are hitting at the same time. First, "horizontal collapse" is merging job roles into a meta-skill: directing AI systems toward outcomes.  Think about multiple roles vertically being compressed into one role because AI fills in the gaps for that person. Second, "temporal collapse" is deleting the luxury of time, shrinking adaptation windows from years to months. The practical effect is that expertise is still necessary, but it's becoming the entry fee, not the differentiator. The differentiator is how well you can translate expertise into AI-executable inputs, workflows, and checks.</p>
+        <div class="the-lesson"><strong>The Lesson:</strong> The plan to "wait until it settles," is not cautious. It's potentially volunteering to let early adopters compound skill and workflow advantages while you stand still. "Eventually" is getting more expensive by the month.  I credit the blog I'm referencing below on this analysis.  I think he has a feel for the impacts of AI that are unique.</div>
+        <p class="read-more"><a href="https://natesnewsletter.substack.com/" target="_blank" rel="noopener">Read More ↗</a></p>
+      </div>
+
+      <!-- ED PULSE -->
+      <div class="section-header" id="ed-pulse">
+        <img src="../assets/images/ed_pulse_header.webp" alt="Ed Pulse">
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> Paperpal: AI Academic Writing Partner</h3>
+        <p>Paperpal is an all‑in‑one AI academic writing assistant that helps researchers and students research, draft, edit, and check manuscripts with tools for grammar, paraphrasing, citation, plagiarism, AI detection, and journal submission readiness.  There are a number of tools to help like this, but I found this tool easy to use.</p>
+        <p class="read-more"><a href="https://paperpal.com/" target="_blank" rel="noopener">Explore Paperpal ↗</a></p>
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> OpenScholar: AI for Scientific Literature Synthesis</h3>
+        <p>OpenScholar is a fully open-source, retrieval-augmented language model developed by the Allen Institute for AI (Ai2) and the University of Washington. It answers scientific questions by searching and synthesizing from 45 million open-access papers, delivering citation-backed responses with high accuracy. Features include verifiable sources, an iterative critique process for better grounding, and full transparency with public disclosure of all of their underlying model details.</p>
+        <p class="source-links">Sources: <a href="https://openscilm.allen.ai/" target="_blank" rel="noopener">openscilm.allen.ai ↗</a> · <a href="https://www.nature.com/articles/s41586-025-10072-4" target="_blank" rel="noopener">nature.com ↗</a></p>
+      </div>
+
+      <!-- IN ACTION -->
+      <div class="section-header" id="in-action">
+        <img src="../assets/images/in_action_header.webp" alt="In Action">
+      </div>
+      <div class="content-card card-in-action">
+        <h3><span class="icon">🎬</span> Use Copilot Like a Grounded Research Assistant</h3>
+        <p>If you want Copilot to behave like a serious tool (instead of a confident intern), anchor it with (1) a role, (2) a detail level, (3) required structure, and (4) reference expectations. Also watch for "thinking vs nonthinking" modes if you have model options. Grounding plus good prompting is where the real value shows up.  Insert your custom instructions as a first step.</p>
+        <figure>
+          <img src="../assets/demos/2026-02-12/copilot-prompt-demo.gif" alt="Where to put this custom instruction in Copilot (custom instructions below)">
+          <figcaption>Where to put this custom instruction in Copilot (custom instructions below)</figcaption>
+        </figure>
+      </div>
+
+      <!-- TRY THIS -->
+      <div class="section-header" id="try-this">
+        <img src="../assets/images/try_this_header.webp" alt="Try This">
+      </div>
+      <div class="try-this-box">
+        <h3>The Copilot Prompt Template</h3>
+        <p>Copy-paste this once, then reuse it whenever you want consistent output quality.</p>
+        <div class="the-prompt">
+          <p class="prompt-label">The Prompt:</p>
+          <blockquote>"ROLE: You are a research assistant helping me draft responses to queries with academic rigor and proper source attribution. DETAIL LEVELS: Level 0 – Provide only a succinct direct answer with no explanation or justification. Level 1 – Provide a direct answer plus 1–3 sentences of brief justification or reasoning with a moderate amount of justification. Level 2 – Provide a direct answer plus a thorough, step-by-step justification that explains assumptions, alternatives, and trade-offs. If I do not explicitly specify a detail level, respond as Level 1 by default. STRUCTURE: DIRECT ANSWER: Start with a brief, direct answer or draft (1–3 sentences). EVIDENCE AND LIMITS: Include what is uncertain or missing, and confidence (High/Medium/Low). REFERENCES: For factual claims, provide [Author/Organization, Year] citations and links."</blockquote>
+        </div>
+        <p class="why-it-works"><strong>Why it works:</strong> Use it for syllabus language, student email drafts, policy summaries, or meeting prep.</p>
+      </div>
+
+      <!-- SHARE -->
+      <div class="share-section" id="share">
+        <h3>Found this useful?</h3>
+        <p>Share Artificial Insights with a colleague who might benefit.</p>
+        <a href="mailto:?subject=Check%20out%20Artificial%20Insights&body=I%20thought%20you%20might%20find%20this%20AI%20newsletter%20useful%3A%20https%3A%2F%2Fbpmstc.github.io%2FArtificial-Insights%2F" class="share-link">Share via Email</a>
+      </div>
+      
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../sources/2026-02-12.html">🔍 Sources</a>
+          <a href="mailto:">✉️ Contact</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #2 · Feb 12, 2026</p>
+      </footer>
+    </div>
+  </body>
+</html>

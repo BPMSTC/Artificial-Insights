@@ -212,10 +212,17 @@ def generate_ed_pulse_html(item: dict) -> str:
     urls = item.get('URLs', [])
     
     link_html = ''
-    if urls and link_text:
-        link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{link_text} ↗</a></p>'
-    elif urls:
-        link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">Read More ↗</a></p>'
+    if urls:
+        if len(urls) == 1:
+            label = link_text if link_text else 'Read More'
+            link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{label} ↗</a></p>'
+        else:
+            link_parts = []
+            for url in urls:
+                domain = url.split('/')[2] if '/' in url else url
+                domain = domain.replace('www.', '')
+                link_parts.append(f'<a href="{url}" target="_blank" rel="noopener">{domain} ↗</a>')
+            link_html = f'\n        <p class="source-links">Sources: ' + ' · '.join(link_parts) + '</p>'
     
     return f'''      <div class="content-card card-ed-pulse">
         <h3><span class="icon">🎓</span> {title}</h3>
