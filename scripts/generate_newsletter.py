@@ -66,6 +66,16 @@ def parse_markdown(content: str) -> dict:
             items = parse_items(section_content, section_name)
             data['sections'][section_name] = items
     
+    # Parse Follow-up tasks (plain list after "Follow-up tasks:")
+    data['follow_up_tasks'] = []
+    followup_match = re.search(r'^Follow-up tasks:\s*$', content, re.MULTILINE)
+    if followup_match:
+        rest = content[followup_match.end():].strip()
+        for line in rest.split('\n'):
+            line = line.strip()
+            if line.startswith('- '):
+                data['follow_up_tasks'].append(line[2:].strip())
+    
     return data
 
 
@@ -366,6 +376,21 @@ def generate_try_this_html(item: dict) -> str:
 '''
 
 
+def generate_follow_up_html(tasks: list) -> str:
+    """Generate HTML for 'How can AI help me?' block (follow-up tasks within Try This)."""
+    if not tasks:
+        return ''
+    items_html = ''
+    for task in tasks:
+        items_html += f'        <li>{format_text(task)}</li>\n'
+    return f'''      <div class="follow-up-block">
+        <h3 class="follow-up-heading">How can AI help me?</h3>
+        <ul class="follow-up-tasks">
+{items_html}      </ul>
+      </div>
+'''
+
+
 def generate_issue_html(data: dict) -> str:
     """Generate the complete issue HTML."""
     date_display = format_date_display(data['issue_date'])
@@ -446,6 +471,10 @@ def generate_issue_html(data: dict) -> str:
                 icon = section_icons.get(section_name, '📌')
                 card_class = card_classes.get(section_name, '')
                 sections_html += generate_card_html(item, card_class, icon)
+        
+        # After Try This items, add "How can AI help me?" block if we have follow-up tasks
+        if section_name == 'Try This' and data.get('follow_up_tasks'):
+            sections_html += generate_follow_up_html(data['follow_up_tasks'])
     
     # Build overview items (only for sections that have content)
     overview_items = ''
@@ -867,6 +896,41 @@ def generate_issue_html(data: dict) -> str:
         margin-top: 14px !important;
         font-size: 14px;
         color: var(--muted) !important;
+      }}
+      
+      /* How can AI help me? (follow-up tasks, inside Try This) */
+      .follow-up-block {{
+        margin: 24px 0 20px;
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        border: 2px solid #8b5cf6;
+        border-radius: 14px;
+        border-left-width: 6px;
+      }}
+      .follow-up-block .follow-up-heading {{
+        margin: 0 0 12px;
+        font-size: 17px;
+        color: #6d28d9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }}
+      .follow-up-block .follow-up-heading::before {{
+        content: "🎯";
+        font-size: 20px;
+      }}
+      .follow-up-block .follow-up-tasks {{
+        margin: 0;
+        padding-left: 22px;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.65;
+      }}
+      .follow-up-block .follow-up-tasks li {{
+        margin-bottom: 8px;
+      }}
+      .follow-up-block .follow-up-tasks li:last-child {{
+        margin-bottom: 0;
       }}
       
       /* Demo Figure */

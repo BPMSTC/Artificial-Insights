@@ -412,6 +412,41 @@
         color: var(--muted) !important;
       }
       
+      /* How can AI help me? (follow-up tasks, inside Try This) */
+      .follow-up-block {
+        margin: 24px 0 20px;
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        border: 2px solid #8b5cf6;
+        border-radius: 14px;
+        border-left-width: 6px;
+      }
+      .follow-up-block .follow-up-heading {
+        margin: 0 0 12px;
+        font-size: 17px;
+        color: #6d28d9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .follow-up-block .follow-up-heading::before {
+        content: "🎯";
+        font-size: 20px;
+      }
+      .follow-up-block .follow-up-tasks {
+        margin: 0;
+        padding-left: 22px;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .follow-up-block .follow-up-tasks li {
+        margin-bottom: 8px;
+      }
+      .follow-up-block .follow-up-tasks li:last-child {
+        margin-bottom: 0;
+      }
+      
       /* Demo Figure */
       figure {
         margin: 16px 0;
@@ -646,6 +681,12 @@
         <h3>NotebookLM Mini-Workflow: OER Assessment Design</h3>
         <p>Use this public NotebookLM as your sandbox. Instead of just reading it, use Studio to turn it into something that will work for you.  This is a notebook created by a colleague, that I thought had a lot of useful information on instructional design.</p>
         <p class="read-more"><a href="https://notebooklm.google.com/notebook/5423ee08-f4eb-4163-b51a-f9c510a70849" target="_blank" rel="noopener" style="color: var(--try-this);">Learn more ↗</a></p>
+      </div>
+      <div class="follow-up-block">
+        <h3 class="follow-up-heading">How can AI help me?</h3>
+        <ul class="follow-up-tasks">
+        <li>To help you decide where AI can best help you...pick one task from your week and classify it — is it Thinking Hard, Crunching Data Hard, or Relationship Vibe Hard? If it's #1 or #2, try running it through an AI tool and see how far it gets.  This is how I find ways AI can help me.</li>
+      </ul>
       </div>
 
       <!-- SHARE -->
