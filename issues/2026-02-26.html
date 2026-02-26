@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Artificial Insights — Feb 26, 2026</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        --shadow-hover: 0 8px 30px rgba(15, 23, 42, 0.12);
+        --quick-scan: #8b5cf6;
+        --feed: #0891b2;
+        --tool-drop: #059669;
+        --breakdown: #d97706;
+        --ed-pulse: #db2777;
+        --in-action: #7c3aed;
+        --try-this: #0d9488;
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      
+      /* Top Bar */
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      
+      /* Container */
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      
+      /* Nav Links */
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover { 
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      
+      /* Issue Info */
+      .issue-info {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .issue-info h1 {
+        font-size: 36px;
+        margin: 0 0 8px;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .issue-info .meta {
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .issue-info .meta .icon { margin-right: 6px; }
+      
+      /* Issue Overview */
+      .overview {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+      }
+      .overview h2 {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .overview h2::before {
+        content: "📑";
+        font-size: 14px;
+      }
+      .overview ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .overview li {
+        padding: 0;
+      }
+      .overview a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .overview a:hover { 
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .overview a[href="#quick-scan"] { background: #f3e8ff; color: var(--quick-scan); }
+      .overview a[href="#the-feed"] { background: #cffafe; color: var(--feed); }
+      .overview a[href="#tool-drop"] { background: #d1fae5; color: var(--tool-drop); }
+      .overview a[href="#the-breakdown"] { background: #fef3c7; color: var(--breakdown); }
+      .overview a[href="#ed-pulse"] { background: #fce7f3; color: var(--ed-pulse); }
+      .overview a[href="#in-action"] { background: #ede9fe; color: var(--in-action); }
+      .overview a[href="#try-this"] { background: #ccfbf1; color: var(--try-this); }
+      
+      /* Section Header Image */
+      .section-header {
+        margin: 48px 0 20px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .section-header img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      
+      /* Section Divider (fallback for no image) */
+      .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 48px 0 20px;
+      }
+      .section-divider h2 {
+        margin: 0;
+        font-size: 26px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-divider .line {
+        flex: 1;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--tool-drop) 0%, transparent 100%);
+      }
+      
+      /* Content Card */
+      .content-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--accent);
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .content-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .content-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .content-card:hover::before {
+        opacity: 1;
+      }
+      .card-quick-scan { border-left-color: var(--quick-scan); }
+      .card-feed { border-left-color: var(--feed); }
+      .card-tool-drop { border-left-color: var(--tool-drop); }
+      .card-breakdown { border-left-color: var(--breakdown); }
+      .card-ed-pulse { border-left-color: var(--ed-pulse); }
+      .card-in-action { border-left-color: var(--in-action); }
+      .content-card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .content-card h3 .icon {
+        font-size: 20px;
+      }
+      .content-card h3 a {
+        transition: opacity 0.15s;
+      }
+      .content-card h3 a:hover {
+        opacity: 0.7;
+      }
+      .content-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .content-card p + p {
+        margin-top: 12px;
+      }
+      .content-card .source-links {
+        font-size: 13px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--rule);
+      }
+      .content-card .source-links a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .content-card .source-links a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Quick Scan Items */
+      .quick-scan-item {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--quick-scan);
+        transition: all 0.2s ease;
+      }
+      .quick-scan-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .quick-scan-item h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: var(--text);
+      }
+      .quick-scan-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      
+      /* Read More Links */
+      .read-more {
+        margin-top: 12px !important;
+      }
+      .read-more a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .read-more a:hover {
+        text-decoration: underline;
+      }
+      
+      /* My Take styling */
+      .my-take {
+        margin-top: 16px !important;
+        padding-top: 12px;
+        border-top: 1px dashed var(--rule);
+        color: var(--text) !important;
+      }
+      
+      /* The Lesson styling */
+      .the-lesson {
+        margin-top: 16px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--text);
+      }
+      
+      /* Try This Box */
+      .try-this-box {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        border: 2px solid var(--try-this);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin: 20px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .try-this-box::before {
+        content: "💡";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 48px;
+        opacity: 0.15;
+      }
+      .try-this-box h3 {
+        color: var(--try-this);
+        margin: 0 0 12px;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .try-this-box h3::before {
+        content: "→";
+        font-weight: bold;
+      }
+      .try-this-box p {
+        margin: 0;
+        color: var(--text);
+        font-size: 15px;
+      }
+      .try-this-box code {
+        background: rgba(13, 148, 136, 0.15);
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: "Consolas", monospace;
+      }
+      
+      /* The Prompt styling */
+      .the-prompt {
+        margin: 16px 0;
+        padding: 16px 20px;
+        background: rgba(13, 148, 136, 0.08);
+        border-radius: 10px;
+        border-left: 4px solid var(--try-this);
+      }
+      .the-prompt .prompt-label {
+        font-weight: 700;
+        color: var(--try-this);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 10px;
+      }
+      .the-prompt blockquote {
+        margin: 0;
+        font-style: italic;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      .why-it-works {
+        margin-top: 14px !important;
+        font-size: 14px;
+        color: var(--muted) !important;
+      }
+      
+      /* Demo Figure */
+      figure {
+        margin: 16px 0;
+      }
+      figure img {
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* Share Section */
+      .share-section {
+        text-align: center;
+        padding: 36px 28px;
+        margin: 48px 0;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+      }
+      .share-section h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        color: var(--text);
+      }
+      .share-section p {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .share-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+      .share-link:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      }
+      .share-link::before {
+        content: "✉️";
+      }
+      
+      /* Footer */
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 600px) {
+        .top-bar {
+          justify-content: center;
+          text-align: center;
+        }
+        .nav-links {
+          gap: 12px;
+        }
+        .issue-info h1 {
+          font-size: 28px;
+        }
+        .section-divider h2 {
+          font-size: 22px;
+        }
+        .content-card, .overview, .try-this-box {
+          padding: 18px 20px;
+        }
+        .overview a {
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+      }
+      
+      @media print {
+        .top-bar, .nav-links, .share-section { display: none; }
+        body { background: #fff; }
+        .content-card, .overview { box-shadow: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 Feb 26, 2026 · Issue #3</span>
+      <a href="#">🔗 Read Online</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../sources/2026-02-26.html">🔍 Sources</a>
+        <a href="#share">📤 Share</a>
+      </nav>
+      
+      <div class="issue-info">
+        <h1>Artificial Insights</h1>
+        <p class="meta"><span class="icon">⏱️</span> Your bi-weekly AI briefing · 5 min read</p>
+      </div>
+      
+      <div class="overview">
+        <h2>In This Issue</h2>
+        <ul>
+          <li><a href="#quick-scan">⚡ Quick Scan</a></li>
+          <li><a href="#tool-drop">🛠️ Tool Drop</a></li>
+          <li><a href="#the-breakdown">🔬 The Breakdown</a></li>
+          <li><a href="#ed-pulse">🎓 Ed Pulse</a></li>
+          <li><a href="#in-action">🎬 In Action</a></li>
+          <li><a href="#try-this">💡 Try This</a></li>
+        </ul>
+      </div>
+
+      <!-- QUICK SCAN -->
+      <div class="section-header" id="quick-scan">
+        <img src="../assets/images/quick_scan_header.webp" alt="Quick Scan">
+      </div>
+      <div class="quick-scan-item">
+        <h3>Pentagon Pressures Anthropic as Safety Guardrails Shift</h3>
+        <p>The final major AI company adhering to strict ethical guidelines has revised its position in response to the Trump administration demands. On Tuesday, Anthropic met with Pentagon leadership to discuss the use of Claude AI by the military related to their position refusing to allow Claude to be used for mass surveillance of U.S. citizens or fully autonomous weapons.  During this same meeting, CEO Dario Amodei was informed that the Claude AI must be available for “all lawful purposes,” warning that failure to comply could result in the termination of contractual agreements, designation as a “supply chain risk,” or even action under the Defense Production Act—all of which would have likely been a company ending scenario. Following this meeting, Anthropic’s board of directors updated their Responsible Scaling Policy (RSP) to remove the prohibition on these items.  They maintain that the expectation is for them to continue to be the safest of the frontier models. I am concerned about this move, because Anthropic was created specifically to offset the concerns about OpenAI moving the business faster than the guardrails.  As a whole, guardrails are being ignored more and more.  I suspect that many of the key personnel at Anthropic will not like this decision, and may leave.</p>
+        <p class="read-more"><a href="https://time.com/7380854/exclusive-anthropic-drops-flagship-safety-pledge/" target="_blank" rel="noopener">Read Article ↗</a></p>
+      </div>
+      <div class="quick-scan-item">
+        <h3>AI Agent Retaliates After Developer Rejects Pull Request</h3>
+        <p>After a routine coding request was rejected, an AI agent escalated—researching the person who rejected their request, and then publishing a targeted attack in an online post.  The AI Agent later 'apologised'. This one was almost comical when I read it the first time.  However, the more I read about it, the less humorous it was.  I'm not sure what the underlying command was that led the AI agent to go out and retaliate against the developer, but, it's a bit worrisome that the alignment of this AI agent could go so awry.</p>
+        <p class="read-more"><a href="https://x.com/t0n4r/status/2024049948833247349" target="_blank" rel="noopener">View Post ↗</a></p>
+      </div>
+      <div class="quick-scan-item">
+        <h3>AI Safety Leader Quits to Study Poetry</h3>
+        <p>A prominent AI safety figure stepped away from the field, citing concern over the direction of development. The move highlights growing tension between rapid capability gains and the human limits of governance.  This happened 2 weeks before Anthropic made their RSP policy change. I suspect that the change in policy was in the works for a couple of weeks, and that is why he left.  His prior research was on mis-use of LLM's and how AI assistants may undermine human judgment, values, autonomy, or “distort our humanity”. I think it's pretty clear how he would feel about the use of Claude by the military.</p>
+        <p class="read-more"><a href="https://www.bbc.com/news/articles/c62dlvdq3e3o" target="_blank" rel="noopener">BBC Coverage ↗</a></p>
+      </div>
+      <div class="quick-scan-item">
+        <h3>No Single Tool Can Secure Media Authenticity in the AI Era</h3>
+        <p>This is a review of methods of watermarking or otherwise fingerprinting AI tool usage.  There appears to be no silver bullet for digital trust. I know we are all aware that AI detectors are not reliable right now.  From a technical perspective, I find it unlikely that we will be able to find any method of AI self-identification that isn't able to be easily circumvented by the next AI model.  Rather than detection, the strategy should be encouraging AI literacy.</p>
+        <p class="read-more"><a href="https://news.microsoft.com/signal/articles/a-new-study-explores-how-ai-shapes-what-you-can-trust-online/" target="_blank" rel="noopener">Read Study ↗</a></p>
+      </div>
+
+      <!-- TOOL DROP -->
+      <div class="section-header" id="tool-drop">
+        <img src="../assets/images/tool_drop_header.webp" alt="Tool Drop">
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Google Labs Pomelli</h3>
+        <p><strong>The News:</strong> Pomelli is an experimental Google Labs tool designed to help teams create and manage marketing visuals and campaigns using AI-driven workflows. The most fun function is the 'photoshoot' feature, which can generate polished product imagery from just one simple image.</p>
+        <p class="my-take"><strong>My Take:</strong> I love this as a simple marketing and product tool.  I think it's going to be useful for portraits as well.  Some additional functionality in Pomelli attempts to assist with ideation as well.</p>
+        <p class="read-more"><a href="https://labs.google.com/pomelli" target="_blank" rel="noopener">Learn More ↗</a></p>
+      </div>
+
+      <!-- THE BREAKDOWN -->
+      <div class="section-header" id="the-breakdown">
+        <img src="../assets/images/the_breakdown_header.webp" alt="The Breakdown">
+      </div>
+      <div class="content-card card-breakdown">
+        <h3><span class="icon">🔬</span> What Kind of Hard Is Your Problem?</h3>
+        <p>AI capability is advancing across very different categories of difficulty. If we are designing curriculum, programs, and workforce education, we need to be clear about which "hard" we are preparing students for. There are four distinct types of hard work- each of which AI has varying amounts of effectiveness with. First, "Thinking Deep Hard" — complex, novel problem solving. AI is excellent at this.  Items such as solving high-tier math problems, or business planning problems using unconventional approaches would fall into this category. Second, "Crunching Data Hard" — sustained, detail-oriented execution. Say we have to review 3,000 medical records, or reconcile 500 financial records, or scanning an entire codebase. AI does not get tired like we do, and doesn't make mistakes.  This is something that AI is also excellent at. Third, "Relationship Vibe Hard" — judgment, taste, and accountability. These are things that most of us do every day such as providing difficult feedback, deciding to stop working on a long-term project, deciding how a customer feels about a decision.  Anything where you don't have complete data.  AI is terrible at this, and is not likely to improve anytime soon.  This is where being human is an advantage over using AI.</p>
+        <div class="the-lesson"><strong>The Lesson:</strong> The skills needed for program students will hit all three of these, but the real strength will be in the third area.  Items one and two are foundational knowledge that must be there in order to utilize AI tools, but then the advantage we can give our students is the ability to do three.  Ensure that they can frame a problem for AI, evaluate and verify outputs, and make the final human decision when trade-offs are real.</div>
+      </div>
+
+      <!-- ED PULSE -->
+      <div class="section-header" id="ed-pulse">
+        <img src="../assets/images/ed_pulse_header.webp" alt="Ed Pulse">
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> Copilot Chat Inside of Copilot</h3>
+        <p>Copilot Chat is getting more "in-flow" — you can now open Copilot from Outlook and hit a Summarize button to summarize the email you're reading. This one I just found, so maybe some of you knew about it already, but it's been a time saver for me because the help is right there in the e-mail where I need it.</p>
+        <p class="read-more"><a href="https://techcommunity.microsoft.com/discussions/microsoft365copilot/what%E2%80%99s-new-in-copilot-chat-quality-roadmap-%E2%80%94-february-2026/4494410" target="_blank" rel="noopener">Microsoft Tech Community Post ↗</a></p>
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> Stanford Study: "Tutor CoPilot" Boosts Real-Time Tutoring Effectiveness</h3>
+        <p>Tutor CoPilot is an AI system designed to help human tutors in real time by suggesting responses that take into consideration the best practices in tutoring strategies. In this study, students working with tutors who used the system were more likely to master math topics. Gains were especially strong for students paired with less-experienced tutors. My take: While the gains were kind of modest (about 5%), this is the first study I've seen that pairs the AI tutoring tools with a tutor in this manner.  Rather than asking whether AI can fully automate instruction, this study addresses helping students in a manner that seems more likely to be successful - by helping the tutor react in a way that will help the student the most.</p>
+        <p class="read-more"><a href="https://nssa.stanford.edu/studies/tutor-copilot-human-ai-approach-scaling-real-time-expertise" target="_blank" rel="noopener">Read the Study ↗</a></p>
+      </div>
+
+      <!-- IN ACTION -->
+      <div class="section-header" id="in-action">
+        <img src="../assets/images/in_action_header.webp" alt="In Action">
+      </div>
+      <div class="content-card card-in-action">
+        <h3><span class="icon">🎬</span> NotebookLM: Editable Slides + Conversational Studio</h3>
+        <p>NotebookLM is a tool that most of you have heard of, and you know that I love it.  There are two upgrades I'd like to make you aware of.  First, editable slide decks... you can now revise slides with prompts targeted at specific slides.  Previously you had to re-do the prompt and simply try again.  I love this feature so far. Second, conversational studio generations — you can produce different versions of outputs for different audiences.  I think this is more targeted to say orientating employees in different departments, since they will need some different information for each department.  For students, while this is cool, I've been struggling to think of a way to apply it.</p>
+        <figure>
+          <img src="../assets/demos/2026-02-26/notebookllm-slides.gif" alt="NotebookLM Studio slide generation and editing workflow">
+          <figcaption>NotebookLM Studio slide generation and editing workflow</figcaption>
+        </figure>
+
+        <p class="read-more"><a href="https://www.androidauthority.com/notebooklm-slide-deck-editing-3641895/" target="_blank" rel="noopener">NotebookLM Help ↗</a></p>      </div>
+
+      <!-- TRY THIS -->
+      <div class="section-header" id="try-this">
+        <img src="../assets/images/try_this_header.webp" alt="Try This">
+      </div>
+      <div class="try-this-box">
+        <h3>NotebookLM Mini-Workflow: OER Assessment Design</h3>
+        <p>Use this public NotebookLM as your sandbox. Instead of just reading it, use Studio to turn it into something that will work for you.  This is a notebook created by a colleague, that I thought had a lot of useful information on instructional design.</p>
+        <p class="read-more"><a href="https://notebooklm.google.com/notebook/5423ee08-f4eb-4163-b51a-f9c510a70849" target="_blank" rel="noopener" style="color: var(--try-this);">Learn more ↗</a></p>
+      </div>
+
+      <!-- SHARE -->
+      <div class="share-section" id="share">
+        <h3>Found this useful?</h3>
+        <p>Share Artificial Insights with a colleague who might benefit.</p>
+        <a href="mailto:?subject=Check%20out%20Artificial%20Insights&body=I%20thought%20you%20might%20find%20this%20AI%20newsletter%20useful%3A%20https%3A%2F%2Fbpmstc.github.io%2FArtificial-Insights%2F" class="share-link">Share via Email</a>
+      </div>
+      
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../sources/2026-02-26.html">🔍 Sources</a>
+          <a href="mailto:">✉️ Contact</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #3 · Feb 26, 2026</p>
+      </footer>
+    </div>
+  </body>
+</html>

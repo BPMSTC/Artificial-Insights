@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sources — Artificial Insights #3</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.7;
+      }
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px 60px;
+      }
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover {
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      h1 {
+        font-size: 32px;
+        margin: 32px 0 8px;
+        letter-spacing: -0.5px;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 15px;
+        margin-bottom: 32px;
+      }
+      h3 {
+        font-size: 18px;
+        margin: 28px 0 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      ul {
+        margin: 0 0 20px;
+        padding-left: 24px;
+      }
+      li {
+        margin-bottom: 8px;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      a:hover {
+        color: var(--accent-hover);
+        text-decoration: underline;
+      }
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 48px;
+      }
+      footer a {
+        color: var(--muted);
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      @media (max-width: 600px) {
+        h1 { font-size: 26px; }
+        h3 { font-size: 16px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 Feb 26, 2026 · Issue #3</span>
+      <a href="../issues/2026-02-26.html">← Back to Issue</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../issues/2026-02-26.html">📰 This Issue</a>
+      </nav>
+      
+      <h1>🔍 Sources</h1>
+      <p class="meta">References and links from Issue #3</p>
+      
+      <h3>⚡ Quick Scan</h3>
+      <ul>
+        <li><a href="https://time.com/7380854/exclusive-anthropic-drops-flagship-safety-pledge/" target="_blank" rel="noopener">Pentagon Pressures Anthropic as Safety Guardrails Shift ↗</a></li>
+        <li><a href="https://x.com/t0n4r/status/2024049948833247349" target="_blank" rel="noopener">AI Agent Retaliates After Developer Rejects Pull Request ↗</a></li>
+        <li><a href="https://www.bbc.com/news/articles/c62dlvdq3e3o" target="_blank" rel="noopener">AI Safety Leader Quits to Study Poetry ↗</a></li>
+        <li><a href="https://news.microsoft.com/signal/articles/a-new-study-explores-how-ai-shapes-what-you-can-trust-online/" target="_blank" rel="noopener">No Single Tool Can Secure Media Authenticity in the AI Era ↗</a></li>
+      </ul>
+      <h3>🛠️ Tool Drop</h3>
+      <ul>
+        <li><a href="https://labs.google.com/pomelli" target="_blank" rel="noopener">Google Labs Pomelli ↗</a></li>
+      </ul>
+      <h3>🎓 Ed Pulse</h3>
+      <ul>
+        <li><a href="https://techcommunity.microsoft.com/discussions/microsoft365copilot/what%E2%80%99s-new-in-copilot-chat-quality-roadmap-%E2%80%94-february-2026/4494410" target="_blank" rel="noopener">Copilot Chat Inside of Copilot ↗</a></li>
+        <li><a href="https://nssa.stanford.edu/studies/tutor-copilot-human-ai-approach-scaling-real-time-expertise" target="_blank" rel="noopener">Stanford Study: "Tutor CoPilot" Boosts Real-Time Tutoring Effectiveness ↗</a></li>
+      </ul>
+      <h3>🎬 In Action</h3>
+      <ul>
+        <li><a href="https://www.androidauthority.com/notebooklm-slide-deck-editing-3641895/" target="_blank" rel="noopener">NotebookLM: Editable Slides + Conversational Studio ↗</a></li>
+        <li><a href="https://9to5google.com/2026/02/20/notebooklm-slide-prompts/" target="_blank" rel="noopener">NotebookLM: Editable Slides + Conversational Studio ↗</a></li>
+      </ul>
+      <h3>💡 Try This</h3>
+      <ul>
+        <li><a href="https://notebooklm.google.com/notebook/5423ee08-f4eb-4163-b51a-f9c510a70849" target="_blank" rel="noopener">NotebookLM Mini-Workflow: OER Assessment Design ↗</a></li>
+      </ul>
+
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../issues/2026-02-26.html">📰 This Issue</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #3 · Feb 26, 2026</p>
+      </footer>
+    </div>
+  </body>
+</html>
