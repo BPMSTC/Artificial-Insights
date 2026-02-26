@@ -103,18 +103,19 @@ def parse_items(section_content: str, section_name: str) -> list:
                 # Save previous field if exists
                 if current_field:
                     if current_field == 'URL':
-                        # Add to URLs list if not empty
                         url_val = ' '.join(current_value).strip()
                         if url_val:
                             item['URLs'].append(url_val)
                     else:
-                        item[current_field] = ' '.join(current_value).strip()
+                        item[current_field] = _join_field_value(current_value).strip()
                 
                 current_field = field_match.group(1)
                 current_value = [field_match.group(2).strip()] if field_match.group(2).strip() else []
             elif current_field and line.strip():
-                # Continuation of previous field (for multi-line summaries)
                 current_value.append(line.strip())
+            elif current_field and not line.strip():
+                if current_value and current_value[-1] != '\n\n':
+                    current_value.append('\n\n')
         
         # Save last field
         if current_field:
@@ -123,7 +124,7 @@ def parse_items(section_content: str, section_name: str) -> list:
                 if url_val:
                     item['URLs'].append(url_val)
             else:
-                item[current_field] = ' '.join(current_value).strip()
+                item[current_field] = _join_field_value(current_value).strip()
         
         # Only add items with a title
         if item['Title']:
@@ -141,6 +142,31 @@ def format_date_display(date_str: str) -> str:
         return date_str
 
 
+def format_text(text: str) -> str:
+    """Convert markdown formatting to HTML (bold, paragraph breaks)."""
+    if not text:
+        return text
+    text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
+    return text
+
+
+def _join_field_value(parts: list) -> str:
+    """Join field value parts, preserving blank lines as <br><br>."""
+    result = []
+    buffer = []
+    for part in parts:
+        if part == '\n\n':
+            if buffer:
+                result.append(' '.join(buffer))
+            result.append('<br><br>')
+            buffer = []
+        else:
+            buffer.append(part)
+    if buffer:
+        result.append(' '.join(buffer))
+    return ''.join(result)
+
+
 def generate_quick_scan_html(item: dict) -> str:
     """Generate HTML for Quick Scan items - brief teasers with links."""
     title = item.get('Title', '')
@@ -154,7 +180,7 @@ def generate_quick_scan_html(item: dict) -> str:
     
     return f'''      <div class="quick-scan-item">
         <h3>{title}</h3>
-        <p>{teaser}</p>{link_html}
+        <p>{format_text(teaser)}</p>{link_html}
       </div>
 '''
 
@@ -172,11 +198,11 @@ def generate_tool_drop_html(item: dict) -> str:
     
     my_take_html = ''
     if my_take:
-        my_take_html = f'\n        <p class="my-take"><strong>My Take:</strong> {my_take}</p>'
+        my_take_html = f'\n        <p class="my-take"><strong>My Take:</strong> {format_text(my_take)}</p>'
     
     return f'''      <div class="content-card card-tool-drop">
         <h3><span class="icon">🛠️</span> {title}</h3>
-        <p><strong>The News:</strong> {the_news}</p>{my_take_html}{link_html}
+        <p><strong>The News:</strong> {format_text(the_news)}</p>{my_take_html}{link_html}
       </div>
 '''
 
@@ -191,7 +217,7 @@ def generate_breakdown_html(item: dict) -> str:
     
     lesson_html = ''
     if the_lesson:
-        lesson_html = f'\n        <div class="the-lesson"><strong>The Lesson:</strong> {the_lesson}</div>'
+        lesson_html = f'\n        <div class="the-lesson"><strong>The Lesson:</strong> {format_text(the_lesson)}</div>'
     
     link_html = ''
     if urls:
@@ -199,7 +225,7 @@ def generate_breakdown_html(item: dict) -> str:
     
     return f'''      <div class="content-card card-breakdown">
         <h3><span class="icon">🔬</span> {title}</h3>
-        <p>{analysis}</p>{lesson_html}{link_html}
+        <p>{format_text(analysis)}</p>{lesson_html}{link_html}
       </div>
 '''
 
@@ -226,7 +252,7 @@ def generate_ed_pulse_html(item: dict) -> str:
     
     return f'''      <div class="content-card card-ed-pulse">
         <h3><span class="icon">🎓</span> {title}</h3>
-        <p>{content}</p>{link_html}
+        <p>{format_text(content)}</p>{link_html}
       </div>
 '''
 
@@ -273,12 +299,20 @@ def generate_in_action_html(item: dict, issue_date: str) -> str:
     
     link_html = ''
     if urls:
-        label = link_text if link_text else 'Learn More'
-        link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{label} ↗</a></p>'
+        if len(urls) == 1:
+            label = link_text if link_text else 'Learn More'
+            link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{label} ↗</a></p>'
+        else:
+            link_parts = []
+            for url in urls:
+                domain = url.split('/')[2] if '/' in url else url
+                domain = domain.replace('www.', '')
+                link_parts.append(f'<a href="{url}" target="_blank" rel="noopener">{domain} ↗</a>')
+            link_html = f'\n        <p class="source-links">Sources: ' + ' · '.join(link_parts) + '</p>'
     
     html = f'''      <div class="content-card card-in-action">
         <h3><span class="icon">🎬</span> {title}</h3>
-        <p>{content}</p>
+        <p>{format_text(content)}</p>
 '''
     
     if image:
@@ -306,19 +340,19 @@ def generate_try_this_html(item: dict) -> str:
         return ''
     
     # Build the content
-    intro_html = f'<p>{intro}</p>' if intro else ''
+    intro_html = f'<p>{format_text(intro)}</p>' if intro else ''
     
     prompt_html = ''
     if the_prompt:
         prompt_html = f'''
         <div class="the-prompt">
           <p class="prompt-label">The Prompt:</p>
-          <blockquote>"{the_prompt}"</blockquote>
+          <blockquote>"{format_text(the_prompt)}"</blockquote>
         </div>'''
     
     why_html = ''
     if why_it_works:
-        why_html = f'\n        <p class="why-it-works"><strong>Why it works:</strong> {why_it_works}</p>'
+        why_html = f'\n        <p class="why-it-works"><strong>Why it works:</strong> {format_text(why_it_works)}</p>'
     
     # Add link if URL exists
     url_html = ''
