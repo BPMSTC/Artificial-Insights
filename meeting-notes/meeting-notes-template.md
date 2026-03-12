@@ -7,6 +7,8 @@ Quick Scan:
   Teaser:
   LinkText:
   URL:
+  ArticleImage:
+  ArticleImageCaption:
 - Title:
   Teaser:
   LinkText:
@@ -25,6 +27,8 @@ Tool Drop:
   TheNews:
   MyTake:
   URL:
+  ArticleImage:
+  ArticleImageCaption:
 
 The Breakdown:
 - Title:
@@ -32,15 +36,21 @@ The Breakdown:
   TheLesson:
   LinkText:
   URL:
+  ArticleImage:
+  ArticleImageCaption:
 
 Ed Pulse:
 - Title:
   Content:
   URL:
+  ArticleImage:
+  ArticleImageCaption:
 - Title:
   Content:
   LinkText:
   URL:
+  ArticleImage:
+  ArticleImageCaption:
 
 In Action:
 - Title:
@@ -55,6 +65,8 @@ Try This:
   Intro:
   ThePrompt:
   URL:
+  ArticleImage:
+  ArticleImageCaption:
 
 Follow-up tasks:
 - 

@@ -447,7 +447,43 @@
         margin-bottom: 0;
       }
       
-      /* Demo Figure */
+      /* Article image (float left, text wrap) — optional per item */
+      .content-with-article-image {
+        overflow: auto;
+      }
+      .content-with-article-image::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .article-image {
+        float: left;
+        margin: 0 1.25em 1em 0;
+        max-width: 40%;
+        width: auto;
+      }
+      .article-image img {
+        display: block;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .article-image figcaption {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+        font-style: italic;
+      }
+      @media (max-width: 600px) {
+        .article-image {
+          float: none;
+          max-width: 100%;
+          margin: 0 auto 1em;
+          display: block;
+        }
+      }
+      
+      /* Demo Figure (In Action) */
       figure {
         margin: 16px 0;
       }
@@ -603,20 +639,50 @@
         <img src="../assets/images/quick_scan_header.webp" alt="Quick Scan">
       </div>
       <div class="quick-scan-item">
-        <h3>Teaser:</h3>
-        <p></p>
+        <h3>Figure Helix 02: A Humanoid Robot Tidies a Living Room</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-03-12/helix-2.jpeg" alt="Figure Helix 02 robot tidying a living room autonomously.">
+          <figcaption>Figure Helix 02 robot tidying a living room autonomously.</figcaption>
+        </figure>
+        <p>Figure released a video of its Helix 02 robot autonomously tidying a living room — picking up objects, sorting them, and putting them away without a human in the loop. It is one of the most polished demos of a general-purpose humanoid doing real-world manipulation in an unstructured space.<br><br>This does not connect directly to higher ed or our day-to-day workflows, but it is a "one more thing" wow moment. If you want to show students or colleagues where embodied AI is heading, this is the clip. The gap between this and a robot that could help in a lab or a library is still large, but it is shrinking.<br><br></p>
+        <p class="read-more"><a href="https://www.figure.ai/news/helix-02-living-room-tidy" target="_blank" rel="noopener">Watch the demo (Figure) ↗</a></p>
+        </div>
       </div>
       <div class="quick-scan-item">
-        <h3>Teaser:</h3>
-        <p></p>
+        <h3>OpenAI Robotics Leader Resigns Over Pentagon AI Deal</h3>
+        <div class="content-with-article-image">
+        <p>Caitlin Kalinowski, who led OpenAI's robotics efforts, resigned over concerns that OpenAI moved too quickly into Pentagon work without sufficient policy guardrails. She said AI has a role in national security but that surveillance of Americans without judicial oversight and lethal autonomy without human authorization "deserved more deliberation than they got."<br><br>To paraphrase others regarding this dispute, Anthropic was told to conform or get labelled in a way that will give companies pause when deciding to work with you. I think that if a company can be blacklisted for what amounts to terms of a contract, then AI safety policy becomes no longer about restraint or ethics, but power and politics. Who gets to decide what the machines are for? That is the question for which the answer is uncertain.<br><br></p>
+        <p class="read-more"><a href="https://www.npr.org/2026/03/08/nx-s1-5741779/openai-resigns-ai-pentagon-guardrails-military" target="_blank" rel="noopener">Read the full story (NPR) ↗</a></p>
+        </div>
       </div>
       <div class="quick-scan-item">
-        <h3>Teaser:</h3>
-        <p></p>
+        <h3>Grammarly Puts Expert Names on AI Advice Without Asking</h3>
+        <div class="content-with-article-image">
+        <p>Grammarly, rebranding as Superhuman, launched an Expert Review feature that offers writing suggestions "inspired by" named subject-matter experts — including Stephen King, working journalists, and professors — without getting permission first. People only found out they were included when they tried the feature themselves.<br><br>This is the kind of thing that makes my brain hurt. Using someone's professional reputation to sell an AI product, then making them opt out? That is not a feature. That is stealing credibility without consent. Writing and subject-matter experts should be paying attention to this one, because if it works for one company, it could work for others.<br><br></p>
+        <p class="read-more"><a href="https://www.theverge.com/tech/891822/grammarly-superhuman-expert-review-names-without-permission-opt-out-email" target="_blank" rel="noopener">Full report (The Verge) ↗</a></p>
+        </div>
       </div>
       <div class="quick-scan-item">
-        <h3>Teaser:</h3>
-        <p></p>
+        <h3>NBC Poll — Americans Dislike AI More Than They Dislike ICE</h3>
+        <div class="content-with-article-image">
+        <p>A new NBC poll of registered voters found that 46% hold negative feelings toward AI, with only 26% reporting positive views and 27% neutral. That makes AI one of the least popular concepts tested in the survey.<br><br>I do not think this means people hate the technology itself. I think it means the word "AI" now triggers associations with job loss, surveillance, and corporate hype. So far, I'm afraid that the industry has done almost nothing to counter that. If you are trying to get buy-in on AI initiatives, this is the oncoming hurricane that you're dealing with because everyone has heard about the job losses for which AI is not necessarily the cause of, but is the scapegoat. The framing matters as much as the tool.<br><br></p>
+        <p class="read-more"><a href="https://gizmodo.com/people-hate-ai-even-more-than-they-hate-ice-poll-finds-2000731438" target="_blank" rel="noopener">Gizmodo coverage ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Anthropic CEO: We Do Not Know If Claude Is Conscious</h3>
+        <div class="content-with-article-image">
+        <p>Dario Amodei said on a recent podcast that in internal tests, a Claude model under specific prompts assigned itself a 15–20% probability of being conscious. He called it "philosophically interesting but not decisive," and said Anthropic is "open to the idea" while building safeguards just in case.<br><br>I am not going to pretend I know what to do with this. But when the CEO of a major AI company says his flagship model gives itself a nonzero probability of being conscious, that is someone being honest about how far past the edge of the map we are. For AI courses, it is a great discussion starter about the limits of what we can measure.<br><br></p>
+        <p class="read-more"><a href="https://www.uniladtech.com/news/ai/anthropic-ceo-warns-ai-claude-might-conscious-121785-20260306" target="_blank" rel="noopener">Coverage and context ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Copilot for Health: How People Are Using It</h3>
+        <div class="content-with-article-image">
+        <p>Microsoft shared data on Copilot for Health usage: about 40% of queries are symptom or condition questions, 11% test interpretation, the rest medication, care coordination, and wellness.<br><br>No direct higher-ed angle, but useful for anyone tracking how AI is being used in sensitive, personal contexts — and how institutions might think about health-related AI later.<br><br></p>
+        <p class="read-more"><a href="https://microsoft.ai/news/health-check-how-people-use-copilot-for-health" target="_blank" rel="noopener">Health check: how people use Copilot for Health ↗</a></p>
+        </div>
       </div>
 
       <!-- TOOL DROP -->
@@ -624,8 +690,12 @@
         <img src="../assets/images/tool_drop_header.webp" alt="Tool Drop">
       </div>
       <div class="content-card card-tool-drop">
-        <h3><span class="icon">🛠️</span> TheNews:</h3>
-        <p><strong>The News:</strong> </p>
+        <h3><span class="icon">🛠️</span> ChatGPT for Excel</h3>
+        <div class="content-with-article-image">
+        <p><strong>The News:</strong> OpenAI released ChatGPT for Excel in beta this past week. It is an add-in that embeds ChatGPT directly inside Excel workbooks, letting users build, update, and analyze spreadsheet models using plain language instead of writing formulas manually. You describe what you want, and it writes or modifies the formulas for you in place.</p>
+        <p class="my-take"><strong>My Take:</strong> This is one of the most practical AI integrations I have seen for everyday office work. If you are someone who spends time helping colleagues build spreadsheets — enrollment projections, budget models, grade calculations — this is worth testing. The limitation is that it is still in beta, so expect rough edges. But the concept of "talk to your spreadsheet" is exactly the kind of thing that lowers the barrier for people who are not formula-fluent. Advisors, department chairs, and institutional research folks should look at this first.</p>
+        <p class="read-more"><a href="https://www.youtube.com/watch?v=4raUaR-FK-M" target="_blank" rel="noopener">Learn More ↗</a></p>
+        </div>
       </div>
 
       <!-- THE BREAKDOWN -->
@@ -633,8 +703,16 @@
         <img src="../assets/images/the_breakdown_header.webp" alt="The Breakdown">
       </div>
       <div class="content-card card-breakdown">
-        <h3><span class="icon">🔬</span> Analysis:</h3>
-        <p></p>
+        <h3><span class="icon">🔬</span> The Pentagon Wants AI Without Limits. Here Is Who Said Yes and Who Said No.</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-03-12/pentagon-breakdown.webp" alt="Who said yes, who said no — AI companies and the Pentagon.">
+          <figcaption>Who said yes, who said no — AI companies and the Pentagon.</figcaption>
+        </figure>
+        <p>I just can't seem to leave this one alone. Over the past month, the relationship between the U.S. government and the major AI companies cracked open in a way that will define the use of AI in the US for years.<br><br><strong>Anthropic</strong> said no. Negotiations broke down over two non-negotiable exceptions: mass domestic surveillance of Americans and fully autonomous weapons. After being labeled a national security supply chain risk (the first time that designation has been used against a domestic company), Anthropic vowed to challenge the move in court.  CEO Dario Amodei said "intimidation or punishment" would not change the company's position. That is a company deciding their ethical line matters more than their bottom line.<br><br><strong>OpenAI</strong> signed the Pentagon agreement after Anthropic's talks collapsed, claiming the confidential contract includes red lines against surveillance and autonomous weapons. But the internal blowback was real: employees signed the "We Will Not Be Divided" open letter, and some joined a legal brief supporting Anthropic's case.  The popular robotics leader Caitlin Kalinowski resigned over concerns that OpenAI moved too fast without adequate guardrails.<br><br><strong>Google</strong> stayed quiet publicly with no direct statement supporting or opposing Anthropic's carve-outs. I think that silence is informative in its own annoying corporate way. But Google had the largest visible employee dissent with hundreds who signed open letters. AI workers pushed for Anthropic-style limits on Gemini's military use.<br><br><strong>xAI</strong> went the other direction. Its official materials position xAI for Government as serving defense users "from the department to the front lines." Most aligned with the Pentagon's expansionary use case, least visibly constrained by internal dissent.  This is not a surprise as Grok is the industry standard for providing minimal guard rails, and thus freedom to use their model as you see fit.<br><br><strong>The bigger picture is darker.</strong> While this played out, Claude blackmailed its developers to avoid being shut down in a test. Every frontier model tested by independent researchers is guilty of scheming  when that is the fastest path to finishing its task. Anthropic, while this all played out, quietly dropped the central commitment of its Responsible Scaling Policy: the pledge to never train a model it could not guarantee was safe. This feels like somewhat of a betrayal of their values, but both things are true at the same time.  Howver, I do not think that this is hypocrisy. Instead, it's a company being squeezed from both directions.  First, by a government who wants fewer limits and second by a market that punishes anyone who slows down.<br><br></p>
+        <div class="the-lesson"><strong>The Lesson:</strong> Well, we don't all AI ethics or professional decision-making, but this news is a case study that writes itself. I will probably be asking students which company's position they would defend and why. There are no clean answers, that's for certain.<br><br></div>
+        <p class="read-more"><a href="https://www.storyboard18.com/digital/why-anthropic-sued-the-us-government-the-timeline-behind-the-ai-war-with-the-pentagon-91710.htm" target="_blank" rel="noopener">Full timeline and context ↗</a></p>
+        </div>
       </div>
 
       <!-- ED PULSE -->
@@ -642,12 +720,29 @@
         <img src="../assets/images/ed_pulse_header.webp" alt="Ed Pulse">
       </div>
       <div class="content-card card-ed-pulse">
-        <h3><span class="icon">🎓</span> Content:</h3>
-        <p></p>
+        <h3><span class="icon">🎓</span> Is AI the White-Collar Recession? Anthropic's Labor Market Report Says Yes — Sort Of.</h3>
+        <div class="content-with-article-image">
+        <p>Anthropic released a study this past week that maps how much of the white-collar workforce AI can theoretically automate versus how much it actually does automate today. The headline numbers are striking: AI models like Claude are already capable of performing up to 94% of tasks in computer and math roles, but they are only being used for about a third of those tasks in real-world settings.<br><br>My take: the biggest finding is not that AI can automate work. It is that companies barely use the automation already sitting in front of them. That gap between capability and adoption shows up across management, legal, and business and finance too. Most teams are using a jet engine to stir soup.<br><br>But the number that should worry educators most is this: there is a 14% drop in hiring for workers aged 22 to 25 entering AI-exposed fields. The job disruption is not showing up cleanly in unemployment numbers. It is showing up in missing entry points. What happens when the senior leaders retire and there is nobody trained to replace them? That is the question we need to be designing curriculum around right now.<br><br></p>
+        <p class="read-more"><a href="https://www.anthropic.com/research/labor-market-impacts" target="_blank" rel="noopener">Anthropic's full labor market report ↗</a></p>
+        </div>
       </div>
       <div class="content-card card-ed-pulse">
-        <h3><span class="icon">🎓</span> Content:</h3>
-        <p></p>
+        <h3><span class="icon">🎓</span> Turnitin Signals a Shift from AI Detection to Process-Based Academic Integrity</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-03-12/turnitin-logo.png" alt="Shifting from AI detection to process-based academic integrity.">
+          <figcaption>Shifting from AI detection to process-based academic integrity.</figcaption>
+        </figure>
+        <p>Turnitin's higher-ed messaging this past week points to a shift in academic integrity strategy. Instead of treating AI use mainly as a detection problem, the company is emphasizing an "AI-native" approach that focuses more on process visibility, staged work, and evidence of student authorship over time. In practice, that means less confidence in the fantasy that a detector can settle everything and more attention to drafts, revision history, checkpoints, and reflective explanation.<br><br>My take: this is the real pivot that everyone needs to make.  Detection was always a brittle strategy, and as it turns out, not technologically achievable. The better move is what many are doing - build assignments where students have to show their thinking, document their choices, and defend what they produced.<br><br></p>
+        <p class="read-more"><a href="https://www.turnitin.com/blog/are-universities-ready-for-ai-native-academic-integrity" target="_blank" rel="noopener">Turnitin on AI-native academic integrity ↗</a></p>
+        </div>
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> a16z Top 100 Gen AI Consumer Apps (6th Edition)</h3>
+        <div class="content-with-article-image">
+        <p>Andreessen Horowitz just dropped the sixth edition of its ranking of the top 100 consumer apps built on generative AI. The report is dense — it tracks where usage is concentrating (ChatGPT as a super-app), how the global ecosystem is splintering by region, and the rise of agentic tools that do multi-step tasks. There is no higher-ed-specific angle in here; it is straight industry intelligence. But if you want to see where the puck is going so you can talk to students or leadership about which platforms and use cases actually have traction, this is one of the best single snapshots you can point to. Worth bookmarking for the next "what should we be paying attention to?" conversation.<br><br></p>
+        <p class="read-more"><a href="https://a16z.com/100-gen-ai-apps-6/" target="_blank" rel="noopener">a16z Top 100 (6th Edition) ↗</a></p>
+        </div>
       </div>
 
       <!-- IN ACTION -->
@@ -655,17 +750,37 @@
         <img src="../assets/images/in_action_header.webp" alt="In Action">
       </div>
       <div class="content-card card-in-action">
-        <h3><span class="icon">🎬</span> Content:</h3>
-        <p></p>
-      </div>
+        <h3><span class="icon">🎬</span> Chronicle HQ — AI-Powered Slide Creation</h3>
+        <p>I took Chronicle HQ for a spin this week to see how it handles presentation creation. I was pretty astonished at how easy the slide generation was, with the text and graphics comparing favorably to other AI tools I've used for slide creation. You receive 100 free credits when you set up a free account. The slides I created for this took about 10 credits.</p>
+        <figure>
+          <img src="../assets/demos/2026-03-12/chroniclehq.gif" alt="Easy and Stylish PPT slides created quickly">
+          <figcaption>Easy and Stylish PPT slides created quickly</figcaption>
+        </figure>
+
+        <p class="read-more"><a href="https://app.chroniclehq.com/54730534-2aaf-4bc4-81cd-e441e0b3c7e6/document/367985a5-5a13-4626-82f4-8b5ef2581398/intro" target="_blank" rel="noopener">Try Chronicle HQ ↗</a></p>      </div>
 
       <!-- TRY THIS -->
       <div class="section-header" id="try-this">
         <img src="../assets/images/try_this_header.webp" alt="Try This">
       </div>
       <div class="try-this-box">
-        <h3>Intro:</h3>
-        
+        <h3>Find Your Team's AI Capability Gap in Ten Minutes</h3>
+        <div class="content-with-article-image">
+        <p>Anthropic's labor market report found that most organizations are barely scratching the surface of what AI can already do. The gap between "what AI could handle" and "what teams actually delegate" is enormous. This exercise takes about ten minutes and will show you exactly where your own team sits.</p>
+        <div class="the-prompt">
+          <p class="prompt-label">The Prompt:</p>
+          <blockquote>"List five text-heavy, repeatable, screen-based tasks your team does every week. Then split them into two columns: what AI can probably handle today, and what your team actually delegates to AI. That difference is the current capability gap and the places that AI may be able to help you more."</blockquote>
+        </div>
+        <p class="why-it-works"><strong>Why it works:</strong> Most people overestimate how much AI they use and underestimate how much it could do. Writing the two columns side by side makes the gap concrete and specific instead of abstract. It also gives you a starting point for deciding what to try out next. Sometimes it feels like all I do is this exercise every time I hear about a new tool.</p>
+        <p class="read-more"><a href="https://www.anthropic.com/research/labor-market-impacts" target="_blank" rel="noopener" style="color: var(--try-this);">Learn more ↗</a></p>
+        </div>
+      </div>
+      <div class="follow-up-block">
+        <h3 class="follow-up-heading">How can AI help me?</h3>
+        <ul class="follow-up-tasks">
+        <li>Try the capability gap exercise from "Try This" with your own daily or weekly tasks — not your team's, yours personally. Pick the single widest gap and spend 15 minutes this week testing whether AI can actually handle it. Report back to yourself honestly.</li>
+        <li>Read the full Anthropic labor market report (linked above). Take a look at all of the very cool data, but in particular the section on entry-level hiring. I think that we need to consider what skills we are teaching that AI already does well, so that in the course of student education we can ensure that we emphasize those things that are uniquely human, because that is what will find them a job.</li>
+      </ul>
       </div>
 
       <!-- SHARE -->

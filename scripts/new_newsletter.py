@@ -78,6 +78,20 @@ def create_demos_folder(project_root: Path, issue_date: str) -> Path:
     return demos_path
 
 
+def create_article_images_folder(project_root: Path, issue_date: str) -> Path:
+    """Create article-images folder for the issue date (optional images per item)."""
+    img_path = project_root / 'assets' / 'article-images' / issue_date
+    
+    if img_path.exists():
+        print(f"Article images folder already exists: {img_path}")
+        return img_path
+    
+    img_path.mkdir(parents=True, exist_ok=True)
+    (img_path / '.gitkeep').touch()
+    print(f"Created: {img_path}/")
+    return img_path
+
+
 def update_index(project_root: Path, issue_date: str, issue_number: int) -> None:
     """Add new issue card to index.html."""
     index_path = project_root / 'index.html'
@@ -143,7 +157,10 @@ def main():
     # 3. Create demos folder
     create_demos_folder(project_root, issue_date)
     
-    # 4. Generate newsletter HTML
+    # 4. Create article-images folder
+    create_article_images_folder(project_root, issue_date)
+    
+    # 5. Generate newsletter HTML
     import subprocess
     result = subprocess.run(
         [sys.executable, str(script_dir / 'generate_newsletter.py'), str(notes_path)],
@@ -153,11 +170,11 @@ def main():
         print("Error: Newsletter generation failed.")
         sys.exit(1)
     
-    # 5. Update index.html
+    # 6. Update index.html
     update_index(project_root, issue_date, issue_number)
     
     print(f"\nDone! Edit meeting-notes/{issue_date}.md with your content,")
-    print(f"add any demo GIFs to assets/demos/{issue_date}/, then commit and push.")
+    print(f"add demo GIFs to assets/demos/{issue_date}/ and optional article images to assets/article-images/{issue_date}/, then commit and push.")
 
 
 if __name__ == '__main__':

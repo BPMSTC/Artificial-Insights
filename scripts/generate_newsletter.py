@@ -87,7 +87,8 @@ def parse_items(section_content: str, section_name: str) -> list:
     field_names = [
         'Summary', 'Tags', 'URL', 'Image', 'Caption', 'Instructions',
         'Teaser', 'LinkText', 'TheNews', 'MyTake', 'Analysis', 'TheLesson',
-        'Content', 'Intro', 'ThePrompt', 'WhyItWorks'
+        'Content', 'Intro', 'ThePrompt', 'WhyItWorks',
+        'ArticleImage', 'ArticleImageCaption'
     ]
     field_pattern = '|'.join(field_names)
     
@@ -177,30 +178,49 @@ def _join_field_value(parts: list) -> str:
     return ''.join(result)
 
 
-def generate_quick_scan_html(item: dict) -> str:
+def _article_image_html(item: dict, issue_date: str) -> str:
+    """Return HTML for optional article image (float left) or empty string."""
+    img = (item.get('ArticleImage') or '').strip()
+    if not img:
+        return ''
+    path = f"../assets/article-images/{issue_date}/{img}"
+    caption = (item.get('ArticleImageCaption') or '').strip()
+    cap_html = f'\n          <figcaption>{caption}</figcaption>' if caption else ''
+    return f'''        <figure class="article-image">
+          <img src="{path}" alt="{caption or 'Article image'}">{cap_html}
+        </figure>
+'''
+
+
+def generate_quick_scan_html(item: dict, issue_date: str) -> str:
     """Generate HTML for Quick Scan items - brief teasers with links."""
     title = item.get('Title', '')
     teaser = item.get('Teaser', '') or item.get('Summary', '')
     link_text = item.get('LinkText', 'Read More')
     urls = item.get('URLs', [])
+    article_img = _article_image_html(item, issue_date)
     
     link_html = ''
     if urls:
         link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{link_text} ↗</a></p>'
     
+    content_inner = f'''        <div class="content-with-article-image">
+{article_img}        <p>{format_text(teaser)}</p>{link_html}
+        </div>'''
     return f'''      <div class="quick-scan-item">
         <h3>{title}</h3>
-        <p>{format_text(teaser)}</p>{link_html}
+{content_inner}
       </div>
 '''
 
 
-def generate_tool_drop_html(item: dict) -> str:
+def generate_tool_drop_html(item: dict, issue_date: str) -> str:
     """Generate HTML for Tool Drop - The News + My Take format."""
     title = item.get('Title', '')
     the_news = item.get('TheNews', '') or item.get('Summary', '')
     my_take = item.get('MyTake', '')
     urls = item.get('URLs', [])
+    article_img = _article_image_html(item, issue_date)
     
     link_html = ''
     if urls:
@@ -210,20 +230,24 @@ def generate_tool_drop_html(item: dict) -> str:
     if my_take:
         my_take_html = f'\n        <p class="my-take"><strong>My Take:</strong> {format_text(my_take)}</p>'
     
+    content_inner = f'''        <div class="content-with-article-image">
+{article_img}        <p><strong>The News:</strong> {format_text(the_news)}</p>{my_take_html}{link_html}
+        </div>'''
     return f'''      <div class="content-card card-tool-drop">
         <h3><span class="icon">🛠️</span> {title}</h3>
-        <p><strong>The News:</strong> {format_text(the_news)}</p>{my_take_html}{link_html}
+{content_inner}
       </div>
 '''
 
 
-def generate_breakdown_html(item: dict) -> str:
+def generate_breakdown_html(item: dict, issue_date: str) -> str:
     """Generate HTML for The Breakdown - Analysis + The Lesson format."""
     title = item.get('Title', '')
     analysis = item.get('Analysis', '') or item.get('Summary', '')
     the_lesson = item.get('TheLesson', '')
     link_text = item.get('LinkText', 'Read More')
     urls = item.get('URLs', [])
+    article_img = _article_image_html(item, issue_date)
     
     lesson_html = ''
     if the_lesson:
@@ -233,19 +257,23 @@ def generate_breakdown_html(item: dict) -> str:
     if urls:
         link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{link_text} ↗</a></p>'
     
+    content_inner = f'''        <div class="content-with-article-image">
+{article_img}        <p>{format_text(analysis)}</p>{lesson_html}{link_html}
+        </div>'''
     return f'''      <div class="content-card card-breakdown">
         <h3><span class="icon">🔬</span> {title}</h3>
-        <p>{format_text(analysis)}</p>{lesson_html}{link_html}
+{content_inner}
       </div>
 '''
 
 
-def generate_ed_pulse_html(item: dict) -> str:
+def generate_ed_pulse_html(item: dict, issue_date: str) -> str:
     """Generate HTML for Ed Pulse items."""
     title = item.get('Title', '')
     content = item.get('Content', '') or item.get('Summary', '')
     link_text = item.get('LinkText', '')
     urls = item.get('URLs', [])
+    article_img = _article_image_html(item, issue_date)
     
     link_html = ''
     if urls:
@@ -260,9 +288,12 @@ def generate_ed_pulse_html(item: dict) -> str:
                 link_parts.append(f'<a href="{url}" target="_blank" rel="noopener">{domain} ↗</a>')
             link_html = f'\n        <p class="source-links">Sources: ' + ' · '.join(link_parts) + '</p>'
     
+    content_inner = f'''        <div class="content-with-article-image">
+{article_img}        <p>{format_text(content)}</p>{link_html}
+        </div>'''
     return f'''      <div class="content-card card-ed-pulse">
         <h3><span class="icon">🎓</span> {title}</h3>
-        <p>{format_text(content)}</p>{link_html}
+{content_inner}
       </div>
 '''
 
@@ -338,13 +369,14 @@ def generate_in_action_html(item: dict, issue_date: str) -> str:
     return html
 
 
-def generate_try_this_html(item: dict) -> str:
+def generate_try_this_html(item: dict, issue_date: str) -> str:
     """Generate HTML for Try This items with Intro, Prompt, and Why It Works."""
     title = item.get('Title', '')
     intro = item.get('Intro', '') or item.get('Instructions', '')
     the_prompt = item.get('ThePrompt', '')
     why_it_works = item.get('WhyItWorks', '')
     urls = item.get('URLs', [])
+    article_img = _article_image_html(item, issue_date)
     
     if not title:
         return ''
@@ -369,9 +401,12 @@ def generate_try_this_html(item: dict) -> str:
     if urls:
         url_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener" style="color: var(--try-this);">Learn more ↗</a></p>'
     
+    content_inner = f'''        <div class="content-with-article-image">
+{article_img}        {intro_html}{prompt_html}{why_html}{url_html}
+        </div>'''
     return f'''      <div class="try-this-box">
         <h3>{title}</h3>
-        {intro_html}{prompt_html}{why_html}{url_html}
+{content_inner}
       </div>
 '''
 
@@ -456,17 +491,17 @@ def generate_issue_html(data: dict) -> str:
         
         for item in items:
             if section_name == 'Quick Scan':
-                sections_html += generate_quick_scan_html(item)
+                sections_html += generate_quick_scan_html(item, data['issue_date'])
             elif section_name == 'Tool Drop':
-                sections_html += generate_tool_drop_html(item)
+                sections_html += generate_tool_drop_html(item, data['issue_date'])
             elif section_name == 'The Breakdown':
-                sections_html += generate_breakdown_html(item)
+                sections_html += generate_breakdown_html(item, data['issue_date'])
             elif section_name == 'Ed Pulse':
-                sections_html += generate_ed_pulse_html(item)
+                sections_html += generate_ed_pulse_html(item, data['issue_date'])
             elif section_name == 'In Action':
                 sections_html += generate_in_action_html(item, data['issue_date'])
             elif section_name == 'Try This':
-                sections_html += generate_try_this_html(item)
+                sections_html += generate_try_this_html(item, data['issue_date'])
             else:
                 icon = section_icons.get(section_name, '📌')
                 card_class = card_classes.get(section_name, '')
@@ -933,7 +968,43 @@ def generate_issue_html(data: dict) -> str:
         margin-bottom: 0;
       }}
       
-      /* Demo Figure */
+      /* Article image (float left, text wrap) — optional per item */
+      .content-with-article-image {{
+        overflow: auto;
+      }}
+      .content-with-article-image::after {{
+        content: "";
+        display: table;
+        clear: both;
+      }}
+      .article-image {{
+        float: left;
+        margin: 0 1.25em 1em 0;
+        max-width: 40%;
+        width: auto;
+      }}
+      .article-image img {{
+        display: block;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }}
+      .article-image figcaption {{
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+        font-style: italic;
+      }}
+      @media (max-width: 600px) {{
+        .article-image {{
+          float: none;
+          max-width: 100%;
+          margin: 0 auto 1em;
+          display: block;
+        }}
+      }}
+      
+      /* Demo Figure (In Action) */
       figure {{
         margin: 16px 0;
       }}

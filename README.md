@@ -21,7 +21,9 @@ newsletter/
 │   └── YYYY-MM-DD.html
 ├── assets/
 │   ├── images/            # Banner, logo, section headers (webp format)
-│   └── demos/             # Demo GIFs organized by issue date
+│   ├── demos/             # Demo GIFs for In Action (by issue date)
+│   │   └── YYYY-MM-DD/
+│   └── article-images/   # Optional images per item (by issue date)
 │       └── YYYY-MM-DD/
 ├── scripts/
 │   ├── new_newsletter.py       # Create new issue (run this first)
@@ -56,13 +58,13 @@ python scripts/new_newsletter.py
 
 **This automatically:**
 1. Creates `meeting-notes/YYYY-MM-DD.md` from the template (with date and issue number filled in)
-2. Creates `assets/demos/YYYY-MM-DD/` folder for demo GIFs
+2. Creates `assets/demos/YYYY-MM-DD/` for demo GIFs and `assets/article-images/YYYY-MM-DD/` for optional article images
 3. Generates `issues/YYYY-MM-DD.html` and `sources/YYYY-MM-DD.html`
 4. Adds the new issue card to `index.html`
 
 **Then you:**
 1. Edit `meeting-notes/YYYY-MM-DD.md` with your content
-2. Add demo GIFs to `assets/demos/YYYY-MM-DD/` (if needed)
+2. Add demo GIFs to `assets/demos/YYYY-MM-DD/` (In Action) and optional images to `assets/article-images/YYYY-MM-DD/` (any section except In Action)
 3. Update the description in `index.html` for the new issue card (optional)
 4. Commit and push
 
@@ -92,18 +94,10 @@ Tool Drop:
 
 See `meeting-notes/meeting-notes-template.md` for the complete structure.
 
-### 2. Create Demos Folder and Add Assets (if needed)
+### 2. Add Demo GIFs and Optional Article Images
 
-Create the folder `assets/demos/YYYY-MM-DD/` (the date must match your `Issue Date:` in the markdown). Place GIFs there; filenames must match the `Image:` field in your markdown:
-
-```markdown
-In Action:
-- Title: The Recurring Task
-  Content: ChatGPT is the endlessly patient colleague...
-  Image: recurring-tasks.gif    # Goes in assets/demos/2026-01-29/
-  Caption: Setting up a recurring task
-  URL: https://example.com
-```
+- **In Action**: Put GIFs in `assets/demos/YYYY-MM-DD/`. The filename must match the `Image:` field (e.g. `Image: recurring-tasks.gif`).
+- **Other sections** (Quick Scan, Tool Drop, The Breakdown, Ed Pulse, Try This): Optionally add images in `assets/article-images/YYYY-MM-DD/`. Use `ArticleImage: filename.webp` and optional `ArticleImageCaption: Your caption.` Images float left with text wrapping; omit or leave empty for no image.
 
 ### 3. Generate Newsletter (when editing existing content)
 

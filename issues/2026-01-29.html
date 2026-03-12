@@ -412,7 +412,78 @@
         color: var(--muted) !important;
       }
       
-      /* Demo Figure */
+      /* How can AI help me? (follow-up tasks, inside Try This) */
+      .follow-up-block {
+        margin: 24px 0 20px;
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        border: 2px solid #8b5cf6;
+        border-radius: 14px;
+        border-left-width: 6px;
+      }
+      .follow-up-block .follow-up-heading {
+        margin: 0 0 12px;
+        font-size: 17px;
+        color: #6d28d9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .follow-up-block .follow-up-heading::before {
+        content: "🎯";
+        font-size: 20px;
+      }
+      .follow-up-block .follow-up-tasks {
+        margin: 0;
+        padding-left: 22px;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .follow-up-block .follow-up-tasks li {
+        margin-bottom: 8px;
+      }
+      .follow-up-block .follow-up-tasks li:last-child {
+        margin-bottom: 0;
+      }
+      
+      /* Article image (float left, text wrap) — optional per item */
+      .content-with-article-image {
+        overflow: auto;
+      }
+      .content-with-article-image::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .article-image {
+        float: left;
+        margin: 0 1.25em 1em 0;
+        max-width: 40%;
+        width: auto;
+      }
+      .article-image img {
+        display: block;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .article-image figcaption {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+        font-style: italic;
+      }
+      @media (max-width: 600px) {
+        .article-image {
+          float: none;
+          max-width: 100%;
+          margin: 0 auto 1em;
+          display: block;
+        }
+      }
+      
+      /* Demo Figure (In Action) */
       figure {
         margin: 16px 0;
       }
@@ -569,23 +640,31 @@
       </div>
       <div class="quick-scan-item">
         <h3>Claude Embeds in Excel</h3>
+        <div class="content-with-article-image">
         <p>Paid users can now run Claude directly inside Excel to build multi-tab spreadsheets and pull live web data. It currently runs on a newer model than Copilot, though Microsoft plans to close that gap within 60 days.</p>
         <p class="read-more"><a href="https://www.datacamp.com/tutorial/claude-in-excel" target="_blank" rel="noopener">Read Tutorial ↗</a></p>
+        </div>
       </div>
       <div class="quick-scan-item">
         <h3>Health & Education Accelerate</h3>
+        <div class="content-with-article-image">
         <p>Anthropic launched a HIPAA-ready toolkit for clinical systems, while ChatGPT Health Connect (rolling out next week allegedly) creates a dedicated tab for wellness and lab data.</p>
         <p class="read-more"><a href="https://www.beckershospitalreview.com/healthcare-information-technology/ai/anthropic-rolls-out-claude-for-healthcare/" target="_blank" rel="noopener">Read More ↗</a></p>
+        </div>
       </div>
       <div class="quick-scan-item">
         <h3>Ads Arrive in ChatGPT</h3>
+        <div class="content-with-article-image">
         <p>Free users will begin seeing context-aware ads at the bottom of the chat interface. OpenAI claims these aren't search-style ads, but rather suggestions based on your conversation history.</p>
         <p class="read-more"><a href="https://openai.com/index/our-approach-to-advertising-and-expanding-access/" target="_blank" rel="noopener">OpenAI Announcement ↗</a></p>
+        </div>
       </div>
       <div class="quick-scan-item">
         <h3>The Wearable Wave</h3>
+        <div class="content-with-article-image">
         <p>Rumors are increasing around OpenAI and Apple developing "ambient" devices (pen or earbud form factors) to capture and summarize daily life. Our data privacy ship may have already sailed, but this pushes the envelope further.</p>
         <p class="read-more"><a href="https://www.helpnetsecurity.com/2026/01/30/wearable-data-privacy-tech/" target="_blank" rel="noopener">Security Report ↗</a></p>
+        </div>
       </div>
 
       <!-- TOOL DROP -->
@@ -594,9 +673,11 @@
       </div>
       <div class="content-card card-tool-drop">
         <h3><span class="icon">🛠️</span> Deep Dive on Claude in Excel</h3>
+        <div class="content-with-article-image">
         <p><strong>The News:</strong> Claude can now generate complex spreadsheets with multiple tabs.</p>
         <p class="my-take"><strong>My Take:</strong> While the "paid version" requirement is a hurdle, the efficiency is undeniable. I recently tested this using a dataset for student success in intro classes. Within 60 seconds, Claude researched external benchmarks, structured the table, and generated three comparative charts. I was really impressed with the structure (pivots, graphs), but the data itself still requires a human reviewer." It is a massive productivity multiplier, but only if you audit the work.  Also, IT needs to give permission to add it on a work machine.</p>
         <p class="read-more"><a href="https://www.datacamp.com/tutorial/claude-in-excel" target="_blank" rel="noopener">Learn More ↗</a></p>
+        </div>
       </div>
 
       <!-- THE BREAKDOWN -->
@@ -605,8 +686,10 @@
       </div>
       <div class="content-card card-breakdown">
         <h3><span class="icon">🔬</span> Copilot & Data Hygiene</h3>
+        <div class="content-with-article-image">
         <p>AI embedded in office tools (like Copilot in PowerPoint) is highly dependent on the quality of the input data. For example, I generated a slide deck for the Comunity of Practice meeting, and frankly, it wasn't very elegant at all.  Too much text on screens, and compressing as much information as possible per slide.  I think this is a great example of how AI tool effectiveness is very dependent upon the quality of the underlying data.  If I'm better at formatting the word document it's drawn from, the quality would improve.  As we look at using all of our data for possible AI tools, this is something we'll probably run in to frequntly as we learn how to strcuture the underlying data.   TheLesson: The key to these tools being useful is formatting the data the way a machine understands it best. It's still a lot of trial and error, but "garbage in, garbage out" has never been more true.</p>
         <p class="read-more"><a href="https://www.microsoft.com/en-us/microsoft-365-life-hacks/presentations/how-to-use-copilot-in-powerpoint" target="_blank" rel="noopener">Microsoft Guide: Copilot in PowerPoint ↗</a></p>
+        </div>
       </div>
 
       <!-- ED PULSE -->
@@ -615,13 +698,17 @@
       </div>
       <div class="content-card card-ed-pulse">
         <h3><span class="icon">🎓</span> Socratic vs. Answers</h3>
+        <div class="content-with-article-image">
         <p>Anthropic, Google, and OpenAI have a learning/education model on each of their LLM's that have been available for a while.  They really do a nice job of using Socratic questioning to guide students rather than dumping answers.  Google Gemini also feeds you YouTube vidoes in support of whatever topic.  It's worth trying out if you haven't had a chance to do so yet.</p>
         <p class="read-more"><a href="https://www.aicerts.ai/news/openai-study-mode-signals-new-era-in-ai-education/" target="_blank" rel="noopener">Read More ↗</a></p>
+        </div>
       </div>
       <div class="content-card card-ed-pulse">
         <h3><span class="icon">🎓</span> Managing the Cognitive Risk</h3>
+        <div class="content-with-article-image">
         <p>I like how LLM's can provide personalized learning, such as the student who only understood concepts if I framed them around Warhammer.  While it helped out a lot in the short term, I wonder if always framing things in a comfortable space is doing the student a disservice by reducing the critical thinking needed to find common ground with a new topic.  I'm glad that the Brookings Institute is looking at these concerns as well.</p>
         <p class="read-more"><a href="https://www.brookings.edu/articles/ais-future-for-students-is-in-our-hands/" target="_blank" rel="noopener">Brookings Institute Report ↗</a></p>
+        </div>
       </div>
 
       <!-- IN ACTION -->
@@ -644,12 +731,14 @@
       </div>
       <div class="try-this-box">
         <h3>The Writing Clone</h3>
+        <div class="content-with-article-image">
         <p>This is kind of an 'old' trick, but still a good one.  It can help you to require fewer LLM edits when AI helps you write a communication.  It forces the AI to write like you.</p>
         <div class="the-prompt">
           <p class="prompt-label">The Prompt:</p>
-          <blockquote>"You are an AI writing assistant. Your task is to closely replicate a specific writing style based on the description provided below. Look at this sample of writing to create a description that will capture Tone and attitude, Level of formality, Sentence length and structure, Use of humor, sarcasm, or restraint, Preferred vocabulary and complexity, and Rhythm and pacing. Do not imitate content, opinions, or subject matter. Only replicate how the writing sounds. Next - you ask the LLM to write using the description you just received."</blockquote>
+          <blockquote>"You are an AI writing assistant. Your task is to closely replicate a specific writing style based on the description provided below. Look at this sample of writing to create a description that will capture Tone and attitude, Level of formality, Sentence length and structure, Use of humor, sarcasm, or restraint, Preferred vocabulary and complexity, and Rhythm and pacing. Do not imitate content, opinions, or subject matter. Only replicate how the writing sounds. Next: you ask the LLM to write whatever you need using the description you just received."</blockquote>
         </div>
         <p class="read-more"><a href="https://www.reddit.com/r/WritingWithAI/comments/1l72psd/my_process_for_getting_ai_to_write_in_your_voice/" target="_blank" rel="noopener" style="color: var(--try-this);">Learn more ↗</a></p>
+        </div>
       </div>
 
       <!-- SHARE -->
