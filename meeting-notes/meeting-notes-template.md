@@ -68,5 +68,7 @@ Try This:
   ArticleImage:
   ArticleImageCaption:
 
+Follow-up heading: How can AI help me?
+
 Follow-up tasks:
 - 

@@ -7,6 +7,7 @@ Usage:
     python generate_newsletter.py meeting-notes/cop\ 012926.md
 """
 
+import html
 import re
 import sys
 import os
@@ -55,7 +56,7 @@ def parse_markdown(content: str) -> dict:
             start = match.end()
             # Find the end (next section or end of relevant content)
             end = len(content)
-            for next_section in section_names[i+1:] + ['Follow-up tasks']:
+            for next_section in section_names[i+1:] + ['Follow-up heading', 'Follow-up tasks']:
                 next_pattern = rf'^{re.escape(next_section)}:'
                 next_match = re.search(next_pattern, content[start:], re.MULTILINE)
                 if next_match:
@@ -66,17 +67,48 @@ def parse_markdown(content: str) -> dict:
             items = parse_items(section_content, section_name)
             data['sections'][section_name] = items
     
-    # Parse Follow-up tasks (plain list after "Follow-up tasks:")
-    data['follow_up_tasks'] = []
-    followup_match = re.search(r'^Follow-up tasks:\s*$', content, re.MULTILINE)
-    if followup_match:
-        rest = content[followup_match.end():].strip()
-        for line in rest.split('\n'):
-            line = line.strip()
-            if line.startswith('- '):
-                data['follow_up_tasks'].append(line[2:].strip())
-    
+    data['follow_up_tasks'] = parse_follow_up_tasks(content)
+    heading_match = re.search(r'^Follow-up heading:\s*(.+)$', content, re.MULTILINE)
+    _fh = heading_match.group(1).strip() if heading_match else ''
+    data['follow_up_heading'] = _fh if _fh else 'How can AI help me?'
+
     return data
+
+
+def parse_follow_up_tasks(content: str) -> list:
+    """Parse bullet list after 'Follow-up tasks:'. Merges URL: or bare https lines into the previous item."""
+    tasks = []
+    followup_match = re.search(r'^Follow-up tasks:\s*$', content, re.MULTILINE)
+    if not followup_match:
+        return []
+    rest = content[followup_match.end():].strip()
+    current = None
+    for raw_line in rest.split('\n'):
+        line = raw_line.strip()
+        if not line:
+            continue
+        if line.startswith('- '):
+            if current is not None:
+                tasks.append(current.strip())
+            current = line[2:].strip()
+        elif re.match(r'^URL:\s*', line, re.IGNORECASE):
+            url = re.sub(r'^URL:\s*', '', line, count=1, flags=re.IGNORECASE).strip()
+            if current is not None:
+                current = f'{current} {url}'.strip()
+            else:
+                current = url
+        elif re.match(r'^https?://', line):
+            if current is not None:
+                current = f'{current} {line}'.strip()
+            else:
+                current = line
+        elif current is not None:
+            current = f'{current} {line}'.strip()
+        else:
+            current = line
+    if current is not None:
+        tasks.append(current.strip())
+    return tasks
 
 
 def parse_items(section_content: str, section_name: str) -> list:
@@ -159,6 +191,17 @@ def format_text(text: str) -> str:
         return text
     text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
     return text
+
+
+def linkify_plain_urls(text: str) -> str:
+    """Turn bare http(s) URLs into anchor tags for follow-up and similar plain-text lines."""
+    if not text:
+        return text
+    return re.sub(
+        r'(https?://[^\s<>"\'\)]+)',
+        r'<a href="\1" target="_blank" rel="noopener">\1</a>',
+        text,
+    )
 
 
 def _join_field_value(parts: list) -> str:
@@ -411,15 +454,17 @@ def generate_try_this_html(item: dict, issue_date: str) -> str:
 '''
 
 
-def generate_follow_up_html(tasks: list) -> str:
-    """Generate HTML for 'How can AI help me?' block (follow-up tasks within Try This)."""
+def generate_follow_up_html(tasks: list, heading: str = 'How can AI help me?') -> str:
+    """Generate HTML for follow-up tasks block (after Try This). Heading comes from Follow-up heading: in markdown."""
     if not tasks:
         return ''
     items_html = ''
     for task in tasks:
-        items_html += f'        <li>{format_text(task)}</li>\n'
+        line_html = linkify_plain_urls(format_text(task))
+        items_html += f'        <li>{line_html}</li>\n'
+    title = html.escape(heading)
     return f'''      <div class="follow-up-block">
-        <h3 class="follow-up-heading">How can AI help me?</h3>
+        <h3 class="follow-up-heading">{title}</h3>
         <ul class="follow-up-tasks">
 {items_html}      </ul>
       </div>
@@ -509,7 +554,10 @@ def generate_issue_html(data: dict) -> str:
         
         # After Try This items, add "How can AI help me?" block if we have follow-up tasks
         if section_name == 'Try This' and data.get('follow_up_tasks'):
-            sections_html += generate_follow_up_html(data['follow_up_tasks'])
+            sections_html += generate_follow_up_html(
+                data['follow_up_tasks'],
+                data.get('follow_up_heading') or 'How can AI help me?',
+            )
     
     # Build overview items (only for sections that have content)
     overview_items = ''
