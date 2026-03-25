@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sources — Artificial Insights #5</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.7;
+      }
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px 60px;
+      }
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover {
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      h1 {
+        font-size: 32px;
+        margin: 32px 0 8px;
+        letter-spacing: -0.5px;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 15px;
+        margin-bottom: 32px;
+      }
+      h3 {
+        font-size: 18px;
+        margin: 28px 0 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      ul {
+        margin: 0 0 20px;
+        padding-left: 24px;
+      }
+      li {
+        margin-bottom: 8px;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      a:hover {
+        color: var(--accent-hover);
+        text-decoration: underline;
+      }
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 48px;
+      }
+      footer a {
+        color: var(--muted);
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      @media (max-width: 600px) {
+        h1 { font-size: 26px; }
+        h3 { font-size: 16px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 Mar 26, 2026 · Issue #5</span>
+      <a href="../issues/2026-03-26.html">← Back to Issue</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../issues/2026-03-26.html">📰 This Issue</a>
+      </nav>
+      
+      <h1>🔍 Sources</h1>
+      <p class="meta">References and links from Issue #5</p>
+      
+      <h3>⚡ Quick Scan</h3>
+      <ul>
+        <li><a href="https://fedscoop.com/chatgpt-gemini-copilot-approved-senate-data/" target="_blank" rel="noopener">Senate Staff Can Now Use ChatGPT, Gemini, and Copilot with Official Data ↗</a></li>
+        <li><a href="https://firefly.adobe.com/generate/image" target="_blank" rel="noopener">Adobe Firefly Is Turning into an All-in-One AI Studio ↗</a></li>
+        <li><a href="https://techcommunity.microsoft.com/blog/microsoft365copilotblog/meet-the-updated-copilot-notebooks-experience-your-home-for-understanding-work-p/4501383" target="_blank" rel="noopener">Copilot Notebooks Are Now Generally Available for Work and School Accounts ↗</a></li>
+        <li><a href="https://cccc.ncte.org/wp-content/uploads/2024/03/2026_CCCC_Resolutions.pdf" target="_blank" rel="noopener">The Writing Field Just Sent a Very Clear Message on AI Refusal ↗</a></li>
+      </ul>
+      <h3>🛠️ Tool Drop</h3>
+      <ul>
+        <li><a href="https://stitch.withgoogle.com/" target="_blank" rel="noopener">Stitch by Google ↗</a></li>
+      </ul>
+      <h3>🔬 The Breakdown</h3>
+      <ul>
+        <li><a href="https://www.whitehouse.gov/articles/2026/03/president-donald-j-trump-unveils-national-ai-legislative-framework/" target="_blank" rel="noopener">The White House Wants a National AI Rulebook. Some of It Makes Sense. Some of It Is Fantasy. ↗</a></li>
+      </ul>
+      <h3>🎓 Ed Pulse</h3>
+      <ul>
+        <li><a href="https://www.insidehighered.com/news/tech-innovation/teaching-learning/2026/03/16/writing-faculty-push-right-refuse-ai" target="_blank" rel="noopener">Writing Faculty Push Back on Blanket AI Expectations ↗</a></li>
+        <li><a href="https://edtechmagazine.com/higher/article/2026/02/best-ai-tools-college-students-guide-higher-ed-perfcon" target="_blank" rel="noopener">AI Retention Systems Are Getting More Aggressive ↗</a></li>
+      </ul>
+      <h3>🎬 In Action</h3>
+      <ul>
+        <li><a href="https://techcommunity.microsoft.com/blog/microsoft365copilotblog/meet-the-updated-copilot-notebooks-experience-your-home-for-understanding-work-p/4501383" target="_blank" rel="noopener">Copilot Notebooks Feels Like Microsoft’s Best “Grounded Work” Move Yet ↗</a></li>
+      </ul>
+
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../issues/2026-03-26.html">📰 This Issue</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #5 · Mar 26, 2026</p>
+      </footer>
+    </div>
+  </body>
+</html>
