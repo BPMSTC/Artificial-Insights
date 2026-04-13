@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Artificial Insights — Apr 08, 2026</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        --shadow-hover: 0 8px 30px rgba(15, 23, 42, 0.12);
+        --quick-scan: #8b5cf6;
+        --feed: #0891b2;
+        --tool-drop: #059669;
+        --breakdown: #d97706;
+        --ed-pulse: #db2777;
+        --in-action: #7c3aed;
+        --try-this: #0d9488;
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      
+      /* Top Bar */
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      
+      /* Container */
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      
+      /* Nav Links */
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover { 
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      
+      /* Issue Info */
+      .issue-info {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .issue-info h1 {
+        font-size: 36px;
+        margin: 0 0 8px;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .issue-info .meta {
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .issue-info .meta .icon { margin-right: 6px; }
+      
+      /* Issue Overview */
+      .overview {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+      }
+      .overview h2 {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .overview h2::before {
+        content: "📑";
+        font-size: 14px;
+      }
+      .overview ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .overview li {
+        padding: 0;
+      }
+      .overview a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .overview a:hover { 
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .overview a[href="#quick-scan"] { background: #f3e8ff; color: var(--quick-scan); }
+      .overview a[href="#the-feed"] { background: #cffafe; color: var(--feed); }
+      .overview a[href="#tool-drop"] { background: #d1fae5; color: var(--tool-drop); }
+      .overview a[href="#the-breakdown"] { background: #fef3c7; color: var(--breakdown); }
+      .overview a[href="#ed-pulse"] { background: #fce7f3; color: var(--ed-pulse); }
+      .overview a[href="#in-action"] { background: #ede9fe; color: var(--in-action); }
+      .overview a[href="#try-this"] { background: #ccfbf1; color: var(--try-this); }
+      
+      /* Section Header Image */
+      .section-header {
+        margin: 48px 0 20px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .section-header img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      
+      /* Section Divider (fallback for no image) */
+      .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 48px 0 20px;
+      }
+      .section-divider h2 {
+        margin: 0;
+        font-size: 26px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-divider .line {
+        flex: 1;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--tool-drop) 0%, transparent 100%);
+      }
+      
+      /* Content Card */
+      .content-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--accent);
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .content-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .content-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .content-card:hover::before {
+        opacity: 1;
+      }
+      .card-quick-scan { border-left-color: var(--quick-scan); }
+      .card-feed { border-left-color: var(--feed); }
+      .card-tool-drop { border-left-color: var(--tool-drop); }
+      .card-breakdown { border-left-color: var(--breakdown); }
+      .card-ed-pulse { border-left-color: var(--ed-pulse); }
+      .card-in-action { border-left-color: var(--in-action); }
+      .content-card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .content-card h3 .icon {
+        font-size: 20px;
+      }
+      .content-card h3 a {
+        transition: opacity 0.15s;
+      }
+      .content-card h3 a:hover {
+        opacity: 0.7;
+      }
+      .content-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .content-card p + p {
+        margin-top: 12px;
+      }
+      .content-card .source-links {
+        font-size: 13px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--rule);
+      }
+      .content-card .source-links a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .content-card .source-links a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Quick Scan Items */
+      .quick-scan-item {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--quick-scan);
+        transition: all 0.2s ease;
+      }
+      .quick-scan-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .quick-scan-item h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: var(--text);
+      }
+      .quick-scan-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      
+      /* Read More Links */
+      .read-more {
+        margin-top: 12px !important;
+      }
+      .read-more a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .read-more a:hover {
+        text-decoration: underline;
+      }
+      
+      /* My Take styling */
+      .my-take {
+        margin-top: 16px !important;
+        padding-top: 12px;
+        border-top: 1px dashed var(--rule);
+        color: var(--text) !important;
+      }
+      
+      /* The Lesson styling */
+      .the-lesson {
+        margin-top: 16px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--text);
+      }
+      
+      /* Try This Box */
+      .try-this-box {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        border: 2px solid var(--try-this);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin: 20px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .try-this-box::before {
+        content: "💡";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 48px;
+        opacity: 0.15;
+      }
+      .try-this-box h3 {
+        color: var(--try-this);
+        margin: 0 0 12px;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .try-this-box h3::before {
+        content: "→";
+        font-weight: bold;
+      }
+      .try-this-box p {
+        margin: 0;
+        color: var(--text);
+        font-size: 15px;
+      }
+      .try-this-box code {
+        background: rgba(13, 148, 136, 0.15);
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: "Consolas", monospace;
+      }
+      
+      /* The Prompt styling */
+      .the-prompt {
+        margin: 16px 0;
+        padding: 16px 20px;
+        background: rgba(13, 148, 136, 0.08);
+        border-radius: 10px;
+        border-left: 4px solid var(--try-this);
+      }
+      .the-prompt .prompt-label {
+        font-weight: 700;
+        color: var(--try-this);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 10px;
+      }
+      .the-prompt blockquote {
+        margin: 0;
+        font-style: italic;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      .why-it-works {
+        margin-top: 14px !important;
+        font-size: 14px;
+        color: var(--muted) !important;
+      }
+      
+      /* How can AI help me? (follow-up tasks, inside Try This) */
+      .follow-up-block {
+        margin: 24px 0 20px;
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        border: 2px solid #8b5cf6;
+        border-radius: 14px;
+        border-left-width: 6px;
+      }
+      .follow-up-block .follow-up-heading {
+        margin: 0 0 12px;
+        font-size: 17px;
+        color: #6d28d9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .follow-up-block .follow-up-heading::before {
+        content: "🎯";
+        font-size: 20px;
+      }
+      .follow-up-block .follow-up-tasks {
+        margin: 0;
+        padding-left: 22px;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .follow-up-block .follow-up-tasks li {
+        margin-bottom: 8px;
+      }
+      .follow-up-block .follow-up-tasks li:last-child {
+        margin-bottom: 0;
+      }
+      
+      /* Article image (float left, text wrap) — optional per item */
+      .content-with-article-image {
+        overflow: auto;
+      }
+      .content-with-article-image::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .article-image {
+        float: left;
+        margin: 0 1.25em 1em 0;
+        max-width: 40%;
+        width: auto;
+      }
+      .article-image img {
+        display: block;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .article-image figcaption {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+        font-style: italic;
+      }
+      @media (max-width: 600px) {
+        .article-image {
+          float: none;
+          max-width: 100%;
+          margin: 0 auto 1em;
+          display: block;
+        }
+      }
+      
+      /* Demo Figure (In Action) */
+      figure {
+        margin: 16px 0;
+      }
+      figure img {
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* Share Section */
+      .share-section {
+        text-align: center;
+        padding: 36px 28px;
+        margin: 48px 0;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+      }
+      .share-section h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        color: var(--text);
+      }
+      .share-section p {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .share-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+      .share-link:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      }
+      .share-link::before {
+        content: "✉️";
+      }
+      
+      /* Footer */
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 600px) {
+        .top-bar {
+          justify-content: center;
+          text-align: center;
+        }
+        .nav-links {
+          gap: 12px;
+        }
+        .issue-info h1 {
+          font-size: 28px;
+        }
+        .section-divider h2 {
+          font-size: 22px;
+        }
+        .content-card, .overview, .try-this-box {
+          padding: 18px 20px;
+        }
+        .overview a {
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+      }
+      
+      @media print {
+        .top-bar, .nav-links, .share-section { display: none; }
+        body { background: #fff; }
+        .content-card, .overview { box-shadow: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 Apr 08, 2026 · Issue #6</span>
+      <a href="#">🔗 Read Online</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../sources/2026-04-08.html">🔍 Sources</a>
+        <a href="#share">📤 Share</a>
+      </nav>
+      
+      <div class="issue-info">
+        <h1>Artificial Insights</h1>
+        <p class="meta"><span class="icon">⏱️</span> Your bi-weekly AI briefing · 5 min read</p>
+      </div>
+      
+      <div class="overview">
+        <h2>In This Issue</h2>
+        <ul>
+          <li><a href="#quick-scan">⚡ Quick Scan</a></li>
+          <li><a href="#tool-drop">🛠️ Tool Drop</a></li>
+          <li><a href="#the-breakdown">🔬 The Breakdown</a></li>
+          <li><a href="#ed-pulse">🎓 Ed Pulse</a></li>
+          <li><a href="#in-action">🎬 In Action</a></li>
+          <li><a href="#try-this">💡 Try This</a></li>
+        </ul>
+      </div>
+
+      <!-- QUICK SCAN -->
+      <div class="section-header" id="quick-scan">
+        <img src="../assets/images/quick_scan_header.webp" alt="Quick Scan">
+      </div>
+      <div class="quick-scan-item">
+        <h3>Search Live is expanding globally</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-04-08/google-search-live.png" alt="Search Live expands globally and pushes search toward conversation.">
+          <figcaption>Search Live expands globally and pushes search toward conversation.</figcaption>
+        </figure>
+        <p>Google is expanding Search Live globally, which means spoken, back-and-forth search is becoming a normal part of the search experience.  The practical angle is pretty straightforward. You can ask follow-up questions while driving, walking, or doing literally anything else you are multitasking through. I love this feature, and use it all the time while driving from campus to campus (I had a preview).  For some reason I only remember what I actually want to search... when I'm already driving.</p>
+        <p class="read-more"><a href="https://techcrunch.com/2026/03/26/google-is-launching-search-live-globally/" target="_blank" rel="noopener">Read the TechCrunch coverage ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Google launched Gemma 4 and the local AI conversation just changed</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-04-08/gemma4.png" alt="Gemma 4 strengthens the case for local AI.">
+          <figcaption>Gemma 4 strengthens the case for local AI.</figcaption>
+        </figure>
+        <p>Google launched Gemma 4, a family of open-weight models that bring LLM models to your computer, where <strong>ALL</strong> data can be kept off the internet.  This is huge for anyone that wants to use AI for work with FERPA or HIPAA data.  Any concerns that we had related to privacy, can now be a thing of the past.  I'm happy to show anyone how to use these, so let me know if you'd like to try!</p>
+        <p class="read-more"><a href="https://x.com/Google/status/2039736220834480233" target="_blank" rel="noopener">See Google’s announcement ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>The legal and policy pressure around AI keeps rising</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-04-08/zuckerberg-trial-section230.png" alt="AI infrastructure and platform design are drawing heavier legal and political scrutiny.">
+          <figcaption>AI infrastructure and platform design are drawing heavier legal and political scrutiny.</figcaption>
+        </figure>
+        <p>This week brought a privacy lawsuit against Perplexity for sharing data they claimed would not be shared, a lawsuit victory against Meta and Google alleging LLMs caused serious mental health problems, and a push from lawmakers for an AI data center moratorium. None of these cases are simple, and none of them are finished — but taken together, they point to something that matters more than any single verdict. AI is getting more embedded in everyday systems at the same time that regulators, judges, and plaintiffs are getting less patient with the "move fast and let society figure it out later" plan. The practical question for anyone using or recommending AI tools at work is not whether this legal pressure exists — it clearly does — but whether the tools and workflows you are building can hold up to it.</p>
+        <p class="read-more"><a href="https://www.latimes.com/business/story/2026-03-26/lawmakers-push-bill-to-impose-ai-data-center-moratorium" target="_blank" rel="noopener">Read the moratorium coverage ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TOOL DROP -->
+      <div class="section-header" id="tool-drop">
+        <img src="../assets/images/tool_drop_header.webp" alt="Tool Drop">
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Granola</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-04-08/granola.png" alt="Granola captures meeting audio and produces structured notes without a visible bot.">
+          <figcaption>Granola captures meeting audio and produces structured notes without a visible bot.</figcaption>
+        </figure>
+        <p><strong>The News:</strong> Granola is a bot-free AI meeting notepad that sits on your desktop, captures system audio, and turns meetings into structured notes without the usual “this call is being invaded by a transcription goblin” moment.  I love the way that Granola structures the notes exactly the same for every meeting based on the template you create.</p>
+        <p class="my-take"><strong>My Take:</strong> This is exactly the kind of tool that saves me time. It targets a real pain point for me - integrating meetings from in person meetings with all of my notes from meetings that happen via teams.</p>
+        <p class="read-more"><a href="https://www.granola.ai/" target="_blank" rel="noopener">Learn More ↗</a></p>
+        </div>
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Microsoft 365 Connectors</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-04-08/msft-claude-connectors.png" alt="Claude expands deeper into Microsoft 365-based knowledge work.">
+          <figcaption>Claude expands deeper into Microsoft 365-based knowledge work.</figcaption>
+        </figure>
+        <p><strong>The News:</strong> Claude rolled out Microsoft 365 connectors for everyone, which means Outlook, OneDrive, and SharePoint can be pulled directly into Claude’s chat. ChatGPT is read-only for the moment, but Copilot lets us read and write—just with a lot of confirmations.</p>
+        <p class="my-take"><strong>My Take:</strong> I'm kind of shocked that Microsoft allowed this access for anyone.  However, this matters because now I can edit my documents from within the chat where I'm doing a lot of my research from - Claude. In our Microsoft-heavy environment, this is something that will save time by virtue of not having to confirm everything I want to change like Copilot does.  ChatGPT will have this soon.</p>
+        <p class="read-more"><a href="https://blog.admindroid.com/connect-claude-ai-to-microsoft-365-using-built-in-connectors/" target="_blank" rel="noopener">Learn More ↗</a></p>
+        </div>
+      </div>
+
+      <!-- THE BREAKDOWN -->
+      <div class="section-header" id="the-breakdown">
+        <img src="../assets/images/the_breakdown_header.webp" alt="The Breakdown">
+      </div>
+      <div class="content-card card-breakdown">
+        <h3><span class="icon">🔬</span> The new phase of AI is not “smarter chatbot.” It is embedded autonomy—and we should lean in.</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-04-08/agent-helper.png" alt="AI is shifting from reactive chat to embedded autonomy with human direction.">
+          <figcaption>AI is shifting from reactive chat to embedded autonomy with human direction.</figcaption>
+        </figure>
+        <p>The biggest story in this issue is not any single model, feature, or lawsuit. It is the shift from AI as a chatbot assistant to AI as an embedded operator inside work, search, security, science, and design.<br><br>You can see it everywhere in this week’s notes, and in the wider news. Microsoft is pushing automated workflows through Copilot (like our In Action section below) and custom agents. Salesforce is converting Slack from just a messenger clone into something that can join calls, transcribe discussions, summarize outcomes, and log action items directly into Salesforce CRM... and they did it all in a month. Claude’s Microsoft 365 connectors are another step toward AI living inside the tools you already use. Search Live turns search into an ongoing conversation rather than a sequence of queries. Perplexity’s tax-focused Computer narrows AI into a high-friction, high-value task that most of us non-Accountants would rather not do by hand.<br><br>That is the real transition. We are moving from “AI helps me think” to “AI handles pieces of the workflow for me,” while remembering that each of us is still responsible for what gets shipped.<br><br>It is important to take a pause here. Automation can compound mistakes. A sloppy prompt can turn into a chain of bad outputs. And the honest reality is that most institutions are still working through the basics — which tools to allow, which workflows to document, and how to talk to students about it. Those are not small questions, and getting them right takes real time. The institutions that are moving fastest are not skipping those steps. They are knocking them off the list quickly so they can focus on what comes next: embedded agents, automated coordination, and AI that meets people inside email, calendars, and meetings rather than in a separate chat window. That is where the day-to-day impact lives — and getting there requires the foundation to already be in place.<br><br>That is why the agent automation future matters more than the model conversation <strong>for day-to-day impact</strong>. The next wave of productivity is not “the chatbot sounds 10% smarter.” It is that the AI is wired into calendars, inboxes, CRM, internal search, and institutional process. Admitteldy, there are still exceptions where the model itself is the story - such as the upcoming Mythos model, but for most of us, the way to use AI to help us is <strong>where</strong> AI runs, not only <strong>which</strong> model we picked.<br><br>Here is how we win at this... move toward agentic workflows <strong>with</strong> guardrails.  First, decide which workflows are safe to automate next, what data must never leave the system, what human review happens before automation acts, and who owns the outcome.<br><br></p>
+        <div class="the-lesson"><strong>The Lesson:</strong> The lesson is straightforward, I think: become ready on purpose. Try using automation agents where the benefit is obvious and the blast radius is controllable. Plan what to review and how to handle the data alongside the rollout, and go for it.  The most important thing, I think, is to adopt these helpful tools, while staying honest about what still requires a human.</div>
+        <p class="read-more"><a href="https://techcrunch.com/2026/03/26/google-is-launching-search-live-globally/" target="_blank" rel="noopener">Read the Search Live coverage ↗</a></p>
+        </div>
+      </div>
+
+      <!-- ED PULSE -->
+      <div class="section-header" id="ed-pulse">
+        <img src="../assets/images/ed_pulse_header.webp" alt="Ed Pulse">
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> Colleges are no longer debating whether AI matters. They are deciding how to absorb it.</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-04-08/ai-literacy.jpeg" alt="Colleges are building AI literacy in many different ways.">
+          <figcaption>Colleges are building AI literacy in many different ways.</figcaption>
+        </figure>
+        <p>A Gallup report says 42% of bachelor’s students and 56% of associate students say AI has led them to think about <strong>changing</strong> their major or field of study (more on this below). That is not a fringe signal. That is mainstream student anxiety colliding with news messaging uncertainty.<br><br>At the same time, Inside Higher Ed profiled colleges approaching AI in very different ways: everything from required AI literacy and new AI centers to institution-wide efforts to embed AI literacy across programs.<br><br>The lesson is pretty straightforward. The serious schools are not treating AI as a one-off workshop or a faculty panic topic. They are treating it as a literacy, workforce, and curriculum issue, and that is exactly the direction worth moving.<br><br></p>
+        <p class="read-more"><a href="https://www.insidehighered.com/news/student-success/academic-life/2026/04/03/how-5-colleges-are-approaching-ai" target="_blank" rel="noopener">Read More ↗</a></p>
+        </div>
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> College students are already rethinking majors and careers because of AI</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-04-08/ai_college_anxiety.png" alt="Students are adjusting academic and career decisions in response to uncertainty about AI.">
+          <figcaption>Students are adjusting academic and career decisions in response to uncertainty about AI.</figcaption>
+        </figure>
+        <p>Gallup reports that 16% of currently enrolled students say they have already changed their major because of AI’s perceived effect on jobs, and around one in seven say preparing for AI and other technological advances was an important reason they enrolled in higher education in the first place. That is a direct signal to colleges and technical programs that we need to make sure students know that we can help them in whatever their chosen program is. Students are not waiting for institutions to decide whether AI matters. They have already decided it does, and they are making real academic and career decisions based on what they are reading and hearing — sources that are often incomplete, contradictory, and almost never designed to help someone think clearly about a 4-year career plan. That gap is not the students' fault. It is an opportunity. When students trust their program to give them a grounded, honest picture of what AI means for their field, they stop reacting to headlines and start building skills. That is exactly the kind of signal our programs can be positioned to provide — if we are deliberate about it.</p>
+        <p class="read-more"><a href="https://news.gallup.com/poll/704087/college-students-weigh-impact-majors-careers.aspx" target="_blank" rel="noopener">Read More ↗</a></p>
+        </div>
+      </div>
+
+      <!-- IN ACTION -->
+      <div class="section-header" id="in-action">
+        <img src="../assets/images/in_action_header.webp" alt="In Action">
+      </div>
+      <div class="content-card card-in-action">
+        <h3><span class="icon">🎬</span> Copilot agents are drifting from assistant to background coworker</h3>
+        <p>I have a cool demo for you regarding Copilot agents again.  The Microsoft Copilot agent area has improved quite a bit in the last 30 days. The power here is idea of assigning recurring coordination work to an agent, or making one-off applications to help with what you are doing.  Think about doing something like watching emails for project updates, scanning channels and folders for weekly status material, creating an app to combine data from teams, e-mail, and notes, or just preparing reviewable e-mail replies.</p>
+        <figure>
+          <img src="../assets/demos/2026-04-08/copilot-app-agent-1.gif" alt="Copilot agents handling a custom application to help.">
+          <figcaption>Copilot agents handling a custom application to help.</figcaption>
+        </figure>
+
+        <p class="read-more"><a href="https://youtu.be/CmcngCt7hhI?si=l_ZAD6bYSPKz4WKe" target="_blank" rel="noopener">Watch the Copilot agent demo ↗</a></p>      </div>
+      <div class="content-card card-in-action">
+        <h3><span class="icon">🎬</span> Here is the finished app in 22 steps from our one prompt</h3>
+        <p>It's so nice to just quickly create something that will help you in the moment.</p>
+        <figure>
+          <img src="../assets/demos/2026-04-08/copilot-app-agent-2.gif" alt="Background agent-style work: less chat, more recurring coordination across Microsoft 365.">
+          <figcaption>Background agent-style work: less chat, more recurring coordination across Microsoft 365.</figcaption>
+        </figure>
+      </div>
+
+      <!-- TRY THIS -->
+      <div class="section-header" id="try-this">
+        <img src="../assets/images/try_this_header.webp" alt="Try This">
+      </div>
+      <div class="try-this-box">
+        <h3>Try a voice-first research conversation on your commute</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-04-08/voice-chat-1.jpg" alt="Voice-first AI search can turn short dead time into guided learning.">
+          <figcaption>Voice-first AI search can turn short dead time into guided learning.</figcaption>
+        </figure>
+        <p>This week’s big theme is embedded AI. Search is becoming conversational, agents are becoming our partners, and the line between tool and coworker keeps getting blurrier. So here is a lightweight experiment that turns your phone into an actual learning partner instead of a slot machine for search queries.</p>
+        <div class="the-prompt">
+          <p class="prompt-label">The Prompt:</p>
+          <blockquote>"Open the Google voice interface OR the Gemini mobile app and say: “I’m trying to understand [topic]. Start with a beginner-friendly overview, then bring up the more controversial items for us to discuss.”<br><br>Good topics to try: - data center energy use - drug discovery with AI"</blockquote>
+        </div>
+        <p class="read-more"><a href="https://techcrunch.com/2026/03/26/google-is-launching-search-live-globally/" target="_blank" rel="noopener" style="color: var(--try-this);">Learn more ↗</a></p>
+        </div>
+      </div>
+      <div class="follow-up-block">
+        <h3 class="follow-up-heading">How can AI help me?</h3>
+        <ul class="follow-up-tasks">
+        <li>Create a “Researcher Agent” and ask it to investigate a real industry topic.  I look for AI news + education each week, and ask it to pull out key points, trends, and citations (to make certain it doesn't hallucinate). <a href="https://m365.cloud.microsoft/chat?auth=2&home=1&from=ShellLogo&redirfrom=CsrToSSR" target="_blank" rel="noopener">https://m365.cloud.microsoft/chat?auth=2&home=1&from=ShellLogo&redirfrom=CsrToSSR</a></li>
+        <li>Draft a “Daily Brief” in Word with 3 sections: “Urgent replies,” “Today’s meetings,” and “Docs to review,” including links to each item. <a href="https://m365.cloud.microsoft/chat?auth=2&home=1&from=ShellLogo&redirfrom=CsrToSSR" target="_blank" rel="noopener">https://m365.cloud.microsoft/chat?auth=2&home=1&from=ShellLogo&redirfrom=CsrToSSR</a></li>
+      </ul>
+      </div>
+
+      <!-- SHARE -->
+      <div class="share-section" id="share">
+        <h3>Found this useful?</h3>
+        <p>Share Artificial Insights with a colleague who might benefit.</p>
+        <a href="mailto:?subject=Check%20out%20Artificial%20Insights&body=I%20thought%20you%20might%20find%20this%20AI%20newsletter%20useful%3A%20https%3A%2F%2Fbpmstc.github.io%2FArtificial-Insights%2F" class="share-link">Share via Email</a>
+      </div>
+      
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../sources/2026-04-08.html">🔍 Sources</a>
+          <a href="mailto:">✉️ Contact</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #6 · Apr 08, 2026</p>
+      </footer>
+    </div>
+  </body>
+</html>
