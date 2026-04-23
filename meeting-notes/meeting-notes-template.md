@@ -60,6 +60,14 @@ In Action:
   LinkText:
   URL:
 
+Failure Mode:
+- Title:
+  Content:
+  LinkText:
+  URL:
+  ArticleImage:
+  ArticleImageCaption:
+
 Try This:
 - Title:
   Intro:

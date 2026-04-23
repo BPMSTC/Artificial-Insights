@@ -45,6 +45,7 @@ def parse_markdown(content: str) -> dict:
         'The Breakdown',
         'Ed Pulse',
         'In Action',
+        'Failure Mode',
         'Try This'
     ]
     
@@ -226,7 +227,10 @@ def _article_image_html(item: dict, issue_date: str) -> str:
     img = (item.get('ArticleImage') or '').strip()
     if not img:
         return ''
-    path = f"../assets/article-images/{issue_date}/{img}"
+    if img.startswith(('http://', 'https://', '//')):
+        path = img
+    else:
+        path = f"../assets/article-images/{issue_date}/{img}"
     caption = (item.get('ArticleImageCaption') or '').strip()
     cap_html = f'\n          <figcaption>{caption}</figcaption>' if caption else ''
     return f'''        <figure class="article-image">
@@ -242,11 +246,20 @@ def generate_quick_scan_html(item: dict, issue_date: str) -> str:
     link_text = item.get('LinkText', 'Read More')
     urls = item.get('URLs', [])
     article_img = _article_image_html(item, issue_date)
-    
+
     link_html = ''
     if urls:
-        link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{link_text} ↗</a></p>'
-    
+        if len(urls) == 1:
+            label = link_text if link_text else 'Read More'
+            link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{label} ↗</a></p>'
+        else:
+            link_parts = []
+            for url in urls:
+                domain = url.split('/')[2] if '/' in url else url
+                domain = domain.replace('www.', '')
+                link_parts.append(f'<a href="{url}" target="_blank" rel="noopener">{domain} ↗</a>')
+            link_html = f'\n        <p class="source-links">Sources: ' + ' · '.join(link_parts) + '</p>'
+
     content_inner = f'''        <div class="content-with-article-image">
 {article_img}        <p>{format_text(teaser)}</p>{link_html}
         </div>'''
@@ -412,6 +425,41 @@ def generate_in_action_html(item: dict, issue_date: str) -> str:
     return html
 
 
+def generate_failure_mode_html(item: dict, issue_date: str) -> str:
+    """Generate HTML for Failure Mode items — a light-hearted 'AI fails' card.
+
+    Uses the same field shape as Ed Pulse (Title, Content, optional LinkText, URL,
+    ArticleImage, ArticleImageCaption).
+    """
+    title = item.get('Title', '')
+    content = item.get('Content', '') or item.get('Summary', '')
+    link_text = item.get('LinkText', '')
+    urls = item.get('URLs', [])
+    article_img = _article_image_html(item, issue_date)
+
+    link_html = ''
+    if urls:
+        if len(urls) == 1:
+            label = link_text if link_text else 'Read More'
+            link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{label} ↗</a></p>'
+        else:
+            link_parts = []
+            for url in urls:
+                domain = url.split('/')[2] if '/' in url else url
+                domain = domain.replace('www.', '')
+                link_parts.append(f'<a href="{url}" target="_blank" rel="noopener">{domain} ↗</a>')
+            link_html = f'\n        <p class="source-links">Sources: ' + ' · '.join(link_parts) + '</p>'
+
+    content_inner = f'''        <div class="content-with-article-image">
+{article_img}        <p>{format_text(content)}</p>{link_html}
+        </div>'''
+    return f'''      <div class="content-card card-failure-mode">
+        <h3><span class="icon">💥</span> {title}</h3>
+{content_inner}
+      </div>
+'''
+
+
 def generate_try_this_html(item: dict, issue_date: str) -> str:
     """Generate HTML for Try This items with Intro, Prompt, and Why It Works."""
     title = item.get('Title', '')
@@ -484,6 +532,7 @@ def generate_issue_html(data: dict) -> str:
         'The Breakdown': '🔬',
         'Ed Pulse': '🎓',
         'In Action': '🎬',
+        'Failure Mode': '💥',
         'Try This': '💡'
     }
     
@@ -493,7 +542,8 @@ def generate_issue_html(data: dict) -> str:
         'Tool Drop': 'card-tool-drop',
         'The Breakdown': 'card-breakdown',
         'Ed Pulse': 'card-ed-pulse',
-        'In Action': 'card-in-action'
+        'In Action': 'card-in-action',
+        'Failure Mode': 'card-failure-mode'
     }
     
     header_images = {
@@ -503,6 +553,7 @@ def generate_issue_html(data: dict) -> str:
         'The Breakdown': 'the_breakdown_header.webp',
         'Ed Pulse': 'ed_pulse_header.webp',
         'In Action': 'in_action_header.webp',
+        'Failure Mode': 'failure_mode_header.webp',
         'Try This': 'try_this_header.webp'
     }
     
@@ -513,24 +564,49 @@ def generate_issue_html(data: dict) -> str:
         'The Breakdown': 'the-breakdown',
         'Ed Pulse': 'ed-pulse',
         'In Action': 'in-action',
+        'Failure Mode': 'failure-mode',
         'Try This': 'try-this'
     }
+
+    # Resolve assets directory so we can fall back to a text divider when
+    # a section header image hasn't been created yet.
+    assets_images_dir = Path(__file__).parent.parent / 'assets' / 'images'
     
     # Build sections HTML
     sections_html = ''
     
-    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Ed Pulse', 'In Action', 'Try This']:
+    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Ed Pulse', 'In Action', 'Failure Mode', 'Try This']:
         items = data['sections'].get(section_name, [])
         if not items:
             continue
         
         section_id = section_ids[section_name]
         header_img = header_images[section_name]
-        
-        sections_html += f'''
+        icon = section_icons.get(section_name, '📌')
+
+        # Prefer the configured filename (.webp), but also accept .png / .jpg / .jpeg
+        # so a header banner works even before it has been converted to webp.
+        header_stem = Path(header_img).stem
+        resolved_header = None
+        for ext in (Path(header_img).suffix, '.webp', '.png', '.jpg', '.jpeg'):
+            candidate = assets_images_dir / f'{header_stem}{ext}'
+            if candidate.exists():
+                resolved_header = candidate.name
+                break
+
+        if resolved_header:
+            sections_html += f'''
       <!-- {section_name.upper()} -->
       <div class="section-header" id="{section_id}">
-        <img src="../assets/images/{header_img}" alt="{section_name}">
+        <img src="../assets/images/{resolved_header}" alt="{section_name}">
+      </div>
+'''
+        else:
+            sections_html += f'''
+      <!-- {section_name.upper()} -->
+      <div class="section-divider" id="{section_id}">
+        <h2><span class="icon">{icon}</span> {section_name}</h2>
+        <div class="line"></div>
       </div>
 '''
         
@@ -545,10 +621,11 @@ def generate_issue_html(data: dict) -> str:
                 sections_html += generate_ed_pulse_html(item, data['issue_date'])
             elif section_name == 'In Action':
                 sections_html += generate_in_action_html(item, data['issue_date'])
+            elif section_name == 'Failure Mode':
+                sections_html += generate_failure_mode_html(item, data['issue_date'])
             elif section_name == 'Try This':
                 sections_html += generate_try_this_html(item, data['issue_date'])
             else:
-                icon = section_icons.get(section_name, '📌')
                 card_class = card_classes.get(section_name, '')
                 sections_html += generate_card_html(item, card_class, icon)
         
@@ -561,7 +638,7 @@ def generate_issue_html(data: dict) -> str:
     
     # Build overview items (only for sections that have content)
     overview_items = ''
-    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Ed Pulse', 'In Action', 'Try This']:
+    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Ed Pulse', 'In Action', 'Failure Mode', 'Try This']:
         if data['sections'].get(section_name):
             section_id = section_ids[section_name]
             icon = section_icons[section_name]
@@ -591,6 +668,7 @@ def generate_issue_html(data: dict) -> str:
         --breakdown: #d97706;
         --ed-pulse: #db2777;
         --in-action: #7c3aed;
+        --failure-mode: #dc2626;
         --try-this: #0d9488;
       }}
       * {{ box-sizing: border-box; }}
@@ -740,6 +818,7 @@ def generate_issue_html(data: dict) -> str:
       .overview a[href="#the-breakdown"] {{ background: #fef3c7; color: var(--breakdown); }}
       .overview a[href="#ed-pulse"] {{ background: #fce7f3; color: var(--ed-pulse); }}
       .overview a[href="#in-action"] {{ background: #ede9fe; color: var(--in-action); }}
+      .overview a[href="#failure-mode"] {{ background: #fee2e2; color: var(--failure-mode); }}
       .overview a[href="#try-this"] {{ background: #ccfbf1; color: var(--try-this); }}
       
       /* Section Header Image */
@@ -813,6 +892,7 @@ def generate_issue_html(data: dict) -> str:
       .card-breakdown {{ border-left-color: var(--breakdown); }}
       .card-ed-pulse {{ border-left-color: var(--ed-pulse); }}
       .card-in-action {{ border-left-color: var(--in-action); }}
+      .card-failure-mode {{ border-left-color: var(--failure-mode); }}
       .content-card h3 {{
         margin: 0 0 10px;
         font-size: 18px;
@@ -837,17 +917,17 @@ def generate_issue_html(data: dict) -> str:
       .content-card p + p {{
         margin-top: 12px;
       }}
-      .content-card .source-links {{
+      .source-links {{
         font-size: 13px;
         margin-top: 12px;
         padding-top: 10px;
         border-top: 1px solid var(--rule);
       }}
-      .content-card .source-links a {{
+      .source-links a {{
         color: var(--accent);
         text-decoration: none;
       }}
-      .content-card .source-links a:hover {{
+      .source-links a:hover {{
         text-decoration: underline;
       }}
       
@@ -1232,12 +1312,13 @@ def generate_sources_html(data: dict) -> str:
         'The Breakdown': '🔬',
         'Ed Pulse': '🎓',
         'In Action': '🎬',
+        'Failure Mode': '💥',
         'Try This': '💡'
     }
     
     # Collect all sources
     sources_html = ''
-    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Ed Pulse', 'In Action', 'Try This']:
+    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Ed Pulse', 'In Action', 'Failure Mode', 'Try This']:
         items = data['sections'].get(section_name, [])
         url_entries = []
         for item in items:

@@ -39,7 +39,8 @@ newsletter/
 3. **The Breakdown**: Analysis with highlighted "The Lesson" callouts
 4. **Ed Pulse**: Education impact and pedagogy insights
 5. **In Action**: Demonstrations with GIFs and guides
-6. **Try This**: Actionable prompts with "Why it works" explanations
+6. **Failure Mode**: Light-hearted "AI fails" — cautionary clips or stories that add levity
+7. **Try This**: Actionable prompts with "Why it works" explanations
 
 ## Creating a New Newsletter
 
@@ -157,6 +158,14 @@ Live site: https://bpmstc.github.io/Artificial-Insights/
 - `Caption`: Image caption
 - `LinkText`: Optional custom link text
 - `URL`: Optional guide link
+
+### Failure Mode Fields
+- `Title`: Short headline for the fail
+- `Content`: Short write-up — keep it light, but tie it back to a real lesson
+- `LinkText`: Optional custom link text (e.g., "Watch the video")
+- `URL`: Link to the clip, article, or source
+- `ArticleImage`: Optional image in `assets/article-images/YYYY-MM-DD/`
+- `ArticleImageCaption`: Optional image caption
 
 ### Try This Fields
 - `Title`: Prompt name
