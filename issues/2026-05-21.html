@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Artificial Insights — May 21, 2026</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        --shadow-hover: 0 8px 30px rgba(15, 23, 42, 0.12);
+        --quick-scan: #8b5cf6;
+        --feed: #0891b2;
+        --tool-drop: #059669;
+        --breakdown: #d97706;
+        --ed-pulse: #db2777;
+        --in-action: #7c3aed;
+        --failure-mode: #dc2626;
+        --try-this: #0d9488;
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      
+      /* Top Bar */
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      
+      /* Container */
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      
+      /* Nav Links */
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover { 
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      
+      /* Issue Info */
+      .issue-info {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .issue-info h1 {
+        font-size: 36px;
+        margin: 0 0 8px;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .issue-info .meta {
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .issue-info .meta .icon { margin-right: 6px; }
+      
+      /* Issue Overview */
+      .overview {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+      }
+      .overview h2 {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .overview h2::before {
+        content: "📑";
+        font-size: 14px;
+      }
+      .overview ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .overview li {
+        padding: 0;
+      }
+      .overview a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .overview a:hover { 
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .overview a[href="#quick-scan"] { background: #f3e8ff; color: var(--quick-scan); }
+      .overview a[href="#the-feed"] { background: #cffafe; color: var(--feed); }
+      .overview a[href="#tool-drop"] { background: #d1fae5; color: var(--tool-drop); }
+      .overview a[href="#the-breakdown"] { background: #fef3c7; color: var(--breakdown); }
+      .overview a[href="#ed-pulse"] { background: #fce7f3; color: var(--ed-pulse); }
+      .overview a[href="#in-action"] { background: #ede9fe; color: var(--in-action); }
+      .overview a[href="#failure-mode"] { background: #fee2e2; color: var(--failure-mode); }
+      .overview a[href="#try-this"] { background: #ccfbf1; color: var(--try-this); }
+      
+      /* Section Header Image */
+      .section-header {
+        margin: 48px 0 20px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .section-header img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      
+      /* Section Divider (fallback for no image) */
+      .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 48px 0 20px;
+      }
+      .section-divider h2 {
+        margin: 0;
+        font-size: 26px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-divider .line {
+        flex: 1;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--tool-drop) 0%, transparent 100%);
+      }
+      
+      /* Content Card */
+      .content-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--accent);
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .content-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .content-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .content-card:hover::before {
+        opacity: 1;
+      }
+      .card-quick-scan { border-left-color: var(--quick-scan); }
+      .card-feed { border-left-color: var(--feed); }
+      .card-tool-drop { border-left-color: var(--tool-drop); }
+      .card-breakdown { border-left-color: var(--breakdown); }
+      .card-ed-pulse { border-left-color: var(--ed-pulse); }
+      .card-in-action { border-left-color: var(--in-action); }
+      .card-failure-mode { border-left-color: var(--failure-mode); }
+      .content-card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .content-card h3 .icon {
+        font-size: 20px;
+      }
+      .content-card h3 a {
+        transition: opacity 0.15s;
+      }
+      .content-card h3 a:hover {
+        opacity: 0.7;
+      }
+      .content-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .content-card p + p {
+        margin-top: 12px;
+      }
+      .source-links {
+        font-size: 13px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--rule);
+      }
+      .source-links a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .source-links a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Quick Scan Items */
+      .quick-scan-item {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--quick-scan);
+        transition: all 0.2s ease;
+      }
+      .quick-scan-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .quick-scan-item h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: var(--text);
+      }
+      .quick-scan-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      
+      /* Read More Links */
+      .read-more {
+        margin-top: 12px !important;
+      }
+      .read-more a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .read-more a:hover {
+        text-decoration: underline;
+      }
+      
+      /* My Take styling */
+      .my-take {
+        margin-top: 16px !important;
+        padding-top: 12px;
+        border-top: 1px dashed var(--rule);
+        color: var(--text) !important;
+      }
+      
+      /* The Lesson styling */
+      .the-lesson {
+        margin-top: 16px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--text);
+      }
+      
+      /* Try This Box */
+      .try-this-box {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        border: 2px solid var(--try-this);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin: 20px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .try-this-box::before {
+        content: "💡";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 48px;
+        opacity: 0.15;
+      }
+      .try-this-box h3 {
+        color: var(--try-this);
+        margin: 0 0 12px;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .try-this-box h3::before {
+        content: "→";
+        font-weight: bold;
+      }
+      .try-this-box p {
+        margin: 0;
+        color: var(--text);
+        font-size: 15px;
+      }
+      .try-this-box code {
+        background: rgba(13, 148, 136, 0.15);
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: "Consolas", monospace;
+      }
+      .try-this-demo {
+        clear: both;
+        margin: 16px 0;
+      }
+      .try-this-demo img {
+        display: block;
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .try-this-demo figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* The Prompt styling */
+      .the-prompt {
+        margin: 16px 0;
+        padding: 16px 20px;
+        background: rgba(13, 148, 136, 0.08);
+        border-radius: 10px;
+        border-left: 4px solid var(--try-this);
+      }
+      .the-prompt .prompt-label {
+        font-weight: 700;
+        color: var(--try-this);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 10px;
+      }
+      .the-prompt blockquote {
+        margin: 0;
+        font-style: italic;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      .why-it-works {
+        margin-top: 14px !important;
+        font-size: 14px;
+        color: var(--muted) !important;
+      }
+      
+      /* How can AI help me? (follow-up tasks, inside Try This) */
+      .follow-up-block {
+        margin: 24px 0 20px;
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        border: 2px solid #8b5cf6;
+        border-radius: 14px;
+        border-left-width: 6px;
+      }
+      .follow-up-block .follow-up-heading {
+        margin: 0 0 12px;
+        font-size: 17px;
+        color: #6d28d9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .follow-up-block .follow-up-heading::before {
+        content: "🎯";
+        font-size: 20px;
+      }
+      .follow-up-block .follow-up-tasks {
+        margin: 0;
+        padding-left: 22px;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .follow-up-block .follow-up-tasks li {
+        margin-bottom: 8px;
+      }
+      .follow-up-block .follow-up-tasks li:last-child {
+        margin-bottom: 0;
+      }
+      
+      /* Article image (float left, text wrap) — optional per item */
+      .content-with-article-image {
+        overflow: auto;
+      }
+      .content-with-article-image::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .article-image {
+        float: left;
+        margin: 0 1.25em 1em 0;
+        max-width: 40%;
+        width: auto;
+      }
+      .article-image img {
+        display: block;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .article-image figcaption {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+        font-style: italic;
+      }
+      @media (max-width: 600px) {
+        .article-image {
+          float: none;
+          max-width: 100%;
+          margin: 0 auto 1em;
+          display: block;
+        }
+      }
+      
+      /* Demo Figure (In Action) */
+      figure {
+        margin: 16px 0;
+      }
+      figure img {
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* Share Section */
+      .share-section {
+        text-align: center;
+        padding: 36px 28px;
+        margin: 48px 0;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+      }
+      .share-section h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        color: var(--text);
+      }
+      .share-section p {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .share-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+      .share-link:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      }
+      .share-link::before {
+        content: "✉️";
+      }
+      
+      /* Footer */
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 600px) {
+        .top-bar {
+          justify-content: center;
+          text-align: center;
+        }
+        .nav-links {
+          gap: 12px;
+        }
+        .issue-info h1 {
+          font-size: 28px;
+        }
+        .section-divider h2 {
+          font-size: 22px;
+        }
+        .content-card, .overview, .try-this-box {
+          padding: 18px 20px;
+        }
+        .overview a {
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+      }
+      
+      @media print {
+        .top-bar, .nav-links, .share-section { display: none; }
+        body { background: #fff; }
+        .content-card, .overview { box-shadow: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 May 21, 2026 · Issue #9</span>
+      <a href="#">🔗 Read Online</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../sources/2026-05-21.html">🔍 Sources</a>
+        <a href="#share">📤 Share</a>
+      </nav>
+      
+      <div class="issue-info">
+        <h1>Artificial Insights</h1>
+        <p class="meta"><span class="icon">⏱️</span> Your bi-weekly AI briefing · 5 min read</p>
+      </div>
+      
+      <div class="overview">
+        <h2>In This Issue</h2>
+        <ul>
+          <li><a href="#quick-scan">⚡ Quick Scan</a></li>
+          <li><a href="#tool-drop">🛠️ Tool Drop</a></li>
+          <li><a href="#the-breakdown">🔬 The Breakdown</a></li>
+          <li><a href="#ed-pulse">🎓 Ed Pulse</a></li>
+          <li><a href="#in-action">🎬 In Action</a></li>
+          <li><a href="#failure-mode">💥 Failure Mode</a></li>
+          <li><a href="#try-this">💡 Try This</a></li>
+        </ul>
+      </div>
+
+      <!-- QUICK SCAN -->
+      <div class="section-header" id="quick-scan">
+        <img src="../assets/images/quick_scan_header.webp" alt="Quick Scan">
+      </div>
+      <div class="quick-scan-item">
+        <h3>Microsoft says the AI gap is now organizational, not individual</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-05-21/msft-work-index.jpg" alt="Work Trends">
+          <figcaption>Work Trends</figcaption>
+        </figure>
+        <p>Microsoft's 2026 Work Trend Index argues AI has moved into cognitive work like analysis, reasoning, and decision-making, not just admin tasks. Nearly half of Copilot chats fit that category, and 58% of users say they are producing work they could not have done a year ago. The catch is what Microsoft calls the <strong>transformation paradox</strong>: 65% of workers fear falling behind without AI, but only 13% say they are rewarded for experimenting or redesigning workflows.</p>
+        <p class="read-more"><a href="https://www.microsoft.com/en-us/worklab/work-trend-index/agents-human-agency-and-the-opportunity-for-every-organization" target="_blank" rel="noopener">Read the report ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>CAISI keeps pushing AI evaluation into the national-competition lane</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-05-21/caisi.jpg" alt="CAISI is part of NIST">
+          <figcaption>CAISI is part of NIST</figcaption>
+        </figure>
+        <p>The Center for AI Standards and Innovation is suggesting that model evaluation prior to release needs to be a standard nationwide. CAISI works on testing, security standards, and international AI competition so their voice is a loud one. The government is considering enforcing a model certification prior to release to the public. There is both good and bad associated with doing this. The good is that we could make safety a component that is required for any model to be released. The bad is that it would slow down release of new models, something that we may not want to do given the competition with China in the AI space.</p>
+        <p class="read-more"><a href="https://www.nist.gov/caisi" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>The Vatican is making AI dignity a first-order concern</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-05-21/pope.avif" alt="the Pope comments on AI">
+          <figcaption>the Pope comments on AI</figcaption>
+        </figure>
+        <p>Pope Leo XIV's first encyclical, Magnifica Humanitas, is expected to focus on human dignity in the age of artificial intelligence. Kind of surprisingly, the launch of this is being done with the partnership of Anthropic co-founder Christopher Olah. It's unclear why the Vatican is stepping up at this point, but with so many people watching, it's an excellent opportunity for everyone to focus on AI ethics for a time.  This should be released by the end of May.</p>
+        <p class="read-more"><a href="https://www.pbs.org/newshour/world/pope-leo-xiv-to-launch-his-first-encylical-a-document-on-artificial-intelligence-with-anthropics-co-founder" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>AI data centers are becoming a hot national and local politics problem, not just a tech infrastructure story</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-05-21/datacenter.webp" alt="mock-up of the proposed data center">
+          <figcaption>mock-up of the proposed data center</figcaption>
+        </figure>
+        <p>Bernie Sanders and Alexandria Ocasio-Cortez are pushing for a pause on new AI data center construction until stronger safeguards are in place.  At the same time, recent polling shows many Americans oppose data centers being built near them. As you have probably heard, this is something we are dealing with locally as well. The AI boom may feel abstract when it lives in a browser tab, but it feels much less abstract when the conversation turns to how the technology is being built near us. Some of the concerns that opponents cite are water, power rates, noise, tax incentives, and who actually benefits after the ribbon-cutting photo op. The good news is that, if done properly, all of the concerns can be addressed by proper design of a data center and organization of the community.</p>
+        <p class="read-more"><a href="https://apnews.com/article/65651bd28c3d911d18eeb46cd54f4c75" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>The data center survey problem is simple: people use AI, but they do not want the machinery next door</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-05-21/ai-nuclear.webp" alt="AI and nuclear may be permanently connected">
+          <figcaption>AI and nuclear may be permanently connected</figcaption>
+        </figure>
+        <p>Numerous recent surveys provide a little more detail on the conundrum. Americans keep using AI while resisting the infrastructure behind it. That tension is going to keep showing up in local meetings, state policy, and campus conversations. Historically, it's very similar to the discussions surrounding nuclear energy from decades ago. Inevitably, that led to us not using very much nuclear power because we didn't want power plants in our backyards. We have a slightly different situation with AI ... I suspect that the demand for AI will be such that we cannot simply stop using it. We have to get the power from somewhere, and one of the most cost-effective ways to power AI data centers is from nuclear power. Wouldn't it be interesting if AI is what finally gets nuclear power accepted in our communities in the US?</p>
+        <p class="read-more"><a href="https://www.investopedia.com/americans-mostly-hate-one-of-the-economys-biggest-bright-spots-11979252" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TOOL DROP -->
+      <div class="section-header" id="tool-drop">
+        <img src="../assets/images/tool_drop_header.webp" alt="Tool Drop">
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Gauth Atlas turns topics into visual learning paths</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-05-21/gauth.webp" alt="Artemis map using Gauth">
+          <figcaption>Artemis map using Gauth</figcaption>
+        </figure>
+        <p><strong>The News:</strong> Gauth Atlas is a web-based AI tool that turns a topic, event, place, person, or story into an interactive visual map. Instead of forcing learners through a long block of text, it organizes material into routes, details, objects, key figures, and layers that users can click through.</p>
+        <p class="my-take"><strong>My Take:</strong> This is super cool. I love this tool. I like how it gives you a structure before it jumps to summarization. I love visuals when I'm learning, and I think a lot of our students are the same. This could be a fun tool for them.</p>
+        <p class="read-more"><a href="https://www.gauthmath.com/atlas" target="_blank" rel="noopener">Learn More ↗</a></p>
+        </div>
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Alexa+ can generate podcast-style explainers from a prompt</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-05-21/alexa.png" alt="My take on slow AI">
+          <figcaption>My take on slow AI</figcaption>
+        </figure>
+        <p><strong>The News:</strong> Amazon's Alexa+ can now create AI-generated podcast-style audio on user-selected topics. The podcast uses two AI-generated co-hosts, and it pulls the information from licensed sources. The podcast feature turns longer answers into conversational audio rather than a short assistant response.</p>
+        <p class="my-take"><strong>My Take:</strong> I like the idea of this, because Alexa is just always there (at least in my house), so I don't need to open a browser to do the searching. To be honest, I've always said that Alexa may be the dumbest AI out there, so if this helps improve Alexa, I'm all for it. So far I've had both successful and unsuccessful attempts to create a podcast. The catch is that it took a long time to create the podcast, and I'm thinking that it might be too long of a wait for most use cases. If generation time does not get better, this feature will feel less like <strong>"instant learning"</strong> and more like ordering a sandwich from a robot that needs to contemplate bread.</p>
+        <p class="read-more"><a href="https://variety.com/2026/digital/news/amazon-alexa-plus-ai-podcasts-1236752477/" target="_blank" rel="noopener">Learn More ↗</a></p>
+        </div>
+      </div>
+
+      <!-- THE BREAKDOWN -->
+      <div class="section-header" id="the-breakdown">
+        <img src="../assets/images/the_breakdown_header.webp" alt="The Breakdown">
+      </div>
+      <div class="content-card card-breakdown">
+        <h3><span class="icon">🔬</span> Microsoft's Work Trend Index: workers are ready, organizations are not</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-05-21/agent.png" alt="Timeline of chatbot to agent">
+          <figcaption>Timeline of chatbot to agent</figcaption>
+        </figure>
+        <p>The 2026 Work Trend Index is worth reading as a whole, but five findings stand out:<br><br><strong>AI is in cognitive work now.</strong> Nearly half (49%) of Microsoft 365 Copilot chats involve analysis, reasoning, and decision-making, not just administrative tasks. 58% of AI users say they are producing work they could not have done a year ago.<br><br><strong>The transformation paradox.</strong> Workers want to redesign work with AI, but most organizations are not set up to support it. 65% of AI users fear falling behind without adoption; only 13% say they are rewarded for experimenting or redesigning workflows.<br><br><strong>Culture beats individual effort.</strong> Microsoft puts AI success at 67% organizational (culture, manager support, talent practices) and only 32% individual mindset and behavior. Manager modeling, quality standards, and psychological safety around experimentation matter more than another prompt tutorial.<br><br><strong>Human judgment matters more, not less.</strong> As agents handle more execution, people need to set direction, evaluate outputs, and own outcomes. 86% of AI users treat AI output as a starting point, not a final answer.<br><br><strong>Owned Intelligence is the new edge.</strong> Leading organizations, what Microsoft calls Frontier Firms, are building institutional know-how that compounds over time and cannot be easily copied. That requires coordinated reinvention across employees, leaders, IT, and security, not everyone opening a blank chat and hoping for the best.<br><br></p>
+        <div class="the-lesson"><strong>The Lesson:</strong> The next AI literacy skill is not better prompting alone. It is culture, knowing what AI handles, what humans must verify, and what your organization values.</div>
+        <p class="read-more"><a href="https://www.microsoft.com/en-us/worklab/work-trend-index/agents-human-agency-and-the-opportunity-for-every-organization" target="_blank" rel="noopener">Read the report ↗</a></p>
+        </div>
+      </div>
+
+      <!-- ED PULSE -->
+      <div class="section-header" id="ed-pulse">
+        <img src="../assets/images/ed_pulse_header.webp" alt="Ed Pulse">
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> AI use is becoming a learning-design problem, not just an access problem</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-05-21/think.png" alt="To think or not to think ... that is the question">
+          <figcaption>To think or not to think ... that is the question</figcaption>
+        </figure>
+        <p>The student challenge is more and more clear every day.  Heavy reliance on generative AI weakens critical thinking, writing development, and long-term retention when students use it as a substitute for effort rather than a partner in thinking. To combat this, I'm hearing a lot of discussion regarding a return to a pre-technology clssroom.  As you would suspect, I don't love the idea <strong>"ban AI and pretend it is 2000 again."</strong> A clever balancing act is a better choice, given that the professional world is going to require AI literacy.  We need to design assignments differently, with guidance, reflection, and explain-your-reasoning steps built in. Hopefully reaching students on this will be a matter of honest conversation rather than citing rules or policies. Many of our students are thoughtful, deliberate users of technology. Hopefully that will make these discussions easier than the headlines suggest.</p>
+        <p class="read-more"><a href="https://www.nsta.org/blog/think-or-not-think-impact-ai-critical-thinking-skills" target="_blank" rel="noopener">Read More ↗</a></p>
+        </div>
+      </div>
+
+      <!-- IN ACTION -->
+      <div class="section-header" id="in-action">
+        <img src="../assets/images/in_action_header.webp" alt="In Action">
+      </div>
+      <div class="content-card card-in-action">
+        <h3><span class="icon">🎬</span> Try Nano Banana 2: Gemini's new image engine is worth five minutes this week</h3>
+        <p>Google just rolled out Nano Banana 2, and the improvement in the ability to create images with correct text is impressive.<br><br>So what is it excellent at? The short answer is structured visual work where other image models are inconsistent. Google is leaning hard into real-world knowledge, which means infographics, lecture diagrams, notes turned into visuals, and data visualizations that look like they belong in a handout. It also handles legible text inside images better than most generators I have tested. I use it for signage, event posters, slides, and even translating text already baked into an existing image. If you need subject consistency across multiple images (same character, same object, same vibe), it can hold that together as well.<br><br>Give it five minutes this week: open Gemini, choose Create images, and try one real task, like a poster, a diagram, or a slide hero image for something you actually need. See whether the text renders cleanly on the first pass. The below image was created from a one-sentence prompt where I did not provide any of the details except for the date and company.</p>
+        <figure>
+          <img src="../assets/demos/2026-05-21/gemini-image.png" alt="This image was created from one prompt. Gemini had to look up the logo and pictures.">
+          <figcaption>This image was created from one prompt. Gemini had to look up the logo and pictures.</figcaption>
+        </figure>
+
+        <p class="read-more"><a href="https://gemini.google/overview/image-generation/" target="_blank" rel="noopener">Try Nano Banana 2 in Gemini ↗</a></p>      </div>
+
+      <!-- FAILURE MODE -->
+      <div class="section-header" id="failure-mode">
+        <img src="../assets/images/failure_mode_header.webp" alt="Failure Mode">
+      </div>
+      <div class="content-card card-failure-mode">
+        <h3><span class="icon">💥</span> Starbucks scrapped its AI inventory tool: good idea, rough execution</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-05-21/starbucks.png" alt="Starbucks Inventory failure">
+          <figcaption>Starbucks Inventory failure</figcaption>
+        </figure>
+        <p>Starbucks ended its <strong>Automated Counting</strong> AI program this week and sent milk and beverage ingredient counts back to manual tracking, the same way other inventory is handled in stores. The tool had rolled out fast across North America last September as part of a push to fix product shortages that were hurting sales.<br><br>The concept sounded reasonable: use LIDAR and camera data on a tablet to scan shelves of syrups, milks, and other ingredients instead of having baristas count everything by hand. In practice, the system frequently miscounted or mislabeled items, confusing similar milk types, missing products entirely, and creating more frustration than it removed.<br><br>This is a great example of rolling out an AI tool without the right planning.  These problems are ones that should easily have been foreseen.  Just because you can use AI for something does not mean that you should.<br><br></p>
+        <p class="read-more"><a href="https://www.reuters.com/business/starbucks-scraps-ai-inventory-tool-across-north-america-2026-05-21/" target="_blank" rel="noopener">Read the Reuters report ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TRY THIS -->
+      <div class="section-header" id="try-this">
+        <img src="../assets/images/try_this_header.webp" alt="Try This">
+      </div>
+      <div class="try-this-box">
+        <h3>Build a ChatGPT Skill that drafts short PowerPoint presentations</h3>
+        <div class="content-with-article-image">
+        <p>This week's theme is moving past the blank chat window, and ChatGPT's <strong>Skill Builder</strong> is one of the clearest examples of that shift. Instead of pasting the same deck-building instructions into a blank chat every time, you define the workflow once and ChatGPT runs it the same way whenever you need it.<br><br>Your assignment: use the Skill Builder in ChatGPT to create a skill called something like <strong>Short Deck Builder</strong>. The skill should ask you for the presentation details up front, then return a structured slide outline you can paste into PowerPoint.<br><br>How to do it:<br><br>1. Open ChatGPT and start a new chat. 2. Type <strong>Build me a skill...</strong> and describe what you want (use the prompt below as your starting point). 3. ChatGPT will draft the skill, ask a few follow-up questions, and offer to install it. Review the draft, tweak anything that feels off, and click <strong>Install</strong>. 4. Start a fresh chat, slash "/" + mention your new skill (or let ChatGPT pick it up automatically), and run it with a real topic you need this week.<br><br>See the demo GIF below for a walkthrough.</p>        <figure class="try-this-demo">
+          <img src="../assets/demos/2026-05-21/skill-creation.gif" alt="Walkthrough of building a short-deck skill in ChatGPT's Skill Builder">
+          <figcaption>Walkthrough of building a short-deck skill in ChatGPT's Skill Builder</figcaption>
+        </figure>
+
+        <div class="the-prompt">
+          <p class="prompt-label">The Prompt:</p>
+          <blockquote>"Build me a skill that creates short PowerPoint presentation outlines for teaching a topic that I specify.<br><br>Before drafting slides, ask me to provide: - Topic and purpose - Audience (students, faculty, staff, committee, etc.) - Number of slides (default 4-6) - Tone (formal, conversational, instructional, etc.) - 3-5 key points to cover - Whether I want speaker notes<br><br>For each slide, output the slide number and title, on-slide bullet points (short and scannable), and speaker notes if requested. Structure every deck as: title slide, context slide, main content slides, summary slide, and optional next-steps slide.<br><br>"</blockquote>
+        </div>
+        <p class="why-it-works"><strong>Why it works:</strong> Skills store your workflow (required inputs, output format, quality checks), so ChatGPT stops guessing what you want every time. You specify the deck details once per presentation; the skill handles the structure. That is exactly the reusable workflow design this issue has been talking about.  I have about 15 skills that I use and re-use each week.</p>
+        <p class="read-more"><a href="https://openai.com/academy/skills/" target="_blank" rel="noopener" style="color: var(--try-this);">Learn more ↗</a></p>
+        </div>
+      </div>
+      <div class="follow-up-block">
+        <h3 class="follow-up-heading">practical next steps for moving past blank-box AI</h3>
+        <ul class="follow-up-tasks">
+        <li>Identify one recurring task where you keep rebuilding the same context in a blank chat.</li>
+        <li>Build a ChatGPT Skill for that task. Start with the Short Deck Builder from Try This if you want an easy first example.</li>
+        <li>Write down the reusable inputs, standards, constraints, and review criteria the skill should enforce before you install it.</li>
+      </ul>
+      </div>
+
+      <!-- SHARE -->
+      <div class="share-section" id="share">
+        <h3>Found this useful?</h3>
+        <p>Share Artificial Insights with a colleague who might benefit.</p>
+        <a href="mailto:?subject=Check%20out%20Artificial%20Insights&body=I%20thought%20you%20might%20find%20this%20AI%20newsletter%20useful%3A%20https%3A%2F%2Fbpmstc.github.io%2FArtificial-Insights%2F" class="share-link">Share via Email</a>
+      </div>
+      
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../sources/2026-05-21.html">🔍 Sources</a>
+          <a href="mailto:">✉️ Contact</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #9 · May 21, 2026</p>
+      </footer>
+    </div>
+  </body>
+</html>

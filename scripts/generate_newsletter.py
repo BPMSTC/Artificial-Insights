@@ -466,6 +466,8 @@ def generate_try_this_html(item: dict, issue_date: str) -> str:
     intro = item.get('Intro', '') or item.get('Instructions', '')
     the_prompt = item.get('ThePrompt', '')
     why_it_works = item.get('WhyItWorks', '')
+    image = (item.get('Image') or '').strip()
+    caption = (item.get('Caption') or '').strip()
     urls = item.get('URLs', [])
     article_img = _article_image_html(item, issue_date)
     
@@ -474,6 +476,15 @@ def generate_try_this_html(item: dict, issue_date: str) -> str:
     
     # Build the content
     intro_html = f'<p>{format_text(intro)}</p>' if intro else ''
+    
+    demo_html = ''
+    if image:
+        image_path = f"../assets/demos/{issue_date}/{image}"
+        demo_html = f'''        <figure class="try-this-demo">
+          <img src="{image_path}" alt="{caption or title}">
+          <figcaption>{caption}</figcaption>
+        </figure>
+'''
     
     prompt_html = ''
     if the_prompt:
@@ -493,7 +504,7 @@ def generate_try_this_html(item: dict, issue_date: str) -> str:
         url_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener" style="color: var(--try-this);">Learn more ↗</a></p>'
     
     content_inner = f'''        <div class="content-with-article-image">
-{article_img}        {intro_html}{prompt_html}{why_html}{url_html}
+{article_img}        {intro_html}{demo_html}{prompt_html}{why_html}{url_html}
         </div>'''
     return f'''      <div class="try-this-box">
         <h3>{title}</h3>
@@ -1030,6 +1041,24 @@ def generate_issue_html(data: dict) -> str:
         border-radius: 4px;
         font-size: 14px;
         font-family: "Consolas", monospace;
+      }}
+      .try-this-demo {{
+        clear: both;
+        margin: 16px 0;
+      }}
+      .try-this-demo img {{
+        display: block;
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }}
+      .try-this-demo figcaption {{
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
       }}
       
       /* The Prompt styling */
