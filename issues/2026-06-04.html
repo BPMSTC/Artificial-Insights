@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Artificial Insights — Jun 04, 2026</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        --shadow-hover: 0 8px 30px rgba(15, 23, 42, 0.12);
+        --quick-scan: #8b5cf6;
+        --feed: #0891b2;
+        --tool-drop: #059669;
+        --breakdown: #d97706;
+        --ed-pulse: #db2777;
+        --in-action: #7c3aed;
+        --failure-mode: #dc2626;
+        --try-this: #0d9488;
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      
+      /* Top Bar */
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      
+      /* Container */
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      
+      /* Nav Links */
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover { 
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      
+      /* Issue Info */
+      .issue-info {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .issue-info h1 {
+        font-size: 36px;
+        margin: 0 0 8px;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .issue-info .meta {
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .issue-info .meta .icon { margin-right: 6px; }
+      
+      /* Issue Overview */
+      .overview {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+      }
+      .overview h2 {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .overview h2::before {
+        content: "📑";
+        font-size: 14px;
+      }
+      .overview ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .overview li {
+        padding: 0;
+      }
+      .overview a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .overview a:hover { 
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .overview a[href="#quick-scan"] { background: #f3e8ff; color: var(--quick-scan); }
+      .overview a[href="#the-feed"] { background: #cffafe; color: var(--feed); }
+      .overview a[href="#tool-drop"] { background: #d1fae5; color: var(--tool-drop); }
+      .overview a[href="#the-breakdown"] { background: #fef3c7; color: var(--breakdown); }
+      .overview a[href="#ed-pulse"] { background: #fce7f3; color: var(--ed-pulse); }
+      .overview a[href="#in-action"] { background: #ede9fe; color: var(--in-action); }
+      .overview a[href="#failure-mode"] { background: #fee2e2; color: var(--failure-mode); }
+      .overview a[href="#try-this"] { background: #ccfbf1; color: var(--try-this); }
+      
+      /* Section Header Image */
+      .section-header {
+        margin: 48px 0 20px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .section-header img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      
+      /* Section Divider (fallback for no image) */
+      .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 48px 0 20px;
+      }
+      .section-divider h2 {
+        margin: 0;
+        font-size: 26px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-divider .line {
+        flex: 1;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--tool-drop) 0%, transparent 100%);
+      }
+      
+      /* Content Card */
+      .content-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--accent);
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .content-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .content-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .content-card:hover::before {
+        opacity: 1;
+      }
+      .card-quick-scan { border-left-color: var(--quick-scan); }
+      .card-feed { border-left-color: var(--feed); }
+      .card-tool-drop { border-left-color: var(--tool-drop); }
+      .card-breakdown { border-left-color: var(--breakdown); }
+      .card-ed-pulse { border-left-color: var(--ed-pulse); }
+      .card-in-action { border-left-color: var(--in-action); }
+      .card-failure-mode { border-left-color: var(--failure-mode); }
+      .content-card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .content-card h3 .icon {
+        font-size: 20px;
+      }
+      .content-card h3 a {
+        transition: opacity 0.15s;
+      }
+      .content-card h3 a:hover {
+        opacity: 0.7;
+      }
+      .content-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .content-card p + p {
+        margin-top: 12px;
+      }
+      .source-links {
+        font-size: 13px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--rule);
+      }
+      .source-links a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .source-links a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Quick Scan Items */
+      .quick-scan-item {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--quick-scan);
+        transition: all 0.2s ease;
+      }
+      .quick-scan-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .quick-scan-item h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: var(--text);
+      }
+      .quick-scan-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      
+      /* Read More Links */
+      .read-more {
+        margin-top: 12px !important;
+      }
+      .read-more a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .read-more a:hover {
+        text-decoration: underline;
+      }
+      
+      /* My Take styling */
+      .my-take {
+        margin-top: 16px !important;
+        padding-top: 12px;
+        border-top: 1px dashed var(--rule);
+        color: var(--text) !important;
+      }
+      
+      /* The Lesson styling */
+      .the-lesson {
+        margin-top: 16px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--text);
+      }
+      
+      /* Try This Box */
+      .try-this-box {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        border: 2px solid var(--try-this);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin: 20px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .try-this-box::before {
+        content: "💡";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 48px;
+        opacity: 0.15;
+      }
+      .try-this-box h3 {
+        color: var(--try-this);
+        margin: 0 0 12px;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .try-this-box h3::before {
+        content: "→";
+        font-weight: bold;
+      }
+      .try-this-box p {
+        margin: 0;
+        color: var(--text);
+        font-size: 15px;
+      }
+      .try-this-box code {
+        background: rgba(13, 148, 136, 0.15);
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: "Consolas", monospace;
+      }
+      .try-this-demo {
+        clear: both;
+        margin: 16px 0;
+      }
+      .try-this-demo img {
+        display: block;
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .try-this-demo figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* The Prompt styling */
+      .the-prompt {
+        margin: 16px 0;
+        padding: 16px 20px;
+        background: rgba(13, 148, 136, 0.08);
+        border-radius: 10px;
+        border-left: 4px solid var(--try-this);
+      }
+      .the-prompt .prompt-label {
+        font-weight: 700;
+        color: var(--try-this);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 10px;
+      }
+      .the-prompt blockquote {
+        margin: 0;
+        font-style: italic;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      .why-it-works {
+        margin-top: 14px !important;
+        font-size: 14px;
+        color: var(--muted) !important;
+      }
+      
+      /* How can AI help me? (follow-up tasks, inside Try This) */
+      .follow-up-block {
+        margin: 24px 0 20px;
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        border: 2px solid #8b5cf6;
+        border-radius: 14px;
+        border-left-width: 6px;
+      }
+      .follow-up-block .follow-up-heading {
+        margin: 0 0 12px;
+        font-size: 17px;
+        color: #6d28d9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .follow-up-block .follow-up-heading::before {
+        content: "🎯";
+        font-size: 20px;
+      }
+      .follow-up-block .follow-up-tasks {
+        margin: 0;
+        padding-left: 22px;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .follow-up-block .follow-up-tasks li {
+        margin-bottom: 8px;
+      }
+      .follow-up-block .follow-up-tasks li:last-child {
+        margin-bottom: 0;
+      }
+      
+      /* Article image (float left, text wrap) — optional per item */
+      .content-with-article-image {
+        overflow: auto;
+      }
+      .content-with-article-image::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .article-image {
+        float: left;
+        margin: 0 1.25em 1em 0;
+        max-width: 40%;
+        width: auto;
+      }
+      .article-image img {
+        display: block;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .article-image figcaption {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+        font-style: italic;
+      }
+      @media (max-width: 600px) {
+        .article-image {
+          float: none;
+          max-width: 100%;
+          margin: 0 auto 1em;
+          display: block;
+        }
+      }
+      
+      /* Demo Figure (In Action) */
+      figure {
+        margin: 16px 0;
+      }
+      figure img {
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* Share Section */
+      .share-section {
+        text-align: center;
+        padding: 36px 28px;
+        margin: 48px 0;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+      }
+      .share-section h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        color: var(--text);
+      }
+      .share-section p {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .share-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+      .share-link:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      }
+      .share-link::before {
+        content: "✉️";
+      }
+      
+      /* Footer */
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 600px) {
+        .top-bar {
+          justify-content: center;
+          text-align: center;
+        }
+        .nav-links {
+          gap: 12px;
+        }
+        .issue-info h1 {
+          font-size: 28px;
+        }
+        .section-divider h2 {
+          font-size: 22px;
+        }
+        .content-card, .overview, .try-this-box {
+          padding: 18px 20px;
+        }
+        .overview a {
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+      }
+      
+      @media print {
+        .top-bar, .nav-links, .share-section { display: none; }
+        body { background: #fff; }
+        .content-card, .overview { box-shadow: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 Jun 04, 2026 · Issue #10</span>
+      <a href="#">🔗 Read Online</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../sources/2026-06-04.html">🔍 Sources</a>
+        <a href="#share">📤 Share</a>
+      </nav>
+      
+      <div class="issue-info">
+        <h1>Artificial Insights</h1>
+        <p class="meta"><span class="icon">⏱️</span> Your bi-weekly AI briefing · 5 min read</p>
+      </div>
+      
+      <div class="overview">
+        <h2>In This Issue</h2>
+        <ul>
+          <li><a href="#quick-scan">⚡ Quick Scan</a></li>
+          <li><a href="#tool-drop">🛠️ Tool Drop</a></li>
+          <li><a href="#the-breakdown">🔬 The Breakdown</a></li>
+          <li><a href="#ed-pulse">🎓 Ed Pulse</a></li>
+          <li><a href="#failure-mode">💥 Failure Mode</a></li>
+          <li><a href="#try-this">💡 Try This</a></li>
+        </ul>
+      </div>
+
+      <!-- QUICK SCAN -->
+      <div class="section-header" id="quick-scan">
+        <img src="../assets/images/quick_scan_header.webp" alt="Quick Scan">
+      </div>
+      <div class="quick-scan-item">
+        <h3>Erin Brockovich launches an AI data center reporting map</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="https://images.fastcompany.com/image/upload/f_webp,q_auto,c_fit,w_1024/wp-cms-2/2026/05/i-1-91549212-erin-brockovich-ai-data-center-map.jpg" alt="DataCenter real and potential locations">
+          <figcaption>DataCenter real and potential locations</figcaption>
+        </figure>
+        <p>Erin Brockovich has launched a public reporting site for communities affected by AI data centers. The map tracks operational, under-construction, proposed, and community-reported data center locations, and it gives people a place to report concerns about energy use, water use, noise, e-waste, local planning, and community impact. As it turns out, AI is no longer just in the cloud, it is being built into land, grids, water systems, zoning meetings, and local politics. Who would have thought that AI wanted to join our zip code.  Wisconsin Rapids is not on her list yet, but I reported it.</p>
+        <p class="read-more"><a href="https://www.brockovichdatacenter.com/" target="_blank" rel="noopener">View the Brockovich data center reporting site ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Tech giants back a data center climate initiative</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-04/green-data-center.png" alt="green data center">
+          <figcaption>green data center</figcaption>
+        </figure>
+        <p>Microsoft, Google, Amazon, Meta, and Elemental Impact are backing an initiative that will use data centers as testbeds for climate-friendly technologies. This is what we must be doing.   They would not launch a data center climate initiative unless the energy, water, cooling, and community-trust questions are becoming too loud to hide behind the phrase "the cloud." The industry (and many of us) wants bigger models, more agents, more video, more automation, and more compute. The bill for that ambition has to land somewhere.  I say that we make the datacenters absorb that cost.</p>
+        <p class="read-more"><a href="https://www.axios.com/2026/05/27/tech-giants-data-center-climate-initiative" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Pope Leo XIV frames AI as a labor-and-dignity crisis</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-04/pope.png" alt="Pope Leo and AI">
+          <figcaption>Pope Leo and AI</figcaption>
+        </figure>
+        <p>Pope Leo XIV's AI-focused encyclical, Magnifica Humanitas, places artificial intelligence as a social transformation comparable to the industrial revolution. Pope Leo raises concerns about labor displacement, profit-only systems, data extraction, warfare, algorithmic power, and the need to keep humans responsible for morally serious decisions. There is a lot of ethical ground covered here, and it's nice that a religious leader is talking about AI. I was impressed by his handling of these very complex issues.  Leo says that AI is a system shaping institutions, labor, attention, and <strong>human dignity</strong>. In my mind, the ethics belong right in the middle of the same conversation as data centers and classroom assessment because all of it asks the same question: who loses and who wins when efficiency becomes the only goal?  I've included a NotebookLM link to the analysis of the Magnifica Humanitas if you're interested.</p>
+        <p class="source-links">Sources: <a href="https://timesofindia.indiatimes.com/technology/tech-news/pope-leo-xiv-writes-an-open-letter-to-all-people-of-good-will-warning-about-ai-says-ensure-that-humans-not-ai-remain-responsible-for-all-decisions-regarding/articleshow/131403149.cms" target="_blank" rel="noopener">timesofindia.indiatimes.com ↗</a> · <a href="https://notebooklm.google.com/notebook/5130beb0-d59f-4832-8206-26edb3d07e2d" target="_blank" rel="noopener">notebooklm.google.com ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>China tightens overseas travel controls for top AI talent</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-04/china.png" alt="China restricting travel">
+          <figcaption>China restricting travel</figcaption>
+        </figure>
+        <p>China is restricting overseas travel for advanced AI professionals at private firms, including founders, researchers, and senior executives. Clearly, it's a signal that countries are treating AI expertise as strategic infrastructure. Chips matter. Data centers matter. Models matter. But so do the people who know how to build and improve the systems. The irony of China holding on to their intellectual property so stronly is not lost on me.  They have historically been horrible at intellectual property rights, and have been accused of stealing uncountable numbers of US intellectual property during the past 50 years.  I guess that the talent layer is becoming part of the geopolitical management now.</p>
+        <p class="read-more"><a href="https://www.tradingview.com/news/invezz:56453b74c094b:0-top-chinese-ai-talent-face-new-overseas-travel-restrictions/" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TOOL DROP -->
+      <div class="section-header" id="tool-drop">
+        <img src="../assets/images/tool_drop_header.webp" alt="Tool Drop">
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Google NotebookLM Connectors and Canvas</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-04/notebooklm.png" alt="NotebookLM continuous updates">
+          <figcaption>NotebookLM continuous updates</figcaption>
+        </figure>
+        <p><strong>The News:</strong> Everyone is probably using NotebookLM already, but Google rolled out more updates, as they seem to do on a regular basis now.  The change this time that is the most fun is customizable powerpoint and reports (more customization), as well as the ability to add a changing resource.  So, we can add a google document as a source, then have that document get updated automatically with whatever information, and the Notebook will update automatically.</p>
+        <p class="my-take"><strong>My Take:</strong> It sounds simple, but automatically updating is a fantastic way to go.  Consider creating a class in NotebookLM, and all you need to do is update the source document in order for all of your changes to cascade through your course materials.  I like a work environment where the document is not just a file. It is a workspace with memory, context, and output options. It gives me more control, but takes away some of the mindless work of setting it up after each change.</p>
+        <p class="read-more"><a href="https://notebooklm.google.com/" target="_blank" rel="noopener">Learn More ↗</a></p>
+        </div>
+      </div>
+
+      <!-- THE BREAKDOWN -->
+      <div class="section-header" id="the-breakdown">
+        <img src="../assets/images/the_breakdown_header.webp" alt="The Breakdown">
+      </div>
+      <div class="content-card card-breakdown">
+        <h3><span class="icon">🔬</span> AI's next bottleneck is not intelligence. It is infrastructure, trust, and accountability.</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Erin_Brockovich_2019.jpg/250px-Erin_Brockovich_2019.jpg" alt="Erin Brockovich">
+          <figcaption>Erin Brockovich</figcaption>
+        </figure>
+        <p>The most important AI story this issue is not a model launch, or an improved video, or better spreadsheet handling. The more important pattern is that AI is becoming infrastructure.<br><br>That sounds obvious until we take it seriously. Infrastructure is not just something people use. It is something people live around. It needs electricity, water, cooling, chips, land, supply chains, talent, permits, oversight, money, and public trust. When AI was mostly a screen-based tool, it was easy to talk about it as software. Now the physical and institutional footprint is getting harder to ignore.<br><br>That is why the data center stories belong at the center of the issue. Erin Brockovich's reporting map turns scattered local concerns into a visible national pattern. People are worried about energy demand, water use, noise, e-waste, local planning, and whether communities are being asked to absorb the cost of a technology race they did not vote to host. At the same time, major tech companies are backing climate-oriented data center initiatives as a result of the pressure. The infrastructure burden is becoming part of the AI story whether the big AI companies enjoy that or not.<br><br>The same shift shows up in tools. NotebookLM is moving toward connected workspaces, not just source summaries. Workspace agents and computer-using agents point toward AI systems that operate across your whole computer (Microsoft announced those yesterday). Those systems may save time, but they also create new questions: Who owns the agent? What data can it touch? How is its work reviewed? Does it have access to data that I don't want it to have?  The dystopian future that we all want to avoid has this as the start of automation becoming a shadow employee with no manager, no training plan, and somehow more permissions than an actual person.<br><br>Education has to respond to this shift because students are walking into a world where AI is not just a writing helper or code assistant. It is becoming part of the infrastructure of work. I think that changes what we need to teach. Students still need to make things, but they must learn the basics despite the tools.  Polished artifacts are reaching the point where they simply are not evidence of ability of the student. The stronger evidence is the judgment around the artifact: the problem definition, tradeoffs, rejected options, testing, revisions, ethical concerns, and ownership of the final decision.  I think this is what we need to pivot to.<br><br>Pope Leo XIV's AI encyclical adds a broader frame to the same issue. The point is not that every AI conversation needs to become theological. The point is that AI is now big enough to raise questions about labor, dignity, violence, responsibility, and whether people are being treated as persons or just inputs. That argument sits right beside the data center conversation and the education conversation. In all three cases, the problem is the same: powerful systems are being adopted quickly, and the humans affected by them may not have enough visibility or voice.<br><br>So the issue is not whether AI is useful. It is useful. Painfully useful, in the way a chainsaw is useful and also not something you hand to someone during orientation with nothing more than a cheerful onboarding video. The issue is how fast we can adapt to the change to AI as infrastructure.</p>
+        <div class="the-lesson"><strong>The Lesson:</strong> Treat AI as infrastructure that needs big picture planning, not software shopping. That means asking about everything from energy to data access to security.</div>
+        <p class="read-more"><a href="https://www.brockovichdatacenter.com/" target="_blank" rel="noopener">View the Brockovich data center reporting site ↗</a></p>
+        </div>
+      </div>
+
+      <!-- ED PULSE -->
+      <div class="section-header" id="ed-pulse">
+        <img src="../assets/images/ed_pulse_header.webp" alt="Ed Pulse">
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> Anonymous grading gets weaker when AI can imitate strong answers</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-04/stanford.png" alt="Stanford Law faculty preferred AI essays in a blind comparison">
+          <figcaption>Stanford Law faculty preferred AI essays in a blind comparison</figcaption>
+        </figure>
+        <p>A Stanford-linked whitepaper asked law professors to grade answers in a blinded comparison. They preferred AI-generated responses over answers written by peer instructors about <strong>75% of the time</strong>. That is not a cute headline about professors being fooled... we all know that Professors can't tell if writing is done by AI.  Instead, this is a cautionary reminder of how good at writing these models are.<br><br>When a single polished submission can look stronger than work from an experienced instructor, we should stop treating the document alone as proof of who did the thinking. Anonymous grading still matters for some fairness goals, but a name-stripped paper is becoming a thinner slice of evidence.<br><br>I suspect that what is needed is longitudinal context.  This would be prior writing from the same student, vocabulary and reasoning habits over time, revision history, oral explanation, and course-specific context. That level of details is much harder to evaluate, but more aligned with what we actually want to measure in many cases.<br><br>As always, the shift is not "buy a better AI detector."  We know that it's technologically impossible to do so.  Instead, I believe it is to redesign assessment so judgment, process, and student trajectory are visible, and perhaps less focus on just that final artifact.  This is a bit of a transition for me, beause I've always been focused more on the goal than the process.  Looks like I need to change to account for AI...again...</p>
+        <p class="read-more"><a href="https://law.stanford.edu/wp-content/uploads/2026/06/salinas_et_al.pdf" target="_blank" rel="noopener">Read More ↗</a></p>
+        </div>
+      </div>
+
+      <!-- FAILURE MODE -->
+      <div class="section-header" id="failure-mode">
+        <img src="../assets/images/failure_mode_header.webp" alt="Failure Mode">
+      </div>
+      <div class="content-card card-failure-mode">
+        <h3><span class="icon">💥</span> Graduation AI forgets to, graduate people</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-04/graduation.png" alt="Forgetting the names, thank you AI">
+          <figcaption>Forgetting the names, thank you AI</figcaption>
+        </figure>
+        <p>Glendale Community College's commencement ceremony went sideways when the AI system responsible for reading student names across the stage just... skipped some of them. Graduates were initially told they could not walk again. Eventually the crowd started booing, and the college agreed to let them walk across the stage again.  I guess the lesson here is 'you still need to have a backup for AI'.</p>
+        <p class="read-more"><a href="https://www.tiktok.com/@gracereimer2003/video/7641415663663303950?q=Glendale%20Community%20College%27s%20commencement%20ceremony&t=1780597846283" target="_blank" rel="noopener">Watch the TikTok clip ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TRY THIS -->
+      <div class="section-header" id="try-this">
+        <img src="../assets/images/try_this_header.webp" alt="Try This">
+      </div>
+      <div class="try-this-box">
+        <h3>Five prompting tips for 2026</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="https://pbcdn1.podbean.com/imglogo/image-logo/18828923/2026-Podcast-Cover-GenAI-101-002.jpg" alt="Thanks to Emily Laird for these tips">
+          <figcaption>Thanks to Emily Laird for these tips</figcaption>
+        </figure>
+        <p>The flashy model news gets the headlines, but many of us are still losing time in the boring place: the prompt box. These five habits are what I keep coming back to when I want better output without pretending the first answer is the final one.<br><br><strong>1. Make AI interview you.</strong> Do not assume the model already knows what you know. Before it drafts anything, ask it to ask you questions. Five is a good number. You want gaps, assumptions, and biases surfaced while the project is still cheap to fix.<br><br><strong>2. Show your voice.</strong> Stop describing your style with adjectives like “professional” or “warm but authoritative,” which mostly means “sound like every other memo on Earth.” Paste two or three actual writing samples of yours instead. Name the specifics: no em dashes, shorter sentences, less throat-clearing, lot's of sarcasm, whatever matters to you.<br><br><strong>3. Conversation is the point.</strong> Treat the first draft as surface material you are supposed to push against. Plan on about three iterations before the output is actually good. If you are like me and typing slows you down, use voice input for the back-and-forth. The chat is the workflow now.<br><br><strong>4. Use AI as your critic.</strong> Ask it to disagree, find flaws, and stress-test the plan. Use a different model to do the checking, if possible. After all, you do not need a cheerleader...you need a team that will help you create the best output you can.<br><br><strong>5. Bring the mess.</strong> Do not sanitize your notes before handing them over. Include the frustrations, uncertainties, half-finished bullets, and chicken-scratch thinking. Let the model help you clean it up. That is often where the useful structure hides.</p>
+        <div class="the-prompt">
+          <p class="prompt-label">The Prompt:</p>
+          <blockquote>""Before we start this project, ask me five questions that would expose gaps, assumptions, or biases in my plan. Do not begin drafting until I answer. After I respond, summarize what you heard, what still seems unclear, and what you would challenge first.""</blockquote>
+        </div>
+        <p class="why-it-works"><strong>Why it works:</strong> Most bad AI output is not a model problem. It is a context problem. Interviewing, samples, iteration, critique, and messy source material all push the model toward the part of the work that still requires judgment instead of polished guesswork.</p>
+        <p class="read-more"><a href="https://generativeai101.podbean.com/" target="_blank" rel="noopener" style="color: var(--try-this);">Learn more ↗</a></p>
+        </div>
+      </div>
+      <div class="follow-up-block">
+        <h3 class="follow-up-heading">Five ways to practice better prompting this week</h3>
+        <ul class="follow-up-tasks">
+        <li>Start one real project by asking for five gap-finding questions before you let the model draft anything.</li>
+        <li>Replace one vague style adjective in your next prompt with two or three samples of your actual writing.</li>
+        <li>Hand AI messy notes once this week without cleaning them up first.</li>
+      </ul>
+      </div>
+
+      <!-- SHARE -->
+      <div class="share-section" id="share">
+        <h3>Found this useful?</h3>
+        <p>Share Artificial Insights with a colleague who might benefit.</p>
+        <a href="mailto:?subject=Check%20out%20Artificial%20Insights&body=I%20thought%20you%20might%20find%20this%20AI%20newsletter%20useful%3A%20https%3A%2F%2Fbpmstc.github.io%2FArtificial-Insights%2F" class="share-link">Share via Email</a>
+      </div>
+      
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../sources/2026-06-04.html">🔍 Sources</a>
+          <a href="mailto:">✉️ Contact</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #10 · Jun 04, 2026</p>
+      </footer>
+    </div>
+  </body>
+</html>
