@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Artificial Insights — Jun 18, 2026</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        --shadow-hover: 0 8px 30px rgba(15, 23, 42, 0.12);
+        --quick-scan: #8b5cf6;
+        --feed: #0891b2;
+        --tool-drop: #059669;
+        --breakdown: #d97706;
+        --ed-pulse: #db2777;
+        --in-action: #7c3aed;
+        --failure-mode: #dc2626;
+        --try-this: #0d9488;
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      
+      /* Top Bar */
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      
+      /* Container */
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      
+      /* Nav Links */
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover { 
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      
+      /* Issue Info */
+      .issue-info {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .issue-info h1 {
+        font-size: 36px;
+        margin: 0 0 8px;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .issue-info .meta {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0;
+      }
+      .issue-info .issue-date {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0 0 8px;
+        font-weight: 600;
+      }
+      .issue-info .meta .icon { margin-right: 6px; }
+      
+      /* Issue Overview */
+      .overview {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+      }
+      .overview h2 {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .overview h2::before {
+        content: "📑";
+        font-size: 14px;
+      }
+      .overview ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .overview li {
+        padding: 0;
+      }
+      .overview a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .overview a:hover { 
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .overview a[href="#quick-scan"] { background: #f3e8ff; color: var(--quick-scan); }
+      .overview a[href="#the-feed"] { background: #cffafe; color: var(--feed); }
+      .overview a[href="#tool-drop"] { background: #d1fae5; color: var(--tool-drop); }
+      .overview a[href="#the-breakdown"] { background: #fef3c7; color: var(--breakdown); }
+      .overview a[href="#ed-pulse"] { background: #fce7f3; color: var(--ed-pulse); }
+      .overview a[href="#in-action"] { background: #ede9fe; color: var(--in-action); }
+      .overview a[href="#failure-mode"] { background: #fee2e2; color: var(--failure-mode); }
+      .overview a[href="#try-this"] { background: #ccfbf1; color: var(--try-this); }
+      
+      /* Section Header Image */
+      .section-header {
+        margin: 48px 0 20px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .section-header img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      
+      /* Section Divider (fallback for no image) */
+      .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 48px 0 20px;
+      }
+      .section-divider h2 {
+        margin: 0;
+        font-size: 26px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-divider .line {
+        flex: 1;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--tool-drop) 0%, transparent 100%);
+      }
+      
+      /* Content Card */
+      .content-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--accent);
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .content-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .content-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .content-card:hover::before {
+        opacity: 1;
+      }
+      .card-quick-scan { border-left-color: var(--quick-scan); }
+      .card-feed { border-left-color: var(--feed); }
+      .card-tool-drop { border-left-color: var(--tool-drop); }
+      .card-breakdown { border-left-color: var(--breakdown); }
+      .card-ed-pulse { border-left-color: var(--ed-pulse); }
+      .card-in-action { border-left-color: var(--in-action); }
+      .card-failure-mode { border-left-color: var(--failure-mode); }
+      .content-card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .content-card h3 .icon {
+        font-size: 20px;
+      }
+      .content-card h3 a {
+        transition: opacity 0.15s;
+      }
+      .content-card h3 a:hover {
+        opacity: 0.7;
+      }
+      .content-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .content-card p + p {
+        margin-top: 12px;
+      }
+      .source-links {
+        font-size: 13px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--rule);
+      }
+      .source-links a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .source-links a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Quick Scan Items */
+      .quick-scan-item {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--quick-scan);
+        transition: all 0.2s ease;
+      }
+      .quick-scan-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .quick-scan-item h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: var(--text);
+      }
+      .quick-scan-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      
+      /* Read More Links */
+      .read-more {
+        margin-top: 12px !important;
+      }
+      .read-more a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .read-more a:hover {
+        text-decoration: underline;
+      }
+      
+      /* My Take styling */
+      .my-take {
+        margin-top: 16px !important;
+        padding-top: 12px;
+        border-top: 1px dashed var(--rule);
+        color: var(--text) !important;
+      }
+      
+      /* The Lesson styling */
+      .the-lesson {
+        margin-top: 16px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--text);
+      }
+      
+      /* Try This Box */
+      .try-this-box {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        border: 2px solid var(--try-this);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin: 20px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .try-this-box::before {
+        content: "💡";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 48px;
+        opacity: 0.15;
+      }
+      .try-this-box h3 {
+        color: var(--try-this);
+        margin: 0 0 12px;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .try-this-box h3::before {
+        content: "→";
+        font-weight: bold;
+      }
+      .try-this-box p {
+        margin: 0;
+        color: var(--text);
+        font-size: 15px;
+      }
+      .try-this-box code {
+        background: rgba(13, 148, 136, 0.15);
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: "Consolas", monospace;
+      }
+      .try-this-demo {
+        clear: both;
+        margin: 16px 0;
+      }
+      .try-this-demo img {
+        display: block;
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .try-this-demo figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* The Prompt styling */
+      .the-prompt {
+        margin: 16px 0;
+        padding: 16px 20px;
+        background: rgba(13, 148, 136, 0.08);
+        border-radius: 10px;
+        border-left: 4px solid var(--try-this);
+      }
+      .the-prompt .prompt-label {
+        font-weight: 700;
+        color: var(--try-this);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 10px;
+      }
+      .the-prompt blockquote {
+        margin: 0;
+        font-style: italic;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      .why-it-works {
+        margin-top: 14px !important;
+        font-size: 14px;
+        color: var(--muted) !important;
+      }
+      
+      /* How can AI help me? (follow-up tasks, inside Try This) */
+      .follow-up-block {
+        margin: 24px 0 20px;
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        border: 2px solid #8b5cf6;
+        border-radius: 14px;
+        border-left-width: 6px;
+      }
+      .follow-up-block .follow-up-heading {
+        margin: 0 0 12px;
+        font-size: 17px;
+        color: #6d28d9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .follow-up-block .follow-up-heading::before {
+        content: "🎯";
+        font-size: 20px;
+      }
+      .follow-up-block .follow-up-tasks {
+        margin: 0;
+        padding-left: 22px;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .follow-up-block .follow-up-tasks li {
+        margin-bottom: 8px;
+      }
+      .follow-up-block .follow-up-tasks li:last-child {
+        margin-bottom: 0;
+      }
+      
+      /* Article image (float left, text wrap) — optional per item */
+      .content-with-article-image {
+        overflow: auto;
+      }
+      .content-with-article-image::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .article-image {
+        float: left;
+        margin: 0 1.25em 1em 0;
+        max-width: 40%;
+        width: auto;
+      }
+      .article-image img {
+        display: block;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .article-image figcaption {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+        font-style: italic;
+      }
+      @media (max-width: 600px) {
+        .article-image {
+          float: none;
+          max-width: 100%;
+          margin: 0 auto 1em;
+          display: block;
+        }
+      }
+      
+      /* Demo Figure (In Action) */
+      figure {
+        margin: 16px 0;
+      }
+      figure img {
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* Share Section */
+      .share-section {
+        text-align: center;
+        padding: 36px 28px;
+        margin: 48px 0;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+      }
+      .share-section h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        color: var(--text);
+      }
+      .share-section p {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .share-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+      .share-link:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      }
+      .share-link::before {
+        content: "✉️";
+      }
+      
+      /* Footer */
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 600px) {
+        .top-bar {
+          justify-content: center;
+          text-align: center;
+        }
+        .nav-links {
+          gap: 12px;
+        }
+        .issue-info h1 {
+          font-size: 28px;
+        }
+        .section-divider h2 {
+          font-size: 22px;
+        }
+        .content-card, .overview, .try-this-box {
+          padding: 18px 20px;
+        }
+        .overview a {
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+      }
+      
+      @media print {
+        .top-bar, .nav-links, .share-section { display: none; }
+        body { background: #fff; }
+        .content-card, .overview { box-shadow: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 Jun 18, 2026 · Issue #11</span>
+      <a href="#">🔗 Read Online</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../sources/2026-06-18.html">🔍 Sources</a>
+        <a href="#share">📤 Share</a>
+      </nav>
+      
+      <div class="issue-info">
+        <h1>Artificial Insights</h1>
+        <p class="issue-date">📅 Jun 18, 2026 · Issue #11</p>
+        <p class="meta"><span class="icon">⏱️</span> Your bi-weekly AI briefing · 5 min read</p>
+      </div>
+      
+      <div class="overview">
+        <h2>In This Issue</h2>
+        <ul>
+          <li><a href="#quick-scan">⚡ Quick Scan</a></li>
+          <li><a href="#tool-drop">🛠️ Tool Drop</a></li>
+          <li><a href="#the-breakdown">🔬 The Breakdown</a></li>
+          <li><a href="#ed-pulse">🎓 Ed Pulse</a></li>
+          <li><a href="#failure-mode">💥 Failure Mode</a></li>
+          <li><a href="#try-this">💡 Try This</a></li>
+        </ul>
+      </div>
+
+      <!-- QUICK SCAN -->
+      <div class="section-header" id="quick-scan">
+        <img src="../assets/images/quick_scan_header.webp" alt="Quick Scan">
+      </div>
+      <div class="quick-scan-item">
+        <h3>German court says AI search summaries can create company liability</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-18/googlegermany.jpg" alt="German court does not like the AI summaries">
+          <figcaption>German court does not like the AI summaries</figcaption>
+        </figure>
+        <p>A Munich court ruled that Google can be responsible for false claims generated by AI Overviews because the system creates new statements rather than merely pointing to third-party links. This is one of the first times that Google has been hit with liability for AI.  For years, the technology industry has treated disclaimers as a "legal raincoat". However, this ruling makes me think that the old raincoat may be melting away... at least in Germany.  This is a problem for all of the AI models, because literally every one of them summarizes articles that they are asked to.  The limitations that Google has are the same as everyone else's.   If this is upheld, then every AI system that publishes a damaging claim will need more than a "users should verify" checkbox.  There are major structural issues that prevent AI from being correct every time.  However, they can be constrained... and that's what Google should be doing.   Do better, Google.</p>
+        <p class="read-more"><a href="https://www.wired.com/story/a-court-has-ruled-that-google-is-liable-for-false-statements-generated-by-ai-overviews" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Anthropic's Fable 5 reversal turns safety into a trust problem</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-18/anthropic-mythos.jpg" alt="The fallout from Claude Fable 5 highlights a growing tension between enterprise capabilities and hidden safety guardrails.">
+          <figcaption>The fallout from Claude Fable 5 highlights a growing tension between enterprise capabilities and hidden safety guardrails.</figcaption>
+        </figure>
+        <p>Anthropic launched Claude Fable 5 on June 9 as a "Mythos‑class" model with very strong reasoning and safety layers, then disabled it a few days later after being pressured to do so by a government directive citing national‑security concerns. The abrupt pullback has fed an ongoing debate about AI models... safety vs. capability.  Additionally, this controversy brings up a bigger discussion—when is it appropriate for governmental intervention in the release of a private software product? This model is shockingly good at finding holes in software, which is scary to everyone from banks to insurance companies to Mid-State.<br><br>There are some very concerning pieces to this. First, Anthropic quietly altered their data privacy standards. To access Fable 5, the company instituted a mandatory 30-day data retention policy on all traffic—even for enterprise clients who had painstakingly negotiated zero-retention agreements.  This is a deal breaker for many large organizations, including Microsoft.  Anthropic’s justification is that they need to review the data to mitigate bad actor use of the model.<br><br>The real kicker was a behavior buried deep within Fable 5's safety layering: silent degradation. Anthropic engineered the model to silently become less useful whenever it detected a user trying to do things they did not like... AI research, LLM development, and biology just to name a few.  Instead of explicitly refusing the prompt, throwing a clear policy error, or telling users what was happening, Fable 5 would move you to a worse model, and not tell you (while charging you the same).<br><br></p>
+        <p class="read-more"><a href="https://www.businessinsider.com/anthropic-mythos-made-wrong-tradeoff-new-model-guardrails-llm-development-2026-6" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>A leading deepfake expert says visual trust is collapsing</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-18/deepfake-detection.jpg" alt="Deepfake detection is becoming very difficult">
+          <figcaption>Deepfake detection is becoming very difficult</figcaption>
+        </figure>
+        <p>A New York Times profile of digital forensics expert Hany Farid captures the new problem with synthetic media: even experts can struggle to authenticate images and video quickly enough for the speed of social media. The issue is not that every image is fake... however, we need to treat them <strong>ALL</strong> like they are. Most people think they are good at spotting deepfakes, but research shows even the most astute among us identify them correctly only about 15% to 25% of the time.  The old saying "caveat emptor"... let the buyer beware, seems even more important now than ever.  Do not trust any image, video, or voice clip at face value.</p>
+        <p class="read-more"><a href="https://www.nytimes.com/2026/06/14/us/ai-deepfake-hany-farid.html?unlocked_article_code=1.qFA.A6Fe.SMasD7T0VSmU&smid=bs-share" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Figure's humanoid robots crossed an endurance marker, which is scary and exciting</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-18/helix03.jpg" alt="Demo of the Helix">
+          <figcaption>Demo of the Helix</figcaption>
+        </figure>
+        <p>Figure AI's Helix 02 humanoid robots sorted more than 50,000 packages across more than 40 hours in a livestreamed warehouse-style demo. That is seriously impressive, since it appeared as if the Helix was working autonomously.  The next question is whether the system can survive safety reviews, uptime demands, cost scrutiny, edge cases, and the confusion of someone moving their box on them.  I think this tech is 3 years from being something we see in every factory as part of the labor force.</p>
+        <p class="read-more"><a href="https://www.techrepublic.com/article/news-figure-robot-demo-tests-24-7-humanoid-fleet-work/" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TOOL DROP -->
+      <div class="section-header" id="tool-drop">
+        <img src="../assets/images/tool_drop_header.webp" alt="Tool Drop">
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Gemini 3.5 Live Translate</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="https://pbs.twimg.com/media/HKnzByTWQAAfygB.jpg" alt="Translation in nearly real-time">
+          <figcaption>Translation in nearly real-time</figcaption>
+        </figure>
+        <p><strong>The News:</strong> Google introduced Gemini 3.5 Live Translate, the closest real-time speech-to-speech translation model that is available.  It detects 70 spoken languages and does something very difficult... it preserves intonation and pacing.</p>
+        <p class="my-take"><strong>My Take:</strong> I don't use translation software all that often, but I do know that reducing the delay in translation is huge (I'll be testing it next summer when I go to Germany).  Still to be determined is how this handles translation errors, privacy expectations, and accessibility needs.  However, Google has been doing this as long as almost anyone so I'm betting it's going to be solid.</p>
+        <p class="read-more"><a href="https://youtu.be/TNwKs39uSVk?si=If97hTvhF6GgDOM_" target="_blank" rel="noopener">Learn More ↗</a></p>
+        </div>
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Microsoft Copilot Studio was rebuilt for multi-step work</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-18/copilothero.jpg" alt="Copilot may be the hero we need">
+          <figcaption>Copilot may be the hero we need</figcaption>
+        </figure>
+        <p><strong>The News:</strong> Microsoft rolled out the new Copilot Studio, which does the following:  It takes control of your computer and has access to nearly everything that you do. That's really exciting, but also scary because... any password you have saved in Google ... this agent can use.</p>
+        <p class="my-take"><strong>My Take:</strong> We do not have access to this yet - Brad has some rather worrying security things to think about before we can use something like this at Mid-State.  However, once the security is figured out, this will be a huge benefit.  Think about this... I set up a task to run every morning to go through all of my work yesterday in Teams meetings (get the summary of the meeting), Teams chat, e-mail, SharePoint, and all files updated in my OneDrive.  Compile all of them into <strong>TO-DO</strong> tasks for me so I can add them to my list of things to do.  How about this one... for all meetings with external participants, go out and research each non Mid-State attendee and give me a summary of my prior interactions with them, as well as their LinkedIn profile.  For Microsoft-heavy institutions, like us, the ability to use all of our data and leverage these upcoming tools will be exciting.</p>
+        <p class="read-more"><a href="https://techcommunity.microsoft.com/blog/copilot-studio-blog/meet-the-new-copilot-studio-rebuilt-for-more-complex-multi-step-work/4526488" target="_blank" rel="noopener">Learn More ↗</a></p>
+        </div>
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Microsoft Build made the agent stack more concrete</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="https://msftstories.thesourcemediaassets.com/sites/753/2026/05/Build-2026-lead-image.png" alt="Microsoft Build Conference">
+          <figcaption>Microsoft Build Conference</figcaption>
+        </figure>
+        <p><strong>The News:</strong> Microsoft Build 2026 conference introduced tons of new AI items including the above Copilot agent, Microsoft IQ (memory across applications), Foundry (deep work with a model specific to you),  and AI updates to Teams and Office (you'll see these in Teams this summer).</p>
+        <p class="my-take"><strong>My Take:</strong> Microsoft also introduced some models, but I don't think we care about that.  What is very valuable to us is the fact that all of their tools can see each other.  That ability to <strong>carry the context</strong>, or remember this chat information in a different area using AI, is huge.</p>
+        <p class="read-more"><a href="https://developer.microsoft.com/blog/build-recap" target="_blank" rel="noopener">Learn More ↗</a></p>
+        </div>
+      </div>
+
+      <!-- THE BREAKDOWN -->
+      <div class="section-header" id="the-breakdown">
+        <img src="../assets/images/the_breakdown_header.webp" alt="The Breakdown">
+      </div>
+      <div class="content-card card-breakdown">
+        <h3><span class="icon">🔬</span> AI's next bottleneck is not intelligence. It is trust.</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-18/trust.png" alt="What do we need to actually trust AI?">
+          <figcaption>What do we need to actually trust AI?</figcaption>
+        </figure>
+        <p>If you read this issue quickly, it looks like a pile of unrelated stories: a court case in Germany, an Anthropic model controversy, a deepfake expert, a robot warehouse demo, Microsoft agents, and a Cornell study about cheating. The common thread is not capability. These systems are already impressive enough to be quite useful. The common thread is trust — and trust is breaking in several different places at once.<br><br>Start with Google's AI Overviews. The German ruling is a good starting point because it treats an AI-generated answer as something the platform may own, not something it can hand-wave away with "users should verify." There need to be some things that we can trust are accurate, and Google searches feel like that place to me.  For years, the search industry leaned on disclaimers the way teenagers lean on "no promises" in a group chat. The message was basically: here is a confident answer, but if it ruins your reputation, that is on you. From the look of it, German courts may be done pretending that posture is enough. I suspect we will not have a similar case in the US, however.<br><br>Anthropic's Fable 5 mess is a different kind of trust failure, and in some ways a scarier one. This was not just a model that got things wrong. It was a model that could silently become less useful, route you somewhere else, or operate under rules you were never clearly told about — while still charging you like nothing changed. Add mandatory retention for enterprise customers who had negotiated zero retention, plus a government-directed shutdown after only a few days, and the trust gets worse fast. As users, we need to know what model we are talking to, what data is being kept, when behavior changes, and why. Hidden guardrails, such as the 'move you to a different model' thing, are not safety features. They are trust destroyers.<br><br>The deepfake story widens the problem beyond text. Remember the fun days when all we had to do was worry about a badly edited photo?  We used to treat photos, video, and voice as default evidence. That was never perfectly safe, but it was good enough for daily life. It is not good enough anymore. Even careful people are bad at spotting synthetic media under real-world conditions. As I see it, the burden shifts: trust now depends on provenance, context, and corroboration, not on how real something looks. That is exhausting, but pretending otherwise is worse.<br><br>Education is facing the same collapse of default trust, and many of us have been talking about this for a long time. A polished essay, clean code sample, or perfect project no longer reliably proves mastery of a topic. That is why Cornell's assessment-validity framing (the story below) matters more than another cheating headline. Nearly all institutions are facing the same questions... if course completion stops meaning mastery, then grades, credentials, and institutional reputation all wobble together. Oral exams and live defenses are not "medieval cosplay", as one of my students claimed. They are attempts to rebuild trust in the evidence of learning when the artifact alone is no longer enough.<br><br>Even the Failure Mode story at the bottom of this issue fits here. The Stroop test is a reminder that frontier models can look brilliant in demos and still fail in ways that reveal hard limits beneath the polish. Trust should not be based on vibes, benchmark screenshots, or the confidence of the output. Trust needs evidence.<br><br>So the issue is not whether AI is getting smarter. It clearly is. The issue is whether we can still believe what it says, what it shows, what it hides, and what institutions claim based on it. Capability of AI got us to the party. Trust determines whether anyone stays.</p>
+        <div class="the-lesson"><strong>The Lesson:</strong> We need to treat trust as a design requirement, not a footnote. Before relying on an AI output, an AI vendor, or an AI-generated artifact, ask what would make you believe it — and what would break your belief if you looked one layer deeper. The most successful organizations using the AI tools as they sit today will not be the ones with the flashiest demos. They will be the ones people can actually depend on.</div>
+        <p class="read-more"><a href="https://www.businessinsider.com/anthropic-mythos-made-wrong-tradeoff-new-model-guardrails-llm-development-2026-6" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+
+      <!-- ED PULSE -->
+      <div class="section-header" id="ed-pulse">
+        <img src="../assets/images/ed_pulse_header.webp" alt="Ed Pulse">
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> Cornell researchers warn that passing a course may no longer prove mastery</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-18/cornell-assessment.png" alt="Cornell researchers challenge the validity of traditional assessment in the AI era.">
+          <figcaption>Cornell researchers challenge the validity of traditional assessment in the AI era.</figcaption>
+        </figure>
+        <p>Cornell has a writeup on a new study about AI misuse by students.  They are characterizing AI as both an assessment-validity problem as well as a cheating problem. The study analyzed survey responses from more than 95,000 students at 20 public research universities.   Large numbers of students use generative AI on assignments, and a smaller but still serious share reported using it to 'cheat', as they self-described it. I think that the more important piece here is assessment validity. If course performance no longer reliably indicates student mastery, then grades, credits, and credentials start to be questionable. If we as educational institutions cannot ensure that course completion indicates mastery, I fear our reputation for excellence in education will be something very difficult to maintain.</p>
+        <p class="read-more"><a href="https://news.cornell.edu/stories/2026/05/widespread-ai-misuse-means-higher-ed-must-rethink-assessment" target="_blank" rel="noopener">Read More ↗</a></p>
+        </div>
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> Oral exams are coming back because polished written work got too easy to fake</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-18/oral-exam.png" alt="Universities revisit oral assessment as written assignments become easier to outsource to AI.">
+          <figcaption>Universities revisit oral assessment as written assignments become easier to outsource to AI.</figcaption>
+        </figure>
+        <p>AP reports that colleges are turning toward oral exams, live defenses, in-person tests, and AI-assisted oral assessment as written assignments become less reliable evidence of learning. I've been doing this myself for a very long time.  I resist the characterization that my classroom has become a medieval examination chamber (as one student suggested). With that being said, I do think we need to build more moments where students explain, defend, revise, and apply their work in real time. The point is to see thinking, which is really what employers want from our graduates.  It's a real challenge to do this for a large class, for sure.</p>
+        <p class="read-more"><a href="https://apnews.com/article/77954a19f5304bfc6e76dc92d4bef3ad" target="_blank" rel="noopener">Read More ↗</a></p>
+        </div>
+      </div>
+
+      <!-- FAILURE MODE -->
+      <div class="section-header" id="failure-mode">
+        <img src="../assets/images/failure_mode_header.webp" alt="Failure Mode">
+      </div>
+      <div class="content-card card-failure-mode">
+        <h3><span class="icon">💥</span> Psychology failures by models</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-18/stroop.png" alt="Stroop task example">
+          <figcaption>Stroop task example</figcaption>
+        </figure>
+        <p>A study published in PNAS Nexus subjected humanity’s smartest, multi-billion-dollar frontier models to a basic human psychology trick: the Stroop task. This is the test where the word "Blue" is printed in red ink, and you have to name the color of the ink rather than read the text. While the models did fine with short lists, when the task expanded to 40 words, their accuracy collapsed to near zero. The AI models could not suppress their baseline training to read text, overriding their instructions and defaulting to mindless word-reading like an overstimulated toddler.  I mean... I'm not great at this test myself, but...</p>
+        <p class="read-more"><a href="https://www.sciencedaily.com/releases/2026/06/260610003049.htm" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TRY THIS -->
+      <div class="section-header" id="try-this">
+        <img src="../assets/images/try_this_header.webp" alt="Try This">
+      </div>
+      <div class="try-this-box">
+        <h3>Ask a chatbot to give you an adversarial analysis</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-06-18/adversarialprompting.png" alt="Adversarial prompting helps you identify weaknesses.">
+          <figcaption>Adversarial prompting helps you identify weaknesses.</figcaption>
+        </figure>
+        <p>Pick one item that you've created with an AI... a summary, policy note, assignment, report, or internal memo.</p>
+        <div class="the-prompt">
+          <p class="prompt-label">The Prompt:</p>
+          <blockquote>""Review the email below as if you are intentionally looking for anything that could be misunderstood, seem dismissive, sound condescending, exclude certain groups, or create unnecessary frustration.<br><br>Assume this message will be sent to a large and diverse group of recipients with different roles, backgrounds, stress levels, and levels of familiarity with the topic.<br><br>Identify: 1. Phrases that could sound rude, impatient, blaming, passive-aggressive, or overly casual. 2. Wording that could be interpreted as offensive, insensitive, exclusionary, or culturally unaware. 3. Places where the message assumes too much knowledge from the reader. 4. Any sentence that could create anxiety, confusion, or resistance. 5. Any wording that might make the sender or organization look careless, defensive, or unprofessional.<br><br>For each issue, explain why it could be a problem and suggest a safer revision.""</blockquote>
+        </div>
+        <p class="why-it-works"><strong>Why it works:</strong> You already know what you meant to say, which makes you a terrible judge of how it will land. Asking the model to attack the draft from multiple reader perspectives surfaces tone problems, hidden assumptions, and institutional risk before the message leaves your outbox — when fixes are still cheap.</p>
+        <p class="read-more"><a href="https://witness.ai/blog/adversarial-prompting/" target="_blank" rel="noopener" style="color: var(--try-this);">Learn more ↗</a></p>
+        </div>
+      </div>
+      <div class="follow-up-block">
+        <h3 class="follow-up-heading">Five practical next steps for AI accountability</h3>
+        <ul class="follow-up-tasks">
+        <li>Think of several points of view to consider in your adversarial prompts... a sensitive teammate, an angry student, and so forth.  These adversarial prompts can be quite a help!</li>
+      </ul>
+      </div>
+
+      <!-- SHARE -->
+      <div class="share-section" id="share">
+        <h3>Found this useful?</h3>
+        <p>Share Artificial Insights with a colleague who might benefit.</p>
+        <a href="mailto:?subject=Check%20out%20Artificial%20Insights&body=I%20thought%20you%20might%20find%20this%20AI%20newsletter%20useful%3A%20https%3A%2F%2Fbpmstc.github.io%2FArtificial-Insights%2F" class="share-link">Share via Email</a>
+      </div>
+      
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../sources/2026-06-18.html">🔍 Sources</a>
+          <a href="mailto:">✉️ Contact</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #11 · Jun 18, 2026</p>
+      </footer>
+    </div>
+  </body>
+</html>

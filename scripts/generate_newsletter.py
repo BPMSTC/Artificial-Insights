@@ -770,6 +770,13 @@ def generate_issue_html(data: dict) -> str:
       .issue-info .meta {{
         color: var(--muted);
         font-size: 15px;
+        margin: 0;
+      }}
+      .issue-info .issue-date {{
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0 0 8px;
+        font-weight: 600;
       }}
       .issue-info .meta .icon {{ margin-right: 6px; }}
       
@@ -1297,6 +1304,7 @@ def generate_issue_html(data: dict) -> str:
       
       <div class="issue-info">
         <h1>Artificial Insights</h1>
+        <p class="issue-date">📅 {date_display} · Issue #{issue_num}</p>
         <p class="meta"><span class="icon">⏱️</span> Your bi-weekly AI briefing · 5 min read</p>
       </div>
       

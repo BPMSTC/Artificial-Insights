@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sources — Artificial Insights #11</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.7;
+      }
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px 60px;
+      }
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover {
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      h1 {
+        font-size: 32px;
+        margin: 32px 0 8px;
+        letter-spacing: -0.5px;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 15px;
+        margin-bottom: 32px;
+      }
+      h3 {
+        font-size: 18px;
+        margin: 28px 0 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      ul {
+        margin: 0 0 20px;
+        padding-left: 24px;
+      }
+      li {
+        margin-bottom: 8px;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      a:hover {
+        color: var(--accent-hover);
+        text-decoration: underline;
+      }
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 48px;
+      }
+      footer a {
+        color: var(--muted);
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      @media (max-width: 600px) {
+        h1 { font-size: 26px; }
+        h3 { font-size: 16px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 Jun 18, 2026 · Issue #11</span>
+      <a href="../issues/2026-06-18.html">← Back to Issue</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../issues/2026-06-18.html">📰 This Issue</a>
+      </nav>
+      
+      <h1>🔍 Sources</h1>
+      <p class="meta">References and links from Issue #11</p>
+      
+      <h3>⚡ Quick Scan</h3>
+      <ul>
+        <li><a href="https://www.wired.com/story/a-court-has-ruled-that-google-is-liable-for-false-statements-generated-by-ai-overviews" target="_blank" rel="noopener">German court says AI search summaries can create company liability ↗</a></li>
+        <li><a href="https://www.businessinsider.com/anthropic-mythos-made-wrong-tradeoff-new-model-guardrails-llm-development-2026-6" target="_blank" rel="noopener">Anthropic's Fable 5 reversal turns safety into a trust problem ↗</a></li>
+        <li><a href="https://www.nytimes.com/2026/06/14/us/ai-deepfake-hany-farid.html?unlocked_article_code=1.qFA.A6Fe.SMasD7T0VSmU&smid=bs-share" target="_blank" rel="noopener">A leading deepfake expert says visual trust is collapsing ↗</a></li>
+        <li><a href="https://www.techrepublic.com/article/news-figure-robot-demo-tests-24-7-humanoid-fleet-work/" target="_blank" rel="noopener">Figure's humanoid robots crossed an endurance marker, which is scary and exciting ↗</a></li>
+      </ul>
+      <h3>🛠️ Tool Drop</h3>
+      <ul>
+        <li><a href="https://youtu.be/TNwKs39uSVk?si=If97hTvhF6GgDOM_" target="_blank" rel="noopener">Gemini 3.5 Live Translate ↗</a></li>
+        <li><a href="https://techcommunity.microsoft.com/blog/copilot-studio-blog/meet-the-new-copilot-studio-rebuilt-for-more-complex-multi-step-work/4526488" target="_blank" rel="noopener">Microsoft Copilot Studio was rebuilt for multi-step work ↗</a></li>
+        <li><a href="https://developer.microsoft.com/blog/build-recap" target="_blank" rel="noopener">Microsoft Build made the agent stack more concrete ↗</a></li>
+      </ul>
+      <h3>🔬 The Breakdown</h3>
+      <ul>
+        <li><a href="https://www.businessinsider.com/anthropic-mythos-made-wrong-tradeoff-new-model-guardrails-llm-development-2026-6" target="_blank" rel="noopener">AI's next bottleneck is not intelligence. It is trust. ↗</a></li>
+      </ul>
+      <h3>🎓 Ed Pulse</h3>
+      <ul>
+        <li><a href="https://news.cornell.edu/stories/2026/05/widespread-ai-misuse-means-higher-ed-must-rethink-assessment" target="_blank" rel="noopener">Cornell researchers warn that passing a course may no longer prove mastery ↗</a></li>
+        <li><a href="https://apnews.com/article/77954a19f5304bfc6e76dc92d4bef3ad" target="_blank" rel="noopener">Oral exams are coming back because polished written work got too easy to fake ↗</a></li>
+      </ul>
+      <h3>💥 Failure Mode</h3>
+      <ul>
+        <li><a href="https://www.sciencedaily.com/releases/2026/06/260610003049.htm" target="_blank" rel="noopener">Psychology failures by models ↗</a></li>
+      </ul>
+      <h3>💡 Try This</h3>
+      <ul>
+        <li><a href="https://witness.ai/blog/adversarial-prompting/" target="_blank" rel="noopener">Ask a chatbot to give you an adversarial analysis ↗</a></li>
+      </ul>
+
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../issues/2026-06-18.html">📰 This Issue</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #11 · Jun 18, 2026</p>
+      </footer>
+    </div>
+  </body>
+</html>

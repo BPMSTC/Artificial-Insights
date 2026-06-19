@@ -24,6 +24,25 @@
         background: var(--bg);
         line-height: 1.6;
       }
+
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
       
       .container {
         max-width: 720px;
@@ -168,6 +187,11 @@
     </style>
   </head>
   <body>
+    <div class="top-bar">
+      <span class="date">📅 Latest Issue: Jun 18, 2026 · Issue #11</span>
+      <a href="issues/2026-06-18.html">Read Latest ↗</a>
+    </div>
+
     <div class="container">
       <div class="header">
         <img src="assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
@@ -183,6 +207,18 @@
         <h2>All Issues</h2>
       </div>
       
+      <article class="issue-card">
+        <div class="issue-header">
+          <h3>Jun 18, 2026</h3>
+          <span class="issue-number">Issue #11</span>
+        </div>
+        <p>Google liability for AI Overviews, Anthropic's Fable 5 trust fallout, deepfake skepticism, and the end of the disclaimer era.</p>
+        <div class="links">
+          <a href="issues/2026-06-18.html">Read Issue</a>
+          <a href="sources/2026-06-18.html">Sources</a>
+        </div>
+      </article>
+
       <article class="issue-card">
         <div class="issue-header">
           <h3>Jun 04, 2026</h3>
