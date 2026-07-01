@@ -63,6 +63,8 @@ In Action:
 Failure Mode:
 - Title:
   Content:
+  Image:
+  Caption:
   LinkText:
   URL:
   ArticleImage:

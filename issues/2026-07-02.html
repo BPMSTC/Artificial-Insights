@@ -1,0 +1,847 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Artificial Insights — Jul 02, 2026</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        --shadow-hover: 0 8px 30px rgba(15, 23, 42, 0.12);
+        --quick-scan: #8b5cf6;
+        --feed: #0891b2;
+        --tool-drop: #059669;
+        --breakdown: #d97706;
+        --ed-pulse: #db2777;
+        --in-action: #7c3aed;
+        --failure-mode: #dc2626;
+        --try-this: #0d9488;
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      
+      /* Top Bar */
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      
+      /* Container */
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      
+      /* Nav Links */
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover { 
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      
+      /* Issue Info */
+      .issue-info {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .issue-info h1 {
+        font-size: 36px;
+        margin: 0 0 8px;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .issue-info .meta {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0;
+      }
+      .issue-info .issue-date {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0 0 8px;
+        font-weight: 600;
+      }
+      .issue-info .meta .icon { margin-right: 6px; }
+      
+      /* Issue Overview */
+      .overview {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+      }
+      .overview h2 {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .overview h2::before {
+        content: "📑";
+        font-size: 14px;
+      }
+      .overview ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .overview li {
+        padding: 0;
+      }
+      .overview a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .overview a:hover { 
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .overview a[href="#quick-scan"] { background: #f3e8ff; color: var(--quick-scan); }
+      .overview a[href="#the-feed"] { background: #cffafe; color: var(--feed); }
+      .overview a[href="#tool-drop"] { background: #d1fae5; color: var(--tool-drop); }
+      .overview a[href="#the-breakdown"] { background: #fef3c7; color: var(--breakdown); }
+      .overview a[href="#ed-pulse"] { background: #fce7f3; color: var(--ed-pulse); }
+      .overview a[href="#in-action"] { background: #ede9fe; color: var(--in-action); }
+      .overview a[href="#failure-mode"] { background: #fee2e2; color: var(--failure-mode); }
+      .overview a[href="#try-this"] { background: #ccfbf1; color: var(--try-this); }
+      
+      /* Section Header Image */
+      .section-header {
+        margin: 48px 0 20px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .section-header img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      
+      /* Section Divider (fallback for no image) */
+      .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 48px 0 20px;
+      }
+      .section-divider h2 {
+        margin: 0;
+        font-size: 26px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-divider .line {
+        flex: 1;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--tool-drop) 0%, transparent 100%);
+      }
+      
+      /* Content Card */
+      .content-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--accent);
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .content-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .content-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .content-card:hover::before {
+        opacity: 1;
+      }
+      .card-quick-scan { border-left-color: var(--quick-scan); }
+      .card-feed { border-left-color: var(--feed); }
+      .card-tool-drop { border-left-color: var(--tool-drop); }
+      .card-breakdown { border-left-color: var(--breakdown); }
+      .card-ed-pulse { border-left-color: var(--ed-pulse); }
+      .card-in-action { border-left-color: var(--in-action); }
+      .card-failure-mode { border-left-color: var(--failure-mode); }
+      .content-card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .content-card h3 .icon {
+        font-size: 20px;
+      }
+      .content-card h3 a {
+        transition: opacity 0.15s;
+      }
+      .content-card h3 a:hover {
+        opacity: 0.7;
+      }
+      .content-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .content-card p + p {
+        margin-top: 12px;
+      }
+      .source-links {
+        font-size: 13px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--rule);
+      }
+      .source-links a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .source-links a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Quick Scan Items */
+      .quick-scan-item {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--quick-scan);
+        transition: all 0.2s ease;
+      }
+      .quick-scan-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .quick-scan-item h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: var(--text);
+      }
+      .quick-scan-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      
+      /* Read More Links */
+      .read-more {
+        margin-top: 12px !important;
+      }
+      .read-more a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .read-more a:hover {
+        text-decoration: underline;
+      }
+      
+      /* My Take styling */
+      .my-take {
+        margin-top: 16px !important;
+        padding-top: 12px;
+        border-top: 1px dashed var(--rule);
+        color: var(--text) !important;
+      }
+      
+      /* The Lesson styling */
+      .the-lesson {
+        margin-top: 16px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--text);
+      }
+      
+      /* Try This Box */
+      .try-this-box {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        border: 2px solid var(--try-this);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin: 20px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .try-this-box::before {
+        content: "💡";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 48px;
+        opacity: 0.15;
+      }
+      .try-this-box h3 {
+        color: var(--try-this);
+        margin: 0 0 12px;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .try-this-box h3::before {
+        content: "→";
+        font-weight: bold;
+      }
+      .try-this-box p {
+        margin: 0;
+        color: var(--text);
+        font-size: 15px;
+      }
+      .try-this-box code {
+        background: rgba(13, 148, 136, 0.15);
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: "Consolas", monospace;
+      }
+      .try-this-demo {
+        clear: both;
+        margin: 16px 0;
+      }
+      .try-this-demo img {
+        display: block;
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .try-this-demo figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* The Prompt styling */
+      .the-prompt {
+        margin: 16px 0;
+        padding: 16px 20px;
+        background: rgba(13, 148, 136, 0.08);
+        border-radius: 10px;
+        border-left: 4px solid var(--try-this);
+      }
+      .the-prompt .prompt-label {
+        font-weight: 700;
+        color: var(--try-this);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 10px;
+      }
+      .the-prompt blockquote {
+        margin: 0;
+        font-style: italic;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      .why-it-works {
+        margin-top: 14px !important;
+        font-size: 14px;
+        color: var(--muted) !important;
+      }
+      
+      /* How can AI help me? (follow-up tasks, inside Try This) */
+      .follow-up-block {
+        margin: 24px 0 20px;
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        border: 2px solid #8b5cf6;
+        border-radius: 14px;
+        border-left-width: 6px;
+      }
+      .follow-up-block .follow-up-heading {
+        margin: 0 0 12px;
+        font-size: 17px;
+        color: #6d28d9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .follow-up-block .follow-up-heading::before {
+        content: "🎯";
+        font-size: 20px;
+      }
+      .follow-up-block .follow-up-tasks {
+        margin: 0;
+        padding-left: 22px;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .follow-up-block .follow-up-tasks li {
+        margin-bottom: 8px;
+      }
+      .follow-up-block .follow-up-tasks li:last-child {
+        margin-bottom: 0;
+      }
+      
+      /* Article image (float left, text wrap) — optional per item */
+      .content-with-article-image {
+        overflow: auto;
+      }
+      .content-with-article-image::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .article-image {
+        float: left;
+        margin: 0 1.25em 1em 0;
+        max-width: 40%;
+        width: auto;
+      }
+      .article-image img {
+        display: block;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .article-image figcaption {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+        font-style: italic;
+      }
+      @media (max-width: 600px) {
+        .article-image {
+          float: none;
+          max-width: 100%;
+          margin: 0 auto 1em;
+          display: block;
+        }
+      }
+      
+      /* Demo Figure (In Action) */
+      figure {
+        margin: 16px 0;
+      }
+      figure img {
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* Share Section */
+      .share-section {
+        text-align: center;
+        padding: 36px 28px;
+        margin: 48px 0;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+      }
+      .share-section h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        color: var(--text);
+      }
+      .share-section p {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .share-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+      .share-link:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      }
+      .share-link::before {
+        content: "✉️";
+      }
+      
+      /* Footer */
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 600px) {
+        .top-bar {
+          justify-content: center;
+          text-align: center;
+        }
+        .nav-links {
+          gap: 12px;
+        }
+        .issue-info h1 {
+          font-size: 28px;
+        }
+        .section-divider h2 {
+          font-size: 22px;
+        }
+        .content-card, .overview, .try-this-box {
+          padding: 18px 20px;
+        }
+        .overview a {
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+      }
+      
+      @media print {
+        .top-bar, .nav-links, .share-section { display: none; }
+        body { background: #fff; }
+        .content-card, .overview { box-shadow: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 Jul 02, 2026 · Issue #12</span>
+      <a href="#">🔗 Read Online</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../sources/2026-07-02.html">🔍 Sources</a>
+        <a href="#share">📤 Share</a>
+      </nav>
+      
+      <div class="issue-info">
+        <h1>Artificial Insights</h1>
+        <p class="issue-date">📅 Jul 02, 2026 · Issue #12</p>
+        <p class="meta"><span class="icon">⏱️</span> Your bi-weekly AI briefing · 5 min read</p>
+      </div>
+      
+      <div class="overview">
+        <h2>In This Issue</h2>
+        <ul>
+          <li><a href="#quick-scan">⚡ Quick Scan</a></li>
+          <li><a href="#tool-drop">🛠️ Tool Drop</a></li>
+          <li><a href="#the-breakdown">🔬 The Breakdown</a></li>
+          <li><a href="#ed-pulse">🎓 Ed Pulse</a></li>
+          <li><a href="#in-action">🎬 In Action</a></li>
+          <li><a href="#failure-mode">💥 Failure Mode</a></li>
+          <li><a href="#try-this">💡 Try This</a></li>
+        </ul>
+      </div>
+
+      <!-- QUICK SCAN -->
+      <div class="section-header" id="quick-scan">
+        <img src="../assets/images/quick_scan_header.webp" alt="Quick Scan">
+      </div>
+      <div class="quick-scan-item">
+        <h3>OpenAI ships GPT-5.6, but only through a narrow door</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-07-02/openai.png" alt="New ChatGPT model rolled out to only approved partners.">
+          <figcaption>New ChatGPT model rolled out to only approved partners.</figcaption>
+        </figure>
+        <p>OpenAI's new GPT-5.6 family rolled out this week to a small group of approved partners rather than the typical rollout to everyone. The model is better, and you'll definitely notice it.  However, the notable item here is the shift in access.  This is a response to the oversight that the Federal Government is placing on new models for the last 30 days.  It's a dangerous precedent to set -- providing only the smartest technology to people who are specifically chosen instead of to the general public.</p>
+        <p class="read-more"><a href="https://www.axios.com/2026/06/26/openai-gpt-sol-terra-luna-trump" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Anthropic's recent Fable and Mythos fight turns model access into an agency issue</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-07-02/anthropic-fable.png" alt="Will we all have access to the smartest models?">
+          <figcaption>Will we all have access to the smartest models?</figcaption>
+        </figure>
+        <p>Anthropic's Fable 5 and Mythos 5 access dispute with the U.S. government became one of the biggest AI stories of the last month related to concerns regarding model safety.  As it turns out, model availability can become a national-security, compliance, and business-continuity problem.  What happens if a business has model access, and it's suddenly pulled?  Fable and Mythos were available for 3 days before access was pulled.  Some companies reported losing $1million per day as a result of this change.</p>
+        <p class="read-more"><a href="https://www.businessinsider.com/anthropic-mythos-5-us-restrictions-fable-5-openai-gpt-2026-6" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>OpenAI's Jalapeno chip points at the real cost problem</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-07-02/jalapeno.png" alt="Can Jalapeno-type chips really help us need fewer data centers?">
+          <figcaption>Can Jalapeno-type chips really help us need fewer data centers?</figcaption>
+        </figure>
+        <p>OpenAI's first custom chip was built and rolled out to make AI cheaper and more efficient to run. Many others are working on this as well due to the heavy power demand for AI. Should these chips prove as successful as hoped, the demand for data centers could be cut by up to half. I'm hopeful that OpenAI and the many other companies working on similar products are successful.  When we start talking about the economics of AI, I guess it reminds me of the following quote:  "In the long run, everything is a toaster. Once economics takes over, differentiation is gone".  I think we are approaching this point.</p>
+        <p class="read-more"><a href="https://www.theverge.com/ai-artificial-intelligence/955939/openai-reveals-its-first-processor-jalapeno" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TOOL DROP -->
+      <div class="section-header" id="tool-drop">
+        <img src="../assets/images/tool_drop_header.webp" alt="Tool Drop">
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Gemini study notebooks turn source material into cool quizzes</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-07-02/gemini-learning-notebook.webp" alt="Gemini Learning notebooks">
+          <figcaption>Gemini Learning notebooks</figcaption>
+        </figure>
+        <p><strong>The News:</strong> Gemini's study notebook workflow is built around a simple idea: give AI a body of source material, then use it to organize learning, explain concepts, and generate practice. For learners, this tool just keeps getting better and better.</p>
+        <p class="my-take"><strong>My Take:</strong> Gemini is behind in implementing tools into our workflow, but they are way ahead in items like this.</p>
+        <p class="read-more"><a href="https://www.tomsguide.com/ai/i-used-geminis-study-notebooks-to-organize-my-recipes-and-it-might-be-the-best-ai-cookbook-youre-not-using" target="_blank" rel="noopener">Learn More ↗</a></p>
+        </div>
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Microsoft turns repeatable Excel work into shareable AI skills</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-07-02/excelskill.png" alt="Reusable Copilot skills move AI from one-off prompting toward repeatable workflows.">
+          <figcaption>Reusable Copilot skills move AI from one-off prompting toward repeatable workflows.</figcaption>
+        </figure>
+        <p><strong>The News:</strong> Microsoft is rolling out reusable Copilot Skills for Excel, letting teams turn common spreadsheet work into structured, repeatable skill files.  These may be familiar if you've used skills in ChatGPT, Gemini, or Claude already.  They are very similar, and designed to help with routine work like variance analysis, monthly reporting, or completing reports.</p>
+        <p class="my-take"><strong>My Take:</strong> Copilot has been very slow to add this functionality, but it's very useful.  As someone who has used dozens of these skills, I can assure you that these will be helpful.</p>
+        <p class="read-more"><a href="https://www.computerworld.com/article/4189977/microsoft-adds-new-skills-and-more-oversight-for-copilot-in-excel.html" target="_blank" rel="noopener">Learn More ↗</a></p>
+        </div>
+      </div>
+
+      <!-- THE BREAKDOWN -->
+      <div class="section-header" id="the-breakdown">
+        <img src="../assets/images/the_breakdown_header.webp" alt="The Breakdown">
+      </div>
+      <div class="content-card card-breakdown">
+        <h3><span class="icon">🔬</span> The AI race is moving from smarter models to better context</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-07-02/contextengineering.png" alt="The context engineering struggle.">
+          <figcaption>The context engineering struggle.</figcaption>
+        </figure>
+        <p>The main theme in this issue is not which model wins a benchmark. It is that useful AI is moving into the work itself — documents, spreadsheets, PowerPoint, coding, search, meetings, and repeatable workflows. The tools get better when they can see more of the situation, and that visibility comes from the <strong>context</strong> we give them for the task at hand. Carrying that context from tool to tool is becoming just as important as picking the model. Maybe you've already encountered this- you use a tool to do some work, then you need to move to a new tool to do some more work, and.... you have to re-explain everything to the new model.  We need to carry that context from one app to the next.<br><br>That is both the opportunity and the trap. AI gets better when it has context, but context is also where the risk lives. A tool that can see the right document can be helpful. A tool that sees too much, remembers too much, or acts without review can become a governance problem, even though it has a pleasant interface.<br><br>Let's talk a little bit about what context is and how it works. Context is the surrounding information (history, constraints, user data, domain knowledge, environment) that gives a model's inputs meaning and lets it produce relevant, accurate responses, as opposed to treating each input in isolation. When we ask questions like "what information does this tool need, and what should it definitely not have?", that is the context we need to manage. The reason this is getting more and more important is because the strongest AI tools are moving toward the places where work already happens, and they consume context automatically at times.<br><br>Gemini study notebooks use source material as context to support learning. Copilot Skills use context to help create reusable office workflows. That is the upside of context-aware tools: the AI is working from the material and workflow you actually care about, not from a blank chat box.<br><br>The downside is that context strategy only works if you can still use the tool — and that is no longer guaranteed. The GPT-5.6 and Anthropic access stories are not really about smarter models. They are about who gets the model at all, under what rules, and with what strings attached. Anthropic's Fable fight also showed that access can come with mandatory data retention, meaning that traffic you expected to stay private may be retained by Anthropic. That means the context you hand over may be handled differently than you assumed. When the best tool is not available to everyone, or the terms change overnight, organizations need habits that are bigger than any one vendor: define the task, control the context, check the output, and keep a fallback plan.<br><br></p>
+        <div class="the-lesson"><strong>The Lesson:</strong> AI literacy now has to include context literacy. Everyone does not need to become an AI engineer to use these tools well, but they do need to ask the right questions before handing over information: What can this tool see? What can it change? What does it remember? How would I check its work? And, increasingly, will I still have this tool on these terms six months from now?</div>
+        <p class="read-more"><a href="https://natesnewsletter.substack.com/" target="_blank" rel="noopener">Read Nate's context test ↗</a></p>
+        </div>
+      </div>
+
+      <!-- ED PULSE -->
+      <div class="section-header" id="ed-pulse">
+        <img src="../assets/images/ed_pulse_header.webp" alt="Ed Pulse">
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> AI companies fund the workforce 'airbag'</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-07-02/raise-us.png" alt="RAISE US is helping to prepare workers for AI.">
+          <figcaption>RAISE US is helping to prepare workers for AI.</figcaption>
+        </figure>
+        <p>A new nonprofit called RAISE US has already raised $500 million toward a $1 billion goal to help states prepare workers for AI disruption. Former Commerce Secretary Gina Raimondo framed it like this: America has a technology strategy for the AI race, but not yet a people strategy for workers. The same firms automating the work are now funding the airbag, and that tension is the whole story.</p>
+        <p class="read-more"><a href="https://www.businessinsider.com/raise-us-ai-workers-supporters-openai-anthropic-2026-6" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> Workforce AI readiness is finally getting more support</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-07-02/ai-literacy-training.png" alt="AI literacy training is more important than ever">
+          <figcaption>AI literacy training is more important than ever</figcaption>
+        </figure>
+        <p>Let's talk a bit more about the RAISE US story as it relates to workforce preparation, which is already part of our mission. If AI changes job tasks faster than job titles, students and employees will need more than tool demos. They will need AI understanding, judgment, verification habits, data boundaries, and the confidence to learn new workflows without fear. I welcome the help in conveying AI literacy to the workforce.</p>
+        <p class="read-more"><a href="https://www.axios.com/2026/06/25/anthropic-labor-market-ai-jobs-crisis" target="_blank" rel="noopener">Read more ↗</a></p>
+        </div>
+      </div>
+
+      <!-- IN ACTION -->
+      <div class="section-header" id="in-action">
+        <img src="../assets/images/in_action_header.webp" alt="In Action">
+      </div>
+      <div class="content-card card-in-action">
+        <h3><span class="icon">🎬</span> Gemini quizzes with a study notebook</h3>
+        <p>This week's demo looks at Gemini's study notebook and quiz workflow: give it source material, let it organize the learning space, and then use it to generate quiz-style practice. What I like about this tool is that the questions are tied to a body of material that you supply, which makes the workflow closer to a study coach.<br><br>The good news is that it's pretty straightforward: start with a public article, a handout, or study content; generate practice questions; and then check the answers against the source.</p>
+        <figure>
+          <img src="../assets/demos/2026-07-02/gemini-quizzes.gif" alt="Gemini turning study material into quiz-style practice.">
+          <figcaption>Gemini turning study material into quiz-style practice.</figcaption>
+        </figure>
+      </div>
+
+      <!-- FAILURE MODE -->
+      <div class="section-header" id="failure-mode">
+        <img src="../assets/images/failure_mode_header.webp" alt="Failure Mode">
+      </div>
+      <div class="content-card card-failure-mode">
+        <h3><span class="icon">💥</span> Something went wrong with the drone show</h3>
+        <p>A drone-pyrotechnics show in Liuyang, China, took a dangerous turn when a technical malfunction caused hundreds of illuminated drones or attached payloads to fall from the sky. What began as a coordinated aerial display quickly unraveled, as synchronized light formations gave way to cascading fireballs, thick smoke, and burning debris.<br><br>Here is some witness footage that captured the rather sudden shift from a controlled spectacle to a chaotic scene, with flaming fragments descending toward nearby structures and spectators. Several ground fires were reported as debris made impact as well.</p>
+        <figure>
+          <img src="../assets/demos/2026-07-02/drone-falling.gif" alt="Dynamic drone show failure">
+          <figcaption>Dynamic drone show failure</figcaption>
+        </figure>
+      </div>
+
+      <!-- TRY THIS -->
+      <div class="section-header" id="try-this">
+        <img src="../assets/images/try_this_header.webp" alt="Try This">
+      </div>
+      <div class="try-this-box">
+        <h3>Build review questions from a low-risk source</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-07-02/gemini-lite.png" alt="Gemini's quick version of learning.">
+          <figcaption>Gemini's quick version of learning.</figcaption>
+        </figure>
+        <p>Try this with a topic you're looking to bone up on if you don't want to go through all the work of creating a NotebookLM — use Gemini (even the free version). Provide the sources you want to use for learning, and try the following.</p>
+        <div class="the-prompt">
+          <p class="prompt-label">The Prompt:</p>
+          <blockquote>""I want to use this source material to study or review the topic. Create five quiz questions that check understanding, not memorization. For each question, include the correct answer, a brief explanation, and the exact part of the source that supports the answer. After that, list two places where the source might be unclear or where a human should verify the information.""</blockquote>
+        </div>
+        </div>
+      </div>
+      <div class="follow-up-block">
+        <h3 class="follow-up-heading">Three practical ways to start thinking about AI context</h3>
+        <ul class="follow-up-tasks">
+        <li>Pick one routine task you already do, such as summarizing notes, drafting an email, studying a policy, or creating review questions. Ask what information the AI would need to do that task well.</li>
+        <li>Before using an AI tool, ask these questions: What can it see? What can it change? What does it remember? How would I check its work? Will I still have this tool on these terms six months from now?</li>
+      </ul>
+      </div>
+
+      <!-- SHARE -->
+      <div class="share-section" id="share">
+        <h3>Found this useful?</h3>
+        <p>Share Artificial Insights with a colleague who might benefit.</p>
+        <a href="mailto:?subject=Check%20out%20Artificial%20Insights&body=I%20thought%20you%20might%20find%20this%20AI%20newsletter%20useful%3A%20https%3A%2F%2Fbpmstc.github.io%2FArtificial-Insights%2F" class="share-link">Share via Email</a>
+      </div>
+      
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../sources/2026-07-02.html">🔍 Sources</a>
+          <a href="mailto:">✉️ Contact</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #12 · Jul 02, 2026</p>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -239,6 +239,18 @@ def _article_image_html(item: dict, issue_date: str) -> str:
 '''
 
 
+def _demo_figure_html(image: str, caption: str, issue_date: str, alt: str = '') -> str:
+    """Return HTML for a full-width demo GIF/image from assets/demos/{issue_date}/."""
+    if not image:
+        return ''
+    image_path = f"../assets/demos/{issue_date}/{image}"
+    return f'''        <figure>
+          <img src="{image_path}" alt="{caption or alt}">
+          <figcaption>{caption}</figcaption>
+        </figure>
+'''
+
+
 def generate_quick_scan_html(item: dict, issue_date: str) -> str:
     """Generate HTML for Quick Scan items - brief teasers with links."""
     title = item.get('Title', '')
@@ -413,12 +425,7 @@ def generate_in_action_html(item: dict, issue_date: str) -> str:
 '''
     
     if image:
-        image_path = f"../assets/demos/{issue_date}/{image}"
-        html += f'''        <figure>
-          <img src="{image_path}" alt="{caption or title}">
-          <figcaption>{caption}</figcaption>
-        </figure>
-'''
+        html += _demo_figure_html(image, caption, issue_date, title)
     
     html += link_html
     html += '      </div>\n'
@@ -428,11 +435,13 @@ def generate_in_action_html(item: dict, issue_date: str) -> str:
 def generate_failure_mode_html(item: dict, issue_date: str) -> str:
     """Generate HTML for Failure Mode items — a light-hearted 'AI fails' card.
 
-    Uses the same field shape as Ed Pulse (Title, Content, optional LinkText, URL,
-    ArticleImage, ArticleImageCaption).
+    Supports Image/Caption (GIF or image from assets/demos/) like In Action, or
+    ArticleImage/ArticleImageCaption (float-left image from assets/article-images/).
     """
     title = item.get('Title', '')
     content = item.get('Content', '') or item.get('Summary', '')
+    image = (item.get('Image') or '').strip()
+    caption = (item.get('Caption') or '').strip()
     link_text = item.get('LinkText', '')
     urls = item.get('URLs', [])
     article_img = _article_image_html(item, issue_date)
@@ -449,6 +458,16 @@ def generate_failure_mode_html(item: dict, issue_date: str) -> str:
                 domain = domain.replace('www.', '')
                 link_parts.append(f'<a href="{url}" target="_blank" rel="noopener">{domain} ↗</a>')
             link_html = f'\n        <p class="source-links">Sources: ' + ' · '.join(link_parts) + '</p>'
+
+    if image:
+        html = f'''      <div class="content-card card-failure-mode">
+        <h3><span class="icon">💥</span> {title}</h3>
+        <p>{format_text(content)}</p>
+'''
+        html += _demo_figure_html(image, caption, issue_date, title)
+        html += link_html
+        html += '      </div>\n'
+        return html
 
     content_inner = f'''        <div class="content-with-article-image">
 {article_img}        <p>{format_text(content)}</p>{link_html}

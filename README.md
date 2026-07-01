@@ -97,8 +97,9 @@ See `meeting-notes/meeting-notes-template.md` for the complete structure.
 
 ### 2. Add Demo GIFs and Optional Article Images
 
-- **In Action**: Put GIFs in `assets/demos/YYYY-MM-DD/`. The filename must match the `Image:` field (e.g. `Image: recurring-tasks.gif`).
+- **In Action** and **Failure Mode**: Put GIFs or images in `assets/demos/YYYY-MM-DD/`. The filename must match the `Image:` field (e.g. `Image: recurring-tasks.gif`). Use `Caption:` for the figure caption.
 - **Other sections** (Quick Scan, Tool Drop, The Breakdown, Ed Pulse, Try This): Optionally add images in `assets/article-images/YYYY-MM-DD/`. Use `ArticleImage: filename.webp` and optional `ArticleImageCaption: Your caption.` Images float left with text wrapping; omit or leave empty for no image.
+- **Failure Mode** can also use `ArticleImage` instead of `Image` for a smaller float-left image from `assets/article-images/YYYY-MM-DD/`. Prefer `Image` for GIFs and full-width clips.
 
 ### 3. Generate Newsletter (when editing existing content)
 
@@ -162,10 +163,12 @@ Live site: https://bpmstc.github.io/Artificial-Insights/
 ### Failure Mode Fields
 - `Title`: Short headline for the fail
 - `Content`: Short write-up — keep it light, but tie it back to a real lesson
+- `Image`: Optional GIF or image filename in `assets/demos/YYYY-MM-DD/` (full-width, like In Action)
+- `Caption`: Caption for the demo image or GIF
 - `LinkText`: Optional custom link text (e.g., "Watch the video")
 - `URL`: Link to the clip, article, or source
-- `ArticleImage`: Optional image in `assets/article-images/YYYY-MM-DD/`
-- `ArticleImageCaption`: Optional image caption
+- `ArticleImage`: Optional float-left image in `assets/article-images/YYYY-MM-DD/` (alternative to `Image`)
+- `ArticleImageCaption`: Optional caption for the article image
 
 ### Try This Fields
 - `Title`: Prompt name
