@@ -1607,6 +1607,24 @@ def main():
     if not md_path.exists():
         print(f"Error: File not found: {md_path}")
         sys.exit(1)
+
+    # Warn about browser-unfriendly .mov demos (does not block generation)
+    try:
+        from validate_demo_videos import find_mov_files, find_mov_references
+        mov_files = find_mov_files()
+        mov_refs = find_mov_references()
+        if mov_files or mov_refs:
+            print(
+                "WARNING: .mov / QuickTime demo media detected. "
+                "Browsers often cannot play these. Convert to .mp4 "
+                "(see: python scripts/validate_demo_videos.py)."
+            )
+            for path in mov_files:
+                print(f"  - file: {path}")
+            for path, line_no, filename in mov_refs:
+                print(f"  - notes: {path}:{line_no} Image: {filename}")
+    except Exception:
+        pass
     
     # Read and parse markdown
     content = md_path.read_text(encoding='utf-8')
