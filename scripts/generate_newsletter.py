@@ -240,12 +240,31 @@ def _article_image_html(item: dict, issue_date: str) -> str:
 
 
 def _demo_figure_html(image: str, caption: str, issue_date: str, alt: str = '') -> str:
-    """Return HTML for a full-width demo GIF/image from assets/demos/{issue_date}/."""
+    """Return HTML for a full-width demo GIF/image/video from assets/demos/{issue_date}/."""
     if not image:
         return ''
-    image_path = f"../assets/demos/{issue_date}/{image}"
+    media_path = f"../assets/demos/{issue_date}/{image}"
+    caption_text = caption or alt
+    ext = Path(image).suffix.lower()
+
+    if ext in {'.mp4', '.webm', '.mov'}:
+        mime = {
+            '.mp4': 'video/mp4',
+            '.webm': 'video/webm',
+            '.mov': 'video/quicktime',
+        }[ext]
+        media_html = (
+            f'<video controls playsinline preload="metadata" '
+            f'title="{caption_text}">\n'
+            f'            <source src="{media_path}" type="{mime}">\n'
+            f'            Your browser does not support the video tag.\n'
+            f'          </video>'
+        )
+    else:
+        media_html = f'<img src="{media_path}" alt="{caption_text}">'
+
     return f'''        <figure>
-          <img src="{image_path}" alt="{caption or alt}">
+          {media_html}
           <figcaption>{caption}</figcaption>
         </figure>
 '''
@@ -1191,11 +1210,22 @@ def generate_issue_html(data: dict) -> str:
       figure {{
         margin: 16px 0;
       }}
-      figure img {{
+      figure img,
+      figure video {{
         max-width: 100%;
         border-radius: 10px;
         border: 1px solid var(--rule);
         box-shadow: var(--shadow);
+      }}
+      figure video {{
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: min(100%, 320px);
+        max-height: 520px;
+        margin: 0 auto;
+        background: #0f172a;
+        object-fit: contain;
       }}
       figcaption {{
         color: var(--muted);

@@ -97,7 +97,7 @@ See `meeting-notes/meeting-notes-template.md` for the complete structure.
 
 ### 2. Add Demo GIFs and Optional Article Images
 
-- **In Action** and **Failure Mode**: Put GIFs or images in `assets/demos/YYYY-MM-DD/`. The filename must match the `Image:` field (e.g. `Image: recurring-tasks.gif`). Use `Caption:` for the figure caption.
+- **In Action** and **Failure Mode**: Put GIFs, images, or MP4 videos in `assets/demos/YYYY-MM-DD/`. The filename must match the `Image:` field (e.g. `Image: recurring-tasks.gif` or `Image: voicedemo.MP4`). Use `Caption:` for the figure caption. MP4/WebM/MOV render as playable `<video>` controls; other formats use `<img>`.
 - **Other sections** (Quick Scan, Tool Drop, The Breakdown, Ed Pulse, Try This): Optionally add images in `assets/article-images/YYYY-MM-DD/`. Use `ArticleImage: filename.webp` and optional `ArticleImageCaption: Your caption.` Images float left with text wrapping; omit or leave empty for no image.
 - **Failure Mode** can also use `ArticleImage` instead of `Image` for a smaller float-left image from `assets/article-images/YYYY-MM-DD/`. Prefer `Image` for GIFs and full-width clips.
 
@@ -155,7 +155,7 @@ Live site: https://bpmstc.github.io/Artificial-Insights/
 ### In Action Fields
 - `Title`: Demo name
 - `Content`: Description
-- `Image`: Filename of GIF in `assets/demos/YYYY-MM-DD/`
+- `Image`: Filename of GIF, image, or MP4 in `assets/demos/YYYY-MM-DD/`
 - `Caption`: Image caption
 - `LinkText`: Optional custom link text
 - `URL`: Optional guide link
@@ -163,7 +163,7 @@ Live site: https://bpmstc.github.io/Artificial-Insights/
 ### Failure Mode Fields
 - `Title`: Short headline for the fail
 - `Content`: Short write-up — keep it light, but tie it back to a real lesson
-- `Image`: Optional GIF or image filename in `assets/demos/YYYY-MM-DD/` (full-width, like In Action)
+- `Image`: Optional GIF, image, or MP4 filename in `assets/demos/YYYY-MM-DD/` (full-width, like In Action)
 - `Caption`: Caption for the demo image or GIF
 - `LinkText`: Optional custom link text (e.g., "Watch the video")
 - `URL`: Link to the clip, article, or source
