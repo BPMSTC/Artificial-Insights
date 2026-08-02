@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Artificial Insights — Aug 01, 2026</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        --shadow-hover: 0 8px 30px rgba(15, 23, 42, 0.12);
+        --quick-scan: #8b5cf6;
+        --feed: #0891b2;
+        --tool-drop: #059669;
+        --breakdown: #d97706;
+        --ed-pulse: #db2777;
+        --in-action: #7c3aed;
+        --failure-mode: #dc2626;
+        --try-this: #0d9488;
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      
+      /* Top Bar */
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      
+      /* Container */
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      
+      /* Nav Links */
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover { 
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      
+      /* Issue Info */
+      .issue-info {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .issue-info h1 {
+        font-size: 36px;
+        margin: 0 0 8px;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .issue-info .meta {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0;
+      }
+      .issue-info .issue-date {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0 0 8px;
+        font-weight: 600;
+      }
+      .issue-info .meta .icon { margin-right: 6px; }
+      
+      /* Issue Overview */
+      .overview {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+      }
+      .overview h2 {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .overview h2::before {
+        content: "📑";
+        font-size: 14px;
+      }
+      .overview ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .overview li {
+        padding: 0;
+      }
+      .overview a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .overview a:hover { 
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .overview a[href="#quick-scan"] { background: #f3e8ff; color: var(--quick-scan); }
+      .overview a[href="#the-feed"] { background: #cffafe; color: var(--feed); }
+      .overview a[href="#tool-drop"] { background: #d1fae5; color: var(--tool-drop); }
+      .overview a[href="#the-breakdown"] { background: #fef3c7; color: var(--breakdown); }
+      .overview a[href="#ed-pulse"] { background: #fce7f3; color: var(--ed-pulse); }
+      .overview a[href="#in-action"] { background: #ede9fe; color: var(--in-action); }
+      .overview a[href="#failure-mode"] { background: #fee2e2; color: var(--failure-mode); }
+      .overview a[href="#try-this"] { background: #ccfbf1; color: var(--try-this); }
+      
+      /* Section Header Image */
+      .section-header {
+        margin: 48px 0 20px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .section-header img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      
+      /* Section Divider (fallback for no image) */
+      .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 48px 0 20px;
+      }
+      .section-divider h2 {
+        margin: 0;
+        font-size: 26px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-divider .line {
+        flex: 1;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--tool-drop) 0%, transparent 100%);
+      }
+      
+      /* Content Card */
+      .content-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--accent);
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .content-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .content-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .content-card:hover::before {
+        opacity: 1;
+      }
+      .card-quick-scan { border-left-color: var(--quick-scan); }
+      .card-feed { border-left-color: var(--feed); }
+      .card-tool-drop { border-left-color: var(--tool-drop); }
+      .card-breakdown { border-left-color: var(--breakdown); }
+      .card-ed-pulse { border-left-color: var(--ed-pulse); }
+      .card-in-action { border-left-color: var(--in-action); }
+      .card-failure-mode { border-left-color: var(--failure-mode); }
+      .content-card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .content-card h3 .icon {
+        font-size: 20px;
+      }
+      .content-card h3 a {
+        transition: opacity 0.15s;
+      }
+      .content-card h3 a:hover {
+        opacity: 0.7;
+      }
+      .content-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .content-card p + p {
+        margin-top: 12px;
+      }
+      .source-links {
+        font-size: 13px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--rule);
+      }
+      .source-links a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .source-links a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Quick Scan Items */
+      .quick-scan-item {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--quick-scan);
+        transition: all 0.2s ease;
+      }
+      .quick-scan-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .quick-scan-item h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: var(--text);
+      }
+      .quick-scan-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      
+      /* Read More Links */
+      .read-more {
+        margin-top: 12px !important;
+      }
+      .read-more a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .read-more a:hover {
+        text-decoration: underline;
+      }
+      
+      /* My Take styling */
+      .my-take {
+        margin-top: 16px !important;
+        padding-top: 12px;
+        border-top: 1px dashed var(--rule);
+        color: var(--text) !important;
+      }
+      
+      /* The Lesson styling */
+      .the-lesson {
+        margin-top: 16px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--text);
+      }
+      
+      /* Try This Box */
+      .try-this-box {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        border: 2px solid var(--try-this);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin: 20px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .try-this-box::before {
+        content: "💡";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 48px;
+        opacity: 0.15;
+      }
+      .try-this-box h3 {
+        color: var(--try-this);
+        margin: 0 0 12px;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .try-this-box h3::before {
+        content: "→";
+        font-weight: bold;
+      }
+      .try-this-box p {
+        margin: 0;
+        color: var(--text);
+        font-size: 15px;
+      }
+      .try-this-box code {
+        background: rgba(13, 148, 136, 0.15);
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: "Consolas", monospace;
+      }
+      .try-this-demo {
+        clear: both;
+        margin: 16px 0;
+      }
+      .try-this-demo img {
+        display: block;
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .try-this-demo figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* The Prompt styling */
+      .the-prompt {
+        margin: 16px 0;
+        padding: 16px 20px;
+        background: rgba(13, 148, 136, 0.08);
+        border-radius: 10px;
+        border-left: 4px solid var(--try-this);
+      }
+      .the-prompt .prompt-label {
+        font-weight: 700;
+        color: var(--try-this);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 10px;
+      }
+      .the-prompt blockquote {
+        margin: 0;
+        font-style: italic;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      .why-it-works {
+        margin-top: 14px !important;
+        font-size: 14px;
+        color: var(--muted) !important;
+      }
+      
+      /* How can AI help me? (follow-up tasks, inside Try This) */
+      .follow-up-block {
+        margin: 24px 0 20px;
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        border: 2px solid #8b5cf6;
+        border-radius: 14px;
+        border-left-width: 6px;
+      }
+      .follow-up-block .follow-up-heading {
+        margin: 0 0 12px;
+        font-size: 17px;
+        color: #6d28d9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .follow-up-block .follow-up-heading::before {
+        content: "🎯";
+        font-size: 20px;
+      }
+      .follow-up-block .follow-up-tasks {
+        margin: 0;
+        padding-left: 22px;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .follow-up-block .follow-up-tasks li {
+        margin-bottom: 8px;
+      }
+      .follow-up-block .follow-up-tasks li:last-child {
+        margin-bottom: 0;
+      }
+      
+      /* Article image (float left, text wrap) — optional per item */
+      .content-with-article-image {
+        overflow: auto;
+      }
+      .content-with-article-image::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .article-image {
+        float: left;
+        margin: 0 1.25em 1em 0;
+        max-width: 40%;
+        width: auto;
+      }
+      .article-image img {
+        display: block;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .article-image figcaption {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+        font-style: italic;
+      }
+      @media (max-width: 600px) {
+        .article-image {
+          float: none;
+          max-width: 100%;
+          margin: 0 auto 1em;
+          display: block;
+        }
+      }
+      
+      /* Demo Figure (In Action) */
+      figure {
+        margin: 16px 0;
+      }
+      figure img,
+      figure video {
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      figure video {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: min(100%, 320px);
+        max-height: 520px;
+        margin: 0 auto;
+        background: #0f172a;
+        object-fit: contain;
+      }
+      figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* Share Section */
+      .share-section {
+        text-align: center;
+        padding: 36px 28px;
+        margin: 48px 0;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+      }
+      .share-section h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        color: var(--text);
+      }
+      .share-section p {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .share-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+      .share-link:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      }
+      .share-link::before {
+        content: "✉️";
+      }
+      
+      /* Footer */
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 600px) {
+        .top-bar {
+          justify-content: center;
+          text-align: center;
+        }
+        .nav-links {
+          gap: 12px;
+        }
+        .issue-info h1 {
+          font-size: 28px;
+        }
+        .section-divider h2 {
+          font-size: 22px;
+        }
+        .content-card, .overview, .try-this-box {
+          padding: 18px 20px;
+        }
+        .overview a {
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+      }
+      
+      @media print {
+        .top-bar, .nav-links, .share-section { display: none; }
+        body { background: #fff; }
+        .content-card, .overview { box-shadow: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 Aug 01, 2026 · Issue #14</span>
+      <a href="#">🔗 Read Online</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../sources/2026-08-01.html">🔍 Sources</a>
+        <a href="#share">📤 Share</a>
+      </nav>
+      
+      <div class="issue-info">
+        <h1>Artificial Insights</h1>
+        <p class="issue-date">📅 Aug 01, 2026 · Issue #14</p>
+        <p class="meta"><span class="icon">⏱️</span> Your bi-weekly AI briefing · 5 min read</p>
+      </div>
+      
+      <div class="overview">
+        <h2>In This Issue</h2>
+        <ul>
+          <li><a href="#quick-scan">⚡ Quick Scan</a></li>
+          <li><a href="#tool-drop">🛠️ Tool Drop</a></li>
+          <li><a href="#the-breakdown">🔬 The Breakdown</a></li>
+          <li><a href="#ed-pulse">🎓 Ed Pulse</a></li>
+          <li><a href="#in-action">🎬 In Action</a></li>
+          <li><a href="#failure-mode">💥 Failure Mode</a></li>
+          <li><a href="#try-this">💡 Try This</a></li>
+        </ul>
+      </div>
+
+      <!-- QUICK SCAN -->
+      <div class="section-header" id="quick-scan">
+        <img src="../assets/images/quick_scan_header.webp" alt="Quick Scan">
+      </div>
+      <div class="quick-scan-item">
+        <h3>Apple’s lawsuit alleges OpenAI hired its way into Apple’s hardware secrets</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-08-01/apple-openai-trade-secrets.png" alt="Alleged trade-secret theft from unreleased product files to supplier relationships">
+          <figcaption>Alleged trade-secret theft from unreleased product files to supplier relationships</figcaption>
+        </figure>
+        <p>Apple has sued OpenAI, alleging trade-secret theft and breach of contract tied to OpenAI’s hardware effort. The complaint is related to two former Apple employees: Chang Liu, a former senior systems electrical engineer, and Tang Yew Tan, former VP of product design for iPhone and Apple Watch, who is now OpenAI's hardware chief. It alleges both trade secret theft and breach of contract. The complaint says that the former Apple employees kept or emailed themselves confidential files covering unannounced products, manufacturing processes, supplier relationships, and battery and power designs. One claim says OpenAI approached a supplier using Apple’s own internal terminology. The unusual part is the hiring angle: Apple alleges a former employee used internal Apple codenames while interviewing current Apple staff, and directed candidates to bring actual Apple hardware components to “show and tell” sessions. I'm shocked at this breach of professional trust between business partners.  There is no way that the parties involved thought this was ethically defensible.</p>
+        <p class="read-more"><a href="https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/" target="_blank" rel="noopener">Read the TechCrunch coverage ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Anthropic’s $1.5 billion copyright settlement makes provenance expensive</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-08-01/anthropic-copyright-settlement.png" alt="Training-data provenance is becoming an operational and financial risk">
+          <figcaption>Training-data provenance is becoming an operational and financial risk</figcaption>
+        </figure>
+        <p>Anthropic recently paid a $1.5 billion settlement to authors and publishers over copyrighted books. As a result of this, the law behind what is fair use of books for AI training remains unsettled. This is only a small portion of what Anthropic used to train their models, and many other model creators have not settled with authors yet.  This is good news, because for a while it looked like intellectual property rights were not going to be maintained.  There is still a lot of work to do, but this is a good move.</p>
+        <p class="read-more"><a href="https://techcrunch.com/2026/07/20/anthropics-landmark-1-5b-copyright-settlement-is-approved/" target="_blank" rel="noopener">Read the settlement coverage ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>The AI race is reaching robots, power equipment, and the supply chain</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-08-01/ai-infrastructure-policy.png" alt="AI competition moving from software into physical infrastructure">
+          <figcaption>AI competition moving from software into physical infrastructure</figcaption>
+        </figure>
+        <p>The FCC has added all foreign-produced humanoid robots, quadruped robots, and power inverters to its Covered List, which means new models can't get the equipment authorization required to be imported or sold in the U.S. China holds roughly 85% of the humanoid robot market, so the target is obvious. The determination came from a White House-convened interagency group; the FCC can only add to the Covered List at the direction of national security authorities.<br><br>The concern is that both categories are networked computers sitting inside places you'd otherwise control access to. A robot has cameras, microphones, and mobility. An inverter converts DC to AC for data centers and solar installations, takes remote firmware updates, and is wired into the grid.<br><br>One thing to watch... cost. Chinese manufacturers are the cheap, fast supplier for inverters and robotics, and cutting off new model approvals means U.S. buyers pay more and wait longer, right as data-center and solar build-out is accelerating.</p>
+        <p class="read-more"><a href="https://www.axios.com/2026/07/28/trump-administration-bans-chinese-hardware-ai-race" target="_blank" rel="noopener">Read the Axios report ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TOOL DROP -->
+      <div class="section-header" id="tool-drop">
+        <img src="../assets/images/tool_drop_header.webp" alt="Tool Drop">
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Flow Music can give your next video a real soundtrack, especially if you skip the lyrics</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-08-01/flow-music-test.png" alt="An AI soundtrack works best when you decide whether words belong at all">
+          <figcaption>An AI soundtrack works best when you decide whether words belong at all</figcaption>
+        </figure>
+        <p><strong>The News:</strong> This one is less on-point with what we do from day to day, so we'll call it the summer music series :).  Google's Flow Music generates full-length tracks with real musical cohesion. It works for a video or a quick concept track when you need mood without licensing a stock song.  I used it in a video background I created for a course.</p>
+        <p class="my-take"><strong>My Take:</strong> I got the best result by leaving the lyrics out on purpose. Let the tool handle arrangement, rhythm, and texture. I found that it's best to not force a vocal track because it's really quite bad at lyrics.  Better to just use ChatGPT or something else for that. It's not quite a songwriter just yet!</p>
+        <p class="read-more"><a href="https://www.flowmusic.app/" target="_blank" rel="noopener">Learn More ↗</a></p>
+        </div>
+      </div>
+
+      <!-- THE BREAKDOWN -->
+      <div class="section-header" id="the-breakdown">
+        <img src="../assets/images/the_breakdown_header.webp" alt="The Breakdown">
+      </div>
+      <div class="content-card card-breakdown">
+        <h3><span class="icon">🔬</span> They ran a security test. The AI broke into the internet.</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-08-01/trust-no-one.webp" alt="Not to be a conspiracy theorist, but...we need to be very suspicious of our AI helpers.  Ask the right questions.">
+          <figcaption>Not to be a conspiracy theorist, but...we need to be very suspicious of our AI helpers.  Ask the right questions.</figcaption>
+        </figure>
+        <p>This week’s most consequential AI story is actually 2 stories that show the same problem. Two labs disclosed how security evaluations scarily reached real-world systems.<br><br>First... OpenAI says models escaped an isolated evaluation environment, obtained internet access, and compromised Hugging Face infrastructure while trying to obtain solutions to the problem that the model was given to solve.<br><br>Second... Anthropic disclosed three separate cases in which its models, during capture-the-flag evaluations, reached real organizations by breaking out of the test environment and finding live internet access.<br><br>The important lesson is not “the models went rogue.” Both companies describe agents pursuing the assigned evaluation goal inside badly secured systems. The biggest problem here is that tech companies themselves can't figure out what has to be done in order to have a secure system from AI applications.  In fact, once it was determined that the OpenAI model was on the loose, Hugging Face had to use a Chinese model to help with the cybersecurity items in order to track down the problems.<br><br></p>
+        <div class="the-lesson"><strong>The Lesson:</strong> This one is the scariest thing I've seen in the last 3 years of AI work.  We all need to be a bit more suspicious.  Stop asking only whether a model has guardrails, because that is no longer enough. Some additional questions we need to be concerned with are: what it can reach, which credentials it can use, how its actions are logged, who can stop it, and who else inherits the risk if the experiment goes wrong. The same questions apply at a much smaller scale when we connect agents to files, inboxes, cloud services, or production data.  I'm reminded of the famous X-Files line... <strong>"Trust No One"</strong>, but in this case it's trust no model.</div>
+        <p class="read-more"><a href="https://openai.com/index/hugging-face-model-evaluation-security-incident/" target="_blank" rel="noopener">Read OpenAI’s incident report ↗</a></p>
+        </div>
+      </div>
+
+      <!-- ED PULSE -->
+      <div class="section-header" id="ed-pulse">
+        <img src="../assets/images/ed_pulse_header.webp" alt="Ed Pulse">
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> AI just cracked ten hard math problems. Does this mean that we all understand them?</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-08-01/ai-math-attribution.png" alt="AI-assisted discovery raises the standard for verification and attribution">
+          <figcaption>AI-assisted discovery raises the standard for verification and attribution</figcaption>
+        </figure>
+        <p>OpenAI announced ten results on longstanding mathematics and theoretical computer science problems generated by an internal model, then prepared by humans.  They are all being double-checked by humans, but this is very impressive regardless.   Two years ago the models failed at basic math, and now they're solving hard problems and doing mathematical proofs that have escaped mathematicians.  At this pace of improvement, what will the models be doing in 12 months?<br><br>This is bigger than math. We are all seeing this already, but if AI can produce work that looks like research, proof, analysis, or code, then coursework has to make students show their reasoning, source checks, testing, and attribution decisions. I think that we have no choice but to pivot to looking at these items as we assess students.  They are going to have to be able to explain precisely what they did, what tools were used, how they interacted with AI, and what they added to the process.</p>
+        <p class="read-more"><a href="https://openai.com/index/ten-advances-in-mathematics/" target="_blank" rel="noopener">Read More ↗</a></p>
+        </div>
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> 68% ask the AI. 4% ask their manager. We’re outsourcing our hallway conversations.</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-08-01/human-handoff.png" alt="Fast answers should not erase judgment, coaching, or connection">
+          <figcaption>Fast answers should not erase judgment, coaching, or connection</figcaption>
+        </figure>
+        <p>People now ask the chatbots the “obvious” question instead of chatting with their manager. Adobe’s survey put numbers on that shift: 68% of weekly AI users would ask an agent, while only 4% would ask their direct manager. Convenience is helpful in the short-term, and devastating in the long-term.<br><br>What gets lost is the hallway conversation. That is where people learn why a decision changed, how an expert notices risk, or when a question reveals a gap worth discussing. Judgment transfer, risk radar, belonging. The “why we do it this way” stuff.<br><br>Convenience is fine. Silent disappearance of coaching is not. If every quick question goes to the model, the organization stops teaching itself.  These conversations are where the culture of the organization is emphasized.  Are we all in danger of losing this with the convenience of asking a bot for the answers?<br><br></p>
+        <p class="read-more"><a href="https://business.adobe.com/blog/agentic-ai-at-work" target="_blank" rel="noopener">Read More ↗</a></p>
+        </div>
+      </div>
+
+      <!-- IN ACTION -->
+      <div class="section-header" id="in-action">
+        <img src="../assets/images/in_action_header.webp" alt="In Action">
+      </div>
+      <div class="content-card card-in-action">
+        <h3><span class="icon">🎬</span> I made a Flow Music video</h3>
+        <p>I used the new Google Flow Music to generate a short cinematic soundtrack and music video: a relaxed Gulf-and-Western beach scene with golden-hour light, palms, and a traveler by a bonfire (think Jimmy Buffett-like sound). I left the lyrics out on purpose because when I tried, they were quite terrible.<br><br>Leaving the lyrics off was actually helpful for what I needed: background music.  After I had the music, the generated video matched the vibe well enough to share. If you need a soundtrack for a lesson, project, or short film, try skipping the words first. Add lyrics only when you actually have something worth saying.</p>
+        <figure>
+          <img src="../assets/demos/2026-08-01/music.png" alt="My Flow Music test: an instrumental beach soundtrack with no lyrics by design.">
+          <figcaption>My Flow Music test: an instrumental beach soundtrack with no lyrics by design.</figcaption>
+        </figure>
+
+        <p class="read-more"><a href="https://www.flowmusic.app/video/11be3080-a1a9-4e6f-a6fe-d4712680b3bf" target="_blank" rel="noopener">Watch the Flow Music video ↗</a></p>      </div>
+
+      <!-- FAILURE MODE -->
+      <div class="section-header" id="failure-mode">
+        <img src="../assets/images/failure_mode_header.webp" alt="Failure Mode">
+      </div>
+      <div class="content-card card-failure-mode">
+        <h3><span class="icon">💥</span> The robot demo ended in a body bag</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-08-01/robot-stage.jpg" alt="A high-spec humanoid that still found a very public way to fall over">
+          <figcaption>A high-spec humanoid that still found a very public way to fall over</figcaption>
+        </figure>
+        <p>At Computex 2026, Neura Robotics’ 4NE1 Gen 3.5 humanoid walked onstage, stood beside an executive, and then collapsed backwards like it had been shot. Staff covered it and carried it away. Qualcomm called it a designed “safe-collapse.” The internet called it hilarious.<br><br>This is a good reminder about demos and jagged edges. Impressive specs and a polished stage presence do not mean the system is ready for the moment that matters. Hardware can look confident until the ordinary failure mode shows up in public. Treat the live demo as evidence of ambition, not proof of reliability.</p>
+        <p class="read-more"><a href="https://www.techspot.com/news/113313-qualcomm-powered-humanoid-robot-collapses-stage-like-shot.html" target="_blank" rel="noopener">Read the TechSpot coverage ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TRY THIS -->
+      <div class="section-header" id="try-this">
+        <img src="../assets/images/try_this_header.webp" alt="Try This">
+      </div>
+      <div class="try-this-box">
+        <h3>Let AI make the music. You write one line.</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <img src="../assets/article-images/2026-08-01/human-line-in-ai-song.png" alt="AI can supply the soundtrack; specificity still comes from you.">
+          <figcaption>AI can supply the soundtrack; specificity still comes from you.</figcaption>
+        </figure>
+        <p>Create a short AI song about something real: your workday, a class project, an upcoming event, or your dog. Let the tool generate the music, then replace just one lyric with a line only you could write. The goal is not to make a hit song. It is to notice how quickly a specific human detail makes generic AI output more interesting.</p>
+        <div class="the-prompt">
+          <p class="prompt-label">The Prompt:</p>
+          <blockquote>""Create a short upbeat song about [TOPIC]. Keep the lyrics simple and leave room for me to replace one line with my own specific detail.""</blockquote>
+        </div>
+        </div>
+      </div>
+      <div class="follow-up-block">
+        <h3 class="follow-up-heading">Three practical things to try this week</h3>
+        <ul class="follow-up-tasks">
+        <li>Choose one connected AI workflow and list every system, file type, credential, or outside service it can reach. If you cannot name the boundary, you cannot manage the risk.  Remember, you can add connections to help the AI reach the work you have.</li>
+        <li>Add one “explain why” checkpoint to an AI-assisted review process. A human approval should include reasoning, not just a button click.</li>
+        <li>Create a short Flow Music soundtrack for a real video or lesson with no lyrics first. Only add words if the project actually needs them.  This one is just a fun time.. probably doesn't help all of us with a work task.  But... it does help my calm :)</li>
+      </ul>
+      </div>
+
+      <!-- SHARE -->
+      <div class="share-section" id="share">
+        <h3>Found this useful?</h3>
+        <p>Share Artificial Insights with a colleague who might benefit.</p>
+        <a href="mailto:?subject=Check%20out%20Artificial%20Insights&body=I%20thought%20you%20might%20find%20this%20AI%20newsletter%20useful%3A%20https%3A%2F%2Fbpmstc.github.io%2FArtificial-Insights%2F" class="share-link">Share via Email</a>
+      </div>
+      
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../sources/2026-08-01.html">🔍 Sources</a>
+          <a href="mailto:">✉️ Contact</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #14 · Aug 01, 2026</p>
+      </footer>
+    </div>
+  </body>
+</html>
