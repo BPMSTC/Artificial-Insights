@@ -39,6 +39,13 @@ The Breakdown:
   ArticleImage:
   ArticleImageCaption:
 
+Field Notes:
+- Title:
+  Content:
+  URL:
+  ArticleImage:
+  ArticleImageCaption:
+
 Ed Pulse:
 - Title:
   Content:

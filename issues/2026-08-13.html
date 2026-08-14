@@ -1,0 +1,1035 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Artificial Insights — Aug 13, 2026</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        --shadow-hover: 0 8px 30px rgba(15, 23, 42, 0.12);
+        --quick-scan: #8b5cf6;
+        --feed: #0891b2;
+        --tool-drop: #059669;
+        --breakdown: #d97706;
+        --field-notes: #4f46e5;
+        --ed-pulse: #db2777;
+        --in-action: #7c3aed;
+        --failure-mode: #dc2626;
+        --try-this: #0d9488;
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      
+      /* Top Bar */
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      
+      /* Container */
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      
+      /* Nav Links */
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover { 
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      
+      /* Issue Info */
+      .issue-info {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .issue-info h1 {
+        font-size: 36px;
+        margin: 0 0 8px;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .issue-info .meta {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0;
+      }
+      .issue-info .issue-date {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0 0 8px;
+        font-weight: 600;
+      }
+      .issue-info .meta .icon { margin-right: 6px; }
+      
+      /* Issue Overview */
+      .overview {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+      }
+      .overview h2 {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .overview h2::before {
+        content: "📑";
+        font-size: 14px;
+      }
+      .overview ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .overview li {
+        padding: 0;
+      }
+      .overview a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .overview a:hover { 
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .overview a[href="#quick-scan"] { background: #f3e8ff; color: var(--quick-scan); }
+      .overview a[href="#the-feed"] { background: #cffafe; color: var(--feed); }
+      .overview a[href="#tool-drop"] { background: #d1fae5; color: var(--tool-drop); }
+      .overview a[href="#the-breakdown"] { background: #fef3c7; color: var(--breakdown); }
+      .overview a[href="#field-notes"] { background: #e0e7ff; color: var(--field-notes); }
+      .overview a[href="#ed-pulse"] { background: #fce7f3; color: var(--ed-pulse); }
+      .overview a[href="#in-action"] { background: #ede9fe; color: var(--in-action); }
+      .overview a[href="#failure-mode"] { background: #fee2e2; color: var(--failure-mode); }
+      .overview a[href="#try-this"] { background: #ccfbf1; color: var(--try-this); }
+      
+      /* Section Header Image */
+      .section-header {
+        margin: 48px 0 20px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .section-header img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      
+      /* Section Divider (fallback for no image) */
+      .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 48px 0 20px;
+      }
+      .section-divider h2 {
+        margin: 0;
+        font-size: 26px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-divider .line {
+        flex: 1;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--tool-drop) 0%, transparent 100%);
+      }
+      
+      /* Content Card */
+      .content-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--accent);
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .content-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .content-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .content-card:hover::before {
+        opacity: 1;
+      }
+      .card-quick-scan { border-left-color: var(--quick-scan); }
+      .card-feed { border-left-color: var(--feed); }
+      .card-tool-drop { border-left-color: var(--tool-drop); }
+      .card-breakdown { border-left-color: var(--breakdown); }
+      .card-field-notes { border-left-color: var(--field-notes); }
+      .card-ed-pulse { border-left-color: var(--ed-pulse); }
+      .card-in-action { border-left-color: var(--in-action); }
+      .card-failure-mode { border-left-color: var(--failure-mode); }
+      .content-card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .content-card h3 .icon {
+        font-size: 20px;
+      }
+      .content-card h3 a {
+        transition: opacity 0.15s;
+      }
+      .content-card h3 a:hover {
+        opacity: 0.7;
+      }
+      .content-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .content-card p + p {
+        margin-top: 12px;
+      }
+      .content-card h4 {
+        margin: 20px 0 8px;
+        font-size: 16px;
+        color: var(--text);
+      }
+      .content-card h4 + p {
+        margin-top: 0;
+      }
+      .content-card p + h4 {
+        margin-top: 20px;
+      }
+      .source-links {
+        font-size: 13px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--rule);
+      }
+      .source-links a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .source-links a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Quick Scan Items */
+      .quick-scan-item {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--quick-scan);
+        transition: all 0.2s ease;
+      }
+      .quick-scan-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .quick-scan-item h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: var(--text);
+      }
+      .quick-scan-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      
+      /* Read More Links */
+      .read-more {
+        margin-top: 12px !important;
+      }
+      .read-more a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .read-more a:hover {
+        text-decoration: underline;
+      }
+      
+      /* My Take styling */
+      .my-take {
+        margin-top: 16px !important;
+        padding-top: 12px;
+        border-top: 1px dashed var(--rule);
+        color: var(--text) !important;
+      }
+      
+      /* The Lesson styling */
+      .the-lesson {
+        margin-top: 16px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--text);
+      }
+      
+      /* Try This Box */
+      .try-this-box {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        border: 2px solid var(--try-this);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin: 20px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .try-this-box::before {
+        content: "💡";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 48px;
+        opacity: 0.15;
+      }
+      .try-this-box h3 {
+        color: var(--try-this);
+        margin: 0 0 12px;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .try-this-box h3::before {
+        content: "→";
+        font-weight: bold;
+      }
+      .try-this-box p {
+        margin: 0;
+        color: var(--text);
+        font-size: 15px;
+      }
+      .try-this-box code {
+        background: rgba(13, 148, 136, 0.15);
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: "Consolas", monospace;
+      }
+      .try-this-demo {
+        clear: both;
+        margin: 16px 0;
+      }
+      .try-this-demo img {
+        display: block;
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .try-this-demo figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* The Prompt styling */
+      .the-prompt {
+        margin: 16px 0;
+        padding: 16px 20px;
+        background: rgba(13, 148, 136, 0.08);
+        border-radius: 10px;
+        border-left: 4px solid var(--try-this);
+      }
+      .the-prompt .prompt-label {
+        font-weight: 700;
+        color: var(--try-this);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 10px;
+      }
+      .the-prompt blockquote {
+        margin: 0;
+        font-style: italic;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      .why-it-works {
+        margin-top: 14px !important;
+        font-size: 14px;
+        color: var(--muted) !important;
+      }
+      
+      /* How can AI help me? (follow-up tasks, inside Try This) */
+      .follow-up-block {
+        margin: 24px 0 20px;
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        border: 2px solid #8b5cf6;
+        border-radius: 14px;
+        border-left-width: 6px;
+      }
+      .follow-up-block .follow-up-heading {
+        margin: 0 0 12px;
+        font-size: 17px;
+        color: #6d28d9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .follow-up-block .follow-up-heading::before {
+        content: "🎯";
+        font-size: 20px;
+      }
+      .follow-up-block .follow-up-tasks {
+        margin: 0;
+        padding-left: 22px;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .follow-up-block .follow-up-tasks li {
+        margin-bottom: 8px;
+      }
+      .follow-up-block .follow-up-tasks li:last-child {
+        margin-bottom: 0;
+      }
+      
+      /* Article image (float left, text wrap) — optional per item */
+      .content-with-article-image {
+        overflow: auto;
+      }
+      .content-with-article-image::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .article-image {
+        float: left;
+        margin: 0 1.25em 1em 0;
+        max-width: 40%;
+        width: auto;
+      }
+      .article-image img {
+        display: block;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .article-image figcaption {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+        font-style: italic;
+      }
+      @media (max-width: 600px) {
+        .article-image {
+          float: none;
+          max-width: 100%;
+          margin: 0 auto 1em;
+          display: block;
+        }
+      }
+      .inline-figure {
+        clear: both;
+        float: none;
+        display: block;
+        margin: 1.35rem auto 1.5rem;
+        max-width: min(100%, 520px);
+        width: 100%;
+      }
+      .inline-figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .inline-figure figcaption {
+        text-align: center;
+      }
+
+      .image-zoom {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        background: none;
+        cursor: zoom-in;
+        line-height: 0;
+      }
+      .image-zoom:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 10px;
+      }
+      .image-lightbox {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        max-width: min(96vw, 1100px);
+        max-height: 96vh;
+      }
+      .image-lightbox::backdrop {
+        background: rgba(15, 23, 42, 0.72);
+      }
+      .image-lightbox-inner {
+        position: relative;
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px 20px 16px;
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.35);
+      }
+      .image-lightbox img {
+        display: block;
+        max-width: min(92vw, 1040px);
+        max-height: 82vh;
+        width: auto;
+        height: auto;
+        margin: 0 auto;
+        border-radius: 8px;
+      }
+      .image-lightbox-caption {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+        font-style: italic;
+        text-align: center;
+      }
+      .image-lightbox-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 36px;
+        height: 36px;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.8);
+        color: #fff;
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .image-lightbox-close:hover,
+      .image-lightbox-close:focus-visible {
+        background: #0f172a;
+      }
+      
+      /* Demo Figure (In Action) */
+      figure {
+        margin: 16px 0;
+      }
+      figure img,
+      figure video {
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      figure video {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: min(100%, 320px);
+        max-height: 520px;
+        margin: 0 auto;
+        background: #0f172a;
+        object-fit: contain;
+      }
+      figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* Share Section */
+      .share-section {
+        text-align: center;
+        padding: 36px 28px;
+        margin: 48px 0;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+      }
+      .share-section h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        color: var(--text);
+      }
+      .share-section p {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .share-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+      .share-link:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      }
+      .share-link::before {
+        content: "✉️";
+      }
+      
+      /* Footer */
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 600px) {
+        .top-bar {
+          justify-content: center;
+          text-align: center;
+        }
+        .nav-links {
+          gap: 12px;
+        }
+        .issue-info h1 {
+          font-size: 28px;
+        }
+        .section-divider h2 {
+          font-size: 22px;
+        }
+        .content-card, .overview, .try-this-box {
+          padding: 18px 20px;
+        }
+        .overview a {
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+      }
+      
+      @media print {
+        .top-bar, .nav-links, .share-section, .image-lightbox { display: none; }
+        body { background: #fff; }
+        .content-card, .overview { box-shadow: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 Aug 13, 2026 · Issue #15</span>
+      <a href="#">🔗 Read Online</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../sources/2026-08-13.html">🔍 Sources</a>
+        <a href="#share">📤 Share</a>
+      </nav>
+      
+      <div class="issue-info">
+        <h1>Artificial Insights</h1>
+        <p class="issue-date">📅 Aug 13, 2026 · Issue #15</p>
+        <p class="meta"><span class="icon">⏱️</span> Your bi-weekly AI briefing · 5 min read</p>
+      </div>
+      
+      <div class="overview">
+        <h2>In This Issue</h2>
+        <ul>
+          <li><a href="#quick-scan">⚡ Quick Scan</a></li>
+          <li><a href="#tool-drop">🛠️ Tool Drop</a></li>
+          <li><a href="#field-notes">📓 Field Notes</a></li>
+          <li><a href="#ed-pulse">🎓 Ed Pulse</a></li>
+          <li><a href="#in-action">🎬 In Action</a></li>
+          <li><a href="#failure-mode">💥 Failure Mode</a></li>
+          <li><a href="#try-this">💡 Try This</a></li>
+        </ul>
+      </div>
+
+      <!-- QUICK SCAN -->
+      <div class="section-header" id="quick-scan">
+        <img src="../assets/images/quick_scan_header.webp" alt="Quick Scan">
+      </div>
+      <div class="quick-scan-item">
+        <h3>Meta's AI glasses face a German privacy complaint</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-13/meta-ai-glasses.png" data-caption="Wearable AI can record people who never agreed to be in the dataset" aria-haspopup="dialog" aria-label="Enlarge image: Wearable AI can record people who never agreed to be in the dataset">
+            <img src="../assets/article-images/2026-08-13/meta-ai-glasses.png" alt="Wearable AI can record people who never agreed to be in the dataset">
+          </button>
+          <figcaption>Wearable AI can record people who never agreed to be in the dataset</figcaption>
+        </figure>
+        <p>German digital-rights group HateAid has filed a criminal complaint against Meta and companies selling Ray-Ban Meta AI glasses, arguing that the devices can record people without adequate notice. The complaint is not a legal ruling, but it highlights a growing problem with wearable AI: bystanders may never know when a nearby device is collecting video, audio, or data about them.  I'm thinking about these problems... sensitive discussions, eavesdropping, scanning computer screens while you walk by, private areas like bedrooms.  It's a permanent record of everything you see and hear.  In fact, it has perfect recollection, which we do not have.  I think that Mid-State is going to need to look at restricting the use of these on campus at some point.</p>
+        <p class="read-more"><a href="https://www.reuters.com/legal/government/german-advocacy-group-lodges-criminal-complaint-over-meta-ai-glasses-2026-08-12/" target="_blank" rel="noopener">Read the Reuters report ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Gemini Notebooks are now available without a paid subscription</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-13/gemini-notebooks.png" data-caption="Project notebooks without a paywall, which makes student use more realistic" aria-haspopup="dialog" aria-label="Enlarge image: Project notebooks without a paywall, which makes student use more realistic">
+            <img src="../assets/article-images/2026-08-13/gemini-notebooks.png" alt="Project notebooks without a paywall, which makes student use more realistic">
+          </button>
+          <figcaption>Project notebooks without a paywall, which makes student use more realistic</figcaption>
+        </figure>
+        <p>Google has expanded Gemini's project-based Notebooks to free users on the web. Everyone is aware of what Notebook is, most likely. Notebook can hold related conversations, files, sources, and instructions, then synchronize that material with Gemini Notebook, formerly NotebookLM. That continuity matters: research gathered in one workspace can support conversations and source-grounded outputs in another.  Since it's free, we can use this as a tool for students to work in. As most of you know, I'm a huge fan of this tool.</p>
+        <p class="read-more"><a href="https://www.digitaltrends.com/computing/all-gemini-users-can-now-access-notebook-projects-on-the-web-without-paying-a-dime/" target="_blank" rel="noopener">See what free Gemini users can access ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>AI fluency is escaping the computer-science department</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-13/ai-fluency-beyond-cs.png" data-caption="AI literacy is spreading past the computer-science major" aria-haspopup="dialog" aria-label="Enlarge image: AI literacy is spreading past the computer-science major">
+            <img src="../assets/article-images/2026-08-13/ai-fluency-beyond-cs.png" alt="AI literacy is spreading past the computer-science major">
+          </button>
+          <figcaption>AI literacy is spreading past the computer-science major</figcaption>
+        </figure>
+        <p>Students in psychology, music, biology, and other fields are pursuing AI courses, minors, and certificates. AI literacy is starting to look less like a specialty for programmers and more like general workplace literacy.  I'm thinking that by using the AI tools to help, small programming and website projects are something that most professionals will be able to do.  Does this mean more cool people will be going to those geeky IT conferences with me??</p>
+        <p class="read-more"><a href="https://apnews.com/article/college-major-ai-computer-science-coding-f0dca8e4f7e16297ad27c2b02adc2530" target="_blank" rel="noopener">Read how colleges are bringing AI to students outside computer science ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>The cyber story moved from evaluation labs into an actual attack</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-13/taiwan-ai-attack.png" data-caption="Agent-assisted intrusion is no longer just an evaluation-lab story" aria-haspopup="dialog" aria-label="Enlarge image: Agent-assisted intrusion is no longer just an evaluation-lab story">
+            <img src="../assets/article-images/2026-08-13/taiwan-ai-attack.png" alt="Agent-assisted intrusion is no longer just an evaluation-lab story">
+          </button>
+          <figcaption>Agent-assisted intrusion is no longer just an evaluation-lab story</figcaption>
+        </figure>
+        <p>Taiwan reported overseas attacks on government agencies that combined manual operations with AI agent-assisted intrusion. This is a short follow-up to Issue 14 because the containment problem did not remain theoretical for long. A capable human operator was still involved, so this should not be described as a completely autonomous attack.  Interestingly enough, I talk all the time about having a human as part of the process.  Hackers doing this is not what I had in mind.</p>
+        <p class="read-more"><a href="https://www.taipeitimes.com/News/front/archives/2026/08/13/2003862438" target="_blank" rel="noopener">Read the Taiwan report ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>AI's demand for chips is becoming a local infrastructure problem</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-13/terafab-texas.png" data-caption="Chip demand showing up as water, power, and community impact" aria-haspopup="dialog" aria-label="Enlarge image: Chip demand showing up as water, power, and community impact">
+            <img src="../assets/article-images/2026-08-13/terafab-texas.png" alt="Chip demand showing up as water, power, and community impact">
+          </button>
+          <figcaption>Chip demand showing up as water, power, and community impact</figcaption>
+        </figure>
+        <p>SpaceX and Tesla plan to invest about $16.8 billion in the first phase of Terafab, a semiconductor complex in Grimes County, Texas, intended to combine advanced logic, memory, and chip packaging. The scale is attention-grabbing, as it will be the largest building in the world.  More important questions concern water, power, tax incentives, workforce, and the effect of a massive industrial project on the surrounding community.  This is not a data center per se, but it has similar problems.</p>
+        <p class="read-more"><a href="https://fortune.com/2026/08/10/elon-musk-chip-factory-spacex-tesla-texas" target="_blank" rel="noopener">Read about the planned Texas Terafab ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TOOL DROP -->
+      <div class="section-header" id="tool-drop">
+        <img src="../assets/images/tool_drop_header.webp" alt="Tool Drop">
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Prism puts AI inside the academic writing workflow</h3>
+        <div class="content-with-article-image">
+        <p><strong>The News:</strong> OpenAI's Prism is a free workspace for writing and collaborating on research papers. It is built around LaTeX, the publishing system used heavily in academic fields such as science, engineering, mathematics, and computer science. Instead of formatting a paper by hand in Word, authors write structured text and commands that automatically handle equations, citations, figures, tables, and journal-style layouts. Prism puts AI directly into that workflow, with the chat that is connected.  The AI does all of the heavy lifting, allowing us to just write the text.</p>
+        <p class="my-take"><strong>My Take:</strong> LaTeX has always been powerful and annoyingly technical. Prism makes it more approachable by letting researchers focus on the argument, evidence, equations, and revisions while AI handles more of the mechanical work.</p>
+        <figure>
+          <button type="button" class="image-zoom" data-full="../assets/demos/2026-08-13/prism-latex.gif" data-caption="Prism putting AI inside the LaTeX paper, not beside it in another chat" aria-haspopup="dialog" aria-label="Enlarge image: Prism putting AI inside the LaTeX paper, not beside it in another chat">
+            <img src="../assets/demos/2026-08-13/prism-latex.gif" alt="Prism putting AI inside the LaTeX paper, not beside it in another chat">
+          </button>
+          <figcaption>Prism putting AI inside the LaTeX paper, not beside it in another chat</figcaption>
+        </figure>
+
+        <p class="read-more"><a href="https://openai.com/index/introducing-prism/" target="_blank" rel="noopener">Read OpenAI's Prism announcement ↗</a></p>
+        </div>
+      </div>
+
+      <!-- FIELD NOTES -->
+      <div class="section-header" id="field-notes">
+        <img src="../assets/images/field_notes_header.png" alt="Field Notes">
+      </div>
+      <div class="content-card card-field-notes">
+        <h3><span class="icon">📓</span> The Watermark That Isn't There</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-13/watermark.png" data-caption="A watermark can show Claude was involved. It cannot prove who wrote the piece" aria-haspopup="dialog" aria-label="Enlarge image: A watermark can show Claude was involved. It cannot prove who wrote the piece">
+            <img src="../assets/article-images/2026-08-13/watermark.png" alt="A watermark can show Claude was involved. It cannot prove who wrote the piece">
+          </button>
+          <figcaption>A watermark can show Claude was involved. It cannot prove who wrote the piece</figcaption>
+        </figure>
+        <p>Recently Anthropic announced that they are watermarking all text that they generate.  Start with what the watermark is not. It is not a hidden character, an invisible font, or metadata tucked into a file. Nothing lights up when you change the background color. Nothing comes loose when a student pastes as plain text. The watermark is the text itself, a statistical pattern living in the model's ordinary word choices. There is nothing separate to strip out, because there is nothing separate. That is why Anthropic says the mark survives copy-paste, and why it can persist through some editing.</p>
+        <p>To see how that works, let's talk about how language models operate. Claude does not write sentences the way you and I do. It generates text one token at a time, a token being roughly a word or a piece of one. At each step it scores every possible next word in its vocabulary. Then it samples from that distribution. Put plainly: at every position in a sentence, the model rolls weighted dice among dozens of near-equally-good options. "Happy" or "glad." "However" or "but." The watermark intercepts that dice roll.</p>
+        <p>The technique comes out of published academic research, the same broad family of methods behind Google's SynthID watermark for Gemini. Here is the loop. At each generation step, a secret key and the tokens already written feed a random function. That function sorts the whole vocabulary into two buckets: preferred and neutral. The sampler then nudges the odds, raising the chance that the next token comes from the preferred bucket. The nudge is tiny. Because so many near-synonyms are equally good, it almost never changes meaning, quality, or readability. The paragraph reads completely normally.</p>
+        <p>The payoff shows up in the aggregate. Over a few hundred words, the text ends up holding measurably more preferred-bucket choices than chance alone would produce. A detector holding the same secret key replays that split at every position, counting how many preferred-bucket words actually appear. The count becomes a confidence score. Unwatermarked text lands around 50 percent. Watermarked text stands out clearly.</p>
+        <p>The same math that makes this clever also explains its known weaknesses. Run the text through a heavy paraphrase, or through a second AI model, and the word choices get rewritten. The signal disappears with them. A two-sentence passage never holds enough tokens for the statistics to say anything meaningful. And the nudge applies to everything the model outputs. That includes the proofread of your own draft and the report you asked Claude to reformat. A paragraph that is overwhelmingly human can still carry the mark.</p>
+        <figure class="inline-figure">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-13/watermark-inline.jpeg" data-caption="This is the process of watermarking" aria-haspopup="dialog" aria-label="Enlarge image: This is the process of watermarking">
+            <img src="../assets/article-images/2026-08-13/watermark-inline.jpeg" alt="This is the process of watermarking">
+          </button>
+          <figcaption>This is the process of watermarking</figcaption>
+        </figure>
+        <h4>What a Detection Result Actually Tells You</h4>
+        <p>This is the part that matters most for those of us in education. The regulatory driver is Article 50 of the EU AI Act, whose transparency rules took effect on August 2, 2026. Anthropic signed the accompanying Code of Practice on transparency of AI-generated content. Models launched on or after that date carry the marking from day one.</p>
+        <p>But the compliance machinery produces a detection result that is remarkably easy to misread. A detected mark means one thing: Claude processed this text. A proofread human essay, a translated email, and a fully ghostwritten paper all carry the identical mark. A missing mark proves just as little. Models released before marking support, paraphrased text, very short passages, and stripped file metadata all produce unmarked output. Anthropic says it is working to add marking to older models, so that particular gap should narrow.</p>
+        <p>So here is my honest takeaway for watermarking.  The watermark answers the question "was Claude involved?" It stays silent on the question we actually want answered: "did a human write this?" Treating a detection result as a verdict asks the system for something it was never built to give. The short version is that we can't draw many conclusions from a positive detection result.</p>
+        <p class="read-more"><a href="https://support.claude.com/en/articles/16266773-how-claude-marks-ai-generated-content" target="_blank" rel="noopener">Read how Claude marks AI-generated content ↗</a></p>
+        </div>
+      </div>
+
+      <!-- ED PULSE -->
+      <div class="section-header" id="ed-pulse">
+        <img src="../assets/images/ed_pulse_header.webp" alt="Ed Pulse">
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> Academia, stop asking detectors to solve an assessment problem</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-13/assessment-not-detectors.png" data-caption="Detection is a weak substitute for evidence of learning" aria-haspopup="dialog" aria-label="Enlarge image: Detection is a weak substitute for evidence of learning">
+            <img src="../assets/article-images/2026-08-13/assessment-not-detectors.png" alt="Detection is a weak substitute for evidence of learning">
+          </button>
+          <figcaption>Detection is a weak substitute for evidence of learning</figcaption>
+        </figure>
+        <p>Inside Higher Ed ran a webinar on this early in the summer, and given the recent watermark news from Anthropic, I thought now was the right time to revisit it.  The conversation was not about whether a detector can catch generated text. It was about redesigning assessment now that AI tools, including agents, can complete complex assignments on their own. Overall, colleges are trying to rebuild confidence in what a degree actually means, for students, faculty, and employers. That is the shift I keep seeing: everyone is moving past the detection stage.<br><br>I'm glad we rely very little on detectors at Mid-State. Detection was never going to tell us whether a student learned anything. When AI is part of the work, I have started asking for two things. The chat log, so I can see the quality of the prompts. And a description of what human value was added. The way I see it, students should be able to show what they produced, where AI contributed, what they checked, and what judgment stayed theirs.</p>
+        <p class="read-more"><a href="https://www.insidehighered.com/events/editorial-webcast/academic-integrity-under-fire-fortifying-assessment-ai-mediated-world" target="_blank" rel="noopener">Watch the assessment-and-integrity discussion ↗</a></p>
+        </div>
+      </div>
+
+      <!-- IN ACTION -->
+      <div class="section-header" id="in-action">
+        <img src="../assets/images/in_action_header.webp" alt="In Action">
+      </div>
+      <div class="content-card card-in-action">
+        <h3><span class="icon">🎬</span> Map the meeting request before you automate it</h3>
+<p>Here is my example walkthrough as the plan for an AI Agent process.  I just picked one recurring process, and mapped it before picking an AI tool to automate it.</p>
+        <p>Take a job almost everyone does: getting a meeting on the calendar after an email exchange about it.</p>
+        <p>Trigger: the request lands in the inbox. Information the human gathers: who actually needs to be there, in person or Teams, which room, whether there is an agenda, and whose calendar cannot flex. Decisions that require judgment: who is optional, whether a conflict is worth bumping, and when the request is too vague to schedule yet. Applications and people: Outlook, a room system, maybe another assistant, maybe the person who asked. Exceptions: a last-minute cancel, a double-booked room, someone important who was never on the original list. Approval: usually none, until the meeting is off-site, paid, or political. Evidence of success: the right people show up, in the right place, with enough notice that nobody is scrambling.</p>
+        <p>After that map exists, mark the steps. AI might draft the reply, propose three times, or fill the invite. A person should still decide who belongs in the room and whether the meeting should happen at all.</p>
+        <figure>
+          <button type="button" class="image-zoom" data-full="../assets/demos/2026-08-13/workflow-plan.gif" data-caption="Screen capture: one real meeting request, mapped before anyone sends an invite" aria-haspopup="dialog" aria-label="Enlarge image: Screen capture: one real meeting request, mapped before anyone sends an invite">
+            <img src="../assets/demos/2026-08-13/workflow-plan.gif" alt="Screen capture: one real meeting request, mapped before anyone sends an invite">
+          </button>
+          <figcaption>Screen capture: one real meeting request, mapped before anyone sends an invite</figcaption>
+        </figure>
+
+        <p class="read-more"><a href="https://www.linkedin.com/feed/update/urn%3Ali%3Aactivity%3A7480381351699951616" target="_blank" rel="noopener">Review Uber's Agentic Pods workflow ↗</a></p>      </div>
+
+      <!-- FAILURE MODE -->
+      <div class="section-header" id="failure-mode">
+        <img src="../assets/images/failure_mode_header.webp" alt="Failure Mode">
+      </div>
+      <div class="content-card card-failure-mode">
+        <h3><span class="icon">💥</span> The agent did it, but the human still owns the mess</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-13/gym-booking-agent.png" data-caption="The agent canceled someone else&#x27;s reservation. The human still owned the outcome" aria-haspopup="dialog" aria-label="Enlarge image: The agent canceled someone else&#x27;s reservation. The human still owned the outcome">
+            <img src="../assets/article-images/2026-08-13/gym-booking-agent.png" alt="The agent canceled someone else&#x27;s reservation. The human still owned the outcome">
+          </button>
+          <figcaption>The agent canceled someone else&#x27;s reservation. The human still owned the outcome</figcaption>
+        </figure>
+        <p>An Australian user asked an AI agent to handle a gym booking and later asked whether it could move him up a waitlist. The agent found a flaw in the system, then it canceled another person's reservation, and could not restore it. The agent does not get to take responsibility for the outcome... the requestor does.  Good to remember... when we use an AI to do work for us, we are responsible for the work product!</p>
+        <p class="read-more"><a href="https://www.abc.net.au/news/2026-08-10/ai-assistant-hacks-gym-website-aus-cyber-attack/107007986" target="_blank" rel="noopener">Read about the gym-booking incident ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TRY THIS -->
+      <div class="section-header" id="try-this">
+        <img src="../assets/images/try_this_header.webp" alt="Try This">
+      </div>
+      <div class="try-this-box">
+        <h3>Mark what AI may touch. Leave the judgment alone.</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-13/map-the-workflow.png" data-caption="The next step is boundaries, not a better invite" aria-haspopup="dialog" aria-label="Enlarge image: The next step is boundaries, not a better invite">
+            <img src="../assets/article-images/2026-08-13/map-the-workflow.png" alt="The next step is boundaries, not a better invite">
+          </button>
+          <figcaption>The next step is boundaries, not a better invite</figcaption>
+        </figure>
+        <p>Use the meeting map from In Action, or any workflow you just sketched. Do not ask the model to send the invite yet. Paste your map and make the AI label the boundaries: what it may draft, what needs a human yes, and one exception it would handle badly.</p>
+        <div class="the-prompt">
+          <p class="prompt-label">The Prompt:</p>
+          <blockquote>"Here is a workflow map for scheduling a meeting from an email request: [PASTE YOUR MAP]. Label each step as draft, recommend, or execute. Name every action that requires human approval. Then identify one exception this workflow handles badly today, one failure path, and one decision that should stay with a person. Do not schedule the meeting."</blockquote>
+        </div>
+        </div>
+      </div>
+      <div class="follow-up-block">
+        <h3 class="follow-up-heading">How can AI help me?</h3>
+        <ul class="follow-up-tasks">
+        <li>Map one real workflow, then try to automate it.</li>
+        <li>Mark which steps AI may draft, recommend, or execute, and identify every action that requires approval.</li>
+        <li>Define the evidence of success, the activity log, and the rollback plan before allowing the automation to act.</li>
+      </ul>
+      </div>
+
+      <!-- SHARE -->
+      <div class="share-section" id="share">
+        <h3>Found this useful?</h3>
+        <p>Share Artificial Insights with a colleague who might benefit.</p>
+        <a href="mailto:?subject=Check%20out%20Artificial%20Insights&body=I%20thought%20you%20might%20find%20this%20AI%20newsletter%20useful%3A%20https%3A%2F%2Fbpmstc.github.io%2FArtificial-Insights%2F" class="share-link">Share via Email</a>
+      </div>
+      
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../sources/2026-08-13.html">🔍 Sources</a>
+          <a href="mailto:">✉️ Contact</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #15 · Aug 13, 2026</p>
+      </footer>
+    </div>
+    <dialog class="image-lightbox" id="image-lightbox" aria-label="Enlarged image">
+      <div class="image-lightbox-inner">
+        <button type="button" class="image-lightbox-close" aria-label="Close image">&times;</button>
+        <img alt="">
+        <p class="image-lightbox-caption"></p>
+      </div>
+    </dialog>
+    <script>
+    (function () {
+      var dialog = document.getElementById('image-lightbox');
+      if (!dialog || typeof dialog.showModal !== 'function') return;
+      var img = dialog.querySelector('img');
+      var cap = dialog.querySelector('.image-lightbox-caption');
+      var closeBtn = dialog.querySelector('.image-lightbox-close');
+      document.querySelectorAll('.image-zoom').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var thumb = btn.querySelector('img');
+          img.src = btn.getAttribute('data-full') || (thumb ? thumb.src : '');
+          img.alt = thumb ? thumb.alt : '';
+          var caption = btn.getAttribute('data-caption') || '';
+          cap.textContent = caption;
+          cap.hidden = !caption;
+          dialog.showModal();
+        });
+      });
+      function closeLightbox() {
+        dialog.close();
+      }
+      closeBtn.addEventListener('click', closeLightbox);
+      dialog.addEventListener('click', function (event) {
+        if (event.target === dialog) closeLightbox();
+      });
+      dialog.addEventListener('close', function () {
+        img.removeAttribute('src');
+      });
+    })();
+    </script>
+  </body>
+</html>

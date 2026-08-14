@@ -43,6 +43,7 @@ def parse_markdown(content: str) -> dict:
         'The Feed', 
         'Tool Drop',
         'The Breakdown',
+        'Field Notes',
         'Ed Pulse',
         'In Action',
         'Failure Mode',
@@ -187,11 +188,76 @@ def format_date_display(date_str: str) -> str:
 
 
 def format_text(text: str) -> str:
-    """Convert markdown formatting to HTML (bold, paragraph breaks)."""
+    """Convert markdown formatting to HTML (bold, italics)."""
     if not text:
         return text
     text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
+    text = re.sub(r'(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)', r'<em>\1</em>', text)
     return text
+
+
+INLINE_IMAGE_RE = re.compile(r'!\[([^\]]*)\]\(([^)]+)\)')
+
+
+def _inline_figure_html(src: str, caption: str, issue_date: str) -> str:
+    """Block figure for a markdown image inside a long body field."""
+    src = (src or '').strip()
+    caption = (caption or '').strip()
+    if src.startswith(('http://', 'https://', '//')):
+        path = src
+    else:
+        path = f"../assets/article-images/{issue_date}/{src}"
+    alt = caption or 'Illustration'
+    cap_html = (
+        f'\n          <figcaption>{html.escape(caption)}</figcaption>'
+        if caption else ''
+    )
+    return (
+        f'<figure class="inline-figure">\n'
+        f'          {_zoomable_img_html(path, alt, caption)}{cap_html}\n'
+        f'        </figure>'
+    )
+
+
+def _format_prose_html(text: str) -> list:
+    """Turn a prose fragment into paragraph and h4 HTML snippets."""
+    text = format_text(text)
+    chunks = re.split(r'(?:<br><br>|\n\n)+', text)
+    parts = []
+    for chunk in chunks:
+        chunk = chunk.strip()
+        if not chunk:
+            continue
+        heading = re.match(r'^##\s+(.+)$', chunk)
+        if heading:
+            parts.append(f'<h4>{heading.group(1).strip()}</h4>')
+        else:
+            parts.append(f'<p>{chunk}</p>')
+    return parts
+
+
+def format_body_html(text: str, issue_date: str = '') -> str:
+    """Turn a notes body field into paragraphs, h4 subheads, and optional figures.
+
+    A markdown image on its own line becomes a centered block figure:
+        ![Caption that points at the thing](filename.png)
+    Files resolve from assets/article-images/{issue_date}/. Other sections
+    are unchanged unless they also include this syntax.
+    """
+    if not text:
+        return ''
+    parts = []
+    pieces = INLINE_IMAGE_RE.split(text)
+    i = 0
+    while i < len(pieces):
+        if i % 3 == 0:
+            parts.extend(_format_prose_html(pieces[i]))
+            i += 1
+        else:
+            alt, src = pieces[i], pieces[i + 1]
+            parts.append(_inline_figure_html(src, alt, issue_date))
+            i += 2
+    return '\n        '.join(parts)
 
 
 def linkify_plain_urls(text: str) -> str:
@@ -222,6 +288,21 @@ def _join_field_value(parts: list) -> str:
     return ''.join(result)
 
 
+def _zoomable_img_html(path: str, alt: str, caption: str = '') -> str:
+    """Wrap an img in a button that opens the shared lightbox dialog."""
+    alt_text = alt or 'Article image'
+    alt_attr = html.escape(alt_text, quote=True)
+    cap_attr = html.escape(caption or '', quote=True)
+    src_attr = html.escape(path, quote=True)
+    return (
+        f'<button type="button" class="image-zoom" data-full="{src_attr}" '
+        f'data-caption="{cap_attr}" aria-haspopup="dialog" '
+        f'aria-label="Enlarge image: {alt_attr}">\n'
+        f'            <img src="{src_attr}" alt="{alt_attr}">\n'
+        f'          </button>'
+    )
+
+
 def _article_image_html(item: dict, issue_date: str) -> str:
     """Return HTML for optional article image (float left) or empty string."""
     img = (item.get('ArticleImage') or '').strip()
@@ -232,9 +313,10 @@ def _article_image_html(item: dict, issue_date: str) -> str:
     else:
         path = f"../assets/article-images/{issue_date}/{img}"
     caption = (item.get('ArticleImageCaption') or '').strip()
-    cap_html = f'\n          <figcaption>{caption}</figcaption>' if caption else ''
+    cap_html = f'\n          <figcaption>{html.escape(caption)}</figcaption>' if caption else ''
+    alt = caption or 'Article image'
     return f'''        <figure class="article-image">
-          <img src="{path}" alt="{caption or 'Article image'}">{cap_html}
+          {_zoomable_img_html(path, alt, caption)}{cap_html}
         </figure>
 '''
 
@@ -261,11 +343,11 @@ def _demo_figure_html(image: str, caption: str, issue_date: str, alt: str = '') 
             f'          </video>'
         )
     else:
-        media_html = f'<img src="{media_path}" alt="{caption_text}">'
+        media_html = _zoomable_img_html(media_path, caption_text, caption)
 
     return f'''        <figure>
           {media_html}
-          <figcaption>{caption}</figcaption>
+          <figcaption>{html.escape(caption) if caption else ''}</figcaption>
         </figure>
 '''
 
@@ -302,23 +384,35 @@ def generate_quick_scan_html(item: dict, issue_date: str) -> str:
 
 
 def generate_tool_drop_html(item: dict, issue_date: str) -> str:
-    """Generate HTML for Tool Drop - The News + My Take format."""
+    """Generate HTML for Tool Drop - The News + My Take format.
+
+    Supports ArticleImage (float-left still from assets/article-images/) and/or
+    Image/Caption (GIF, image, or video from assets/demos/), like Failure Mode.
+    """
     title = item.get('Title', '')
     the_news = item.get('TheNews', '') or item.get('Summary', '')
     my_take = item.get('MyTake', '')
+    link_text = item.get('LinkText', '')
     urls = item.get('URLs', [])
+    image = (item.get('Image') or '').strip()
+    caption = (item.get('Caption') or '').strip()
     article_img = _article_image_html(item, issue_date)
-    
+
     link_html = ''
     if urls:
-        link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">Learn More ↗</a></p>'
-    
+        label = link_text if link_text else 'Learn More'
+        link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{label} ↗</a></p>'
+
     my_take_html = ''
     if my_take:
         my_take_html = f'\n        <p class="my-take"><strong>My Take:</strong> {format_text(my_take)}</p>'
-    
+
+    demo_html = ''
+    if image:
+        demo_html = '\n' + _demo_figure_html(image, caption, issue_date, title)
+
     content_inner = f'''        <div class="content-with-article-image">
-{article_img}        <p><strong>The News:</strong> {format_text(the_news)}</p>{my_take_html}{link_html}
+{article_img}        <p><strong>The News:</strong> {format_text(the_news)}</p>{my_take_html}{demo_html}{link_html}
         </div>'''
     return f'''      <div class="content-card card-tool-drop">
         <h3><span class="icon">🛠️</span> {title}</h3>
@@ -385,6 +479,37 @@ def generate_ed_pulse_html(item: dict, issue_date: str) -> str:
 '''
 
 
+def generate_field_notes_html(item: dict, issue_date: str) -> str:
+    """Generate HTML for Field Notes — evergreen AI literacy explainers."""
+    title = item.get('Title', '')
+    content = item.get('Content', '') or item.get('Summary', '')
+    link_text = item.get('LinkText', '')
+    urls = item.get('URLs', [])
+    article_img = _article_image_html(item, issue_date)
+
+    link_html = ''
+    if urls:
+        if len(urls) == 1:
+            label = link_text if link_text else 'Read More'
+            link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{label} ↗</a></p>'
+        else:
+            link_parts = []
+            for url in urls:
+                domain = url.split('/')[2] if '/' in url else url
+                domain = domain.replace('www.', '')
+                link_parts.append(f'<a href="{url}" target="_blank" rel="noopener">{domain} ↗</a>')
+            link_html = f'\n        <p class="source-links">Sources: ' + ' · '.join(link_parts) + '</p>'
+
+    content_inner = f'''        <div class="content-with-article-image">
+{article_img}        {format_body_html(content, issue_date)}{link_html}
+        </div>'''
+    return f'''      <div class="content-card card-field-notes">
+        <h3><span class="icon">📓</span> {title}</h3>
+{content_inner}
+      </div>
+'''
+
+
 def generate_card_html(item: dict, card_class: str, icon: str) -> str:
     """Generate HTML for a generic content card (fallback)."""
     title = item.get('Title', '')
@@ -417,14 +542,20 @@ def generate_card_html(item: dict, card_class: str, icon: str) -> str:
 
 
 def generate_in_action_html(item: dict, issue_date: str) -> str:
-    """Generate HTML for In Action items with optional demo image."""
+    """Generate HTML for In Action items.
+
+    Supports Image/Caption (GIF, image, or video from assets/demos/) as a
+    full-width demo, or ArticleImage/ArticleImageCaption (float-left still
+    from assets/article-images/).
+    """
     title = item.get('Title', '')
     content = item.get('Content', '') or item.get('Summary', '')
-    image = item.get('Image', '')
-    caption = item.get('Caption', '')
+    image = (item.get('Image') or '').strip()
+    caption = (item.get('Caption') or '').strip()
     link_text = item.get('LinkText', '')
     urls = item.get('URLs', [])
-    
+    article_img = _article_image_html(item, issue_date)
+
     link_html = ''
     if urls:
         if len(urls) == 1:
@@ -437,18 +568,27 @@ def generate_in_action_html(item: dict, issue_date: str) -> str:
                 domain = domain.replace('www.', '')
                 link_parts.append(f'<a href="{url}" target="_blank" rel="noopener">{domain} ↗</a>')
             link_html = f'\n        <p class="source-links">Sources: ' + ' · '.join(link_parts) + '</p>'
-    
-    html = f'''      <div class="content-card card-in-action">
-        <h3><span class="icon">🎬</span> {title}</h3>
-        <p>{format_text(content)}</p>
-'''
-    
+
     if image:
-        html += _demo_figure_html(image, caption, issue_date, title)
-    
-    html += link_html
-    html += '      </div>\n'
-    return html
+        demo_path = Path(__file__).parent.parent / 'assets' / 'demos' / issue_date / image
+        if demo_path.is_file():
+            html = f'''      <div class="content-card card-in-action">
+        <h3><span class="icon">🎬</span> {title}</h3>
+{format_body_html(content, issue_date)}
+'''
+            html += _demo_figure_html(image, caption, issue_date, title)
+            html += link_html
+            html += '      </div>\n'
+            return html
+
+    content_inner = f'''        <div class="content-with-article-image">
+{article_img}        {format_body_html(content, issue_date)}{link_html}
+        </div>'''
+    return f'''      <div class="content-card card-in-action">
+        <h3><span class="icon">🎬</span> {title}</h3>
+{content_inner}
+      </div>
+'''
 
 
 def generate_failure_mode_html(item: dict, issue_date: str) -> str:
@@ -519,17 +659,20 @@ def generate_try_this_html(item: dict, issue_date: str) -> str:
     if image:
         image_path = f"../assets/demos/{issue_date}/{image}"
         demo_html = f'''        <figure class="try-this-demo">
-          <img src="{image_path}" alt="{caption or title}">
-          <figcaption>{caption}</figcaption>
+          {_zoomable_img_html(image_path, caption or title, caption)}
+          <figcaption>{html.escape(caption) if caption else ''}</figcaption>
         </figure>
 '''
     
     prompt_html = ''
     if the_prompt:
+        prompt_display = the_prompt.strip()
+        if len(prompt_display) >= 2 and prompt_display[0] == prompt_display[-1] and prompt_display[0] in '"\'':
+            prompt_display = prompt_display[1:-1]
         prompt_html = f'''
         <div class="the-prompt">
           <p class="prompt-label">The Prompt:</p>
-          <blockquote>"{format_text(the_prompt)}"</blockquote>
+          <blockquote>"{format_text(prompt_display)}"</blockquote>
         </div>'''
     
     why_html = ''
@@ -579,6 +722,7 @@ def generate_issue_html(data: dict) -> str:
         'The Feed': '📰',
         'Tool Drop': '🛠️',
         'The Breakdown': '🔬',
+        'Field Notes': '📓',
         'Ed Pulse': '🎓',
         'In Action': '🎬',
         'Failure Mode': '💥',
@@ -590,6 +734,7 @@ def generate_issue_html(data: dict) -> str:
         'The Feed': 'card-feed',
         'Tool Drop': 'card-tool-drop',
         'The Breakdown': 'card-breakdown',
+        'Field Notes': 'card-field-notes',
         'Ed Pulse': 'card-ed-pulse',
         'In Action': 'card-in-action',
         'Failure Mode': 'card-failure-mode'
@@ -600,6 +745,7 @@ def generate_issue_html(data: dict) -> str:
         'The Feed': 'the_feed_header.webp',
         'Tool Drop': 'tool_drop_header.webp',
         'The Breakdown': 'the_breakdown_header.webp',
+        'Field Notes': 'field_notes_header.webp',
         'Ed Pulse': 'ed_pulse_header.webp',
         'In Action': 'in_action_header.webp',
         'Failure Mode': 'failure_mode_header.webp',
@@ -611,6 +757,7 @@ def generate_issue_html(data: dict) -> str:
         'The Feed': 'the-feed',
         'Tool Drop': 'tool-drop',
         'The Breakdown': 'the-breakdown',
+        'Field Notes': 'field-notes',
         'Ed Pulse': 'ed-pulse',
         'In Action': 'in-action',
         'Failure Mode': 'failure-mode',
@@ -624,7 +771,7 @@ def generate_issue_html(data: dict) -> str:
     # Build sections HTML
     sections_html = ''
     
-    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Ed Pulse', 'In Action', 'Failure Mode', 'Try This']:
+    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Field Notes', 'Ed Pulse', 'In Action', 'Failure Mode', 'Try This']:
         items = data['sections'].get(section_name, [])
         if not items:
             continue
@@ -666,6 +813,8 @@ def generate_issue_html(data: dict) -> str:
                 sections_html += generate_tool_drop_html(item, data['issue_date'])
             elif section_name == 'The Breakdown':
                 sections_html += generate_breakdown_html(item, data['issue_date'])
+            elif section_name == 'Field Notes':
+                sections_html += generate_field_notes_html(item, data['issue_date'])
             elif section_name == 'Ed Pulse':
                 sections_html += generate_ed_pulse_html(item, data['issue_date'])
             elif section_name == 'In Action':
@@ -687,7 +836,7 @@ def generate_issue_html(data: dict) -> str:
     
     # Build overview items (only for sections that have content)
     overview_items = ''
-    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Ed Pulse', 'In Action', 'Failure Mode', 'Try This']:
+    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Field Notes', 'Ed Pulse', 'In Action', 'Failure Mode', 'Try This']:
         if data['sections'].get(section_name):
             section_id = section_ids[section_name]
             icon = section_icons[section_name]
@@ -715,6 +864,7 @@ def generate_issue_html(data: dict) -> str:
         --feed: #0891b2;
         --tool-drop: #059669;
         --breakdown: #d97706;
+        --field-notes: #4f46e5;
         --ed-pulse: #db2777;
         --in-action: #7c3aed;
         --failure-mode: #dc2626;
@@ -872,6 +1022,7 @@ def generate_issue_html(data: dict) -> str:
       .overview a[href="#the-feed"] {{ background: #cffafe; color: var(--feed); }}
       .overview a[href="#tool-drop"] {{ background: #d1fae5; color: var(--tool-drop); }}
       .overview a[href="#the-breakdown"] {{ background: #fef3c7; color: var(--breakdown); }}
+      .overview a[href="#field-notes"] {{ background: #e0e7ff; color: var(--field-notes); }}
       .overview a[href="#ed-pulse"] {{ background: #fce7f3; color: var(--ed-pulse); }}
       .overview a[href="#in-action"] {{ background: #ede9fe; color: var(--in-action); }}
       .overview a[href="#failure-mode"] {{ background: #fee2e2; color: var(--failure-mode); }}
@@ -946,6 +1097,7 @@ def generate_issue_html(data: dict) -> str:
       .card-feed {{ border-left-color: var(--feed); }}
       .card-tool-drop {{ border-left-color: var(--tool-drop); }}
       .card-breakdown {{ border-left-color: var(--breakdown); }}
+      .card-field-notes {{ border-left-color: var(--field-notes); }}
       .card-ed-pulse {{ border-left-color: var(--ed-pulse); }}
       .card-in-action {{ border-left-color: var(--in-action); }}
       .card-failure-mode {{ border-left-color: var(--failure-mode); }}
@@ -972,6 +1124,17 @@ def generate_issue_html(data: dict) -> str:
       }}
       .content-card p + p {{
         margin-top: 12px;
+      }}
+      .content-card h4 {{
+        margin: 20px 0 8px;
+        font-size: 16px;
+        color: var(--text);
+      }}
+      .content-card h4 + p {{
+        margin-top: 0;
+      }}
+      .content-card p + h4 {{
+        margin-top: 20px;
       }}
       .source-links {{
         font-size: 13px;
@@ -1205,6 +1368,89 @@ def generate_issue_html(data: dict) -> str:
           display: block;
         }}
       }}
+      .inline-figure {{
+        clear: both;
+        float: none;
+        display: block;
+        margin: 1.35rem auto 1.5rem;
+        max-width: min(100%, 520px);
+        width: 100%;
+      }}
+      .inline-figure img {{
+        display: block;
+        width: 100%;
+        height: auto;
+      }}
+      .inline-figure figcaption {{
+        text-align: center;
+      }}
+
+      .image-zoom {{
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        background: none;
+        cursor: zoom-in;
+        line-height: 0;
+      }}
+      .image-zoom:focus-visible {{
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 10px;
+      }}
+      .image-lightbox {{
+        padding: 0;
+        border: 0;
+        background: transparent;
+        max-width: min(96vw, 1100px);
+        max-height: 96vh;
+      }}
+      .image-lightbox::backdrop {{
+        background: rgba(15, 23, 42, 0.72);
+      }}
+      .image-lightbox-inner {{
+        position: relative;
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px 20px 16px;
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.35);
+      }}
+      .image-lightbox img {{
+        display: block;
+        max-width: min(92vw, 1040px);
+        max-height: 82vh;
+        width: auto;
+        height: auto;
+        margin: 0 auto;
+        border-radius: 8px;
+      }}
+      .image-lightbox-caption {{
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+        font-style: italic;
+        text-align: center;
+      }}
+      .image-lightbox-close {{
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 36px;
+        height: 36px;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.8);
+        color: #fff;
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+      }}
+      .image-lightbox-close:hover,
+      .image-lightbox-close:focus-visible {{
+        background: #0f172a;
+      }}
       
       /* Demo Figure (In Action) */
       figure {{
@@ -1328,7 +1574,7 @@ def generate_issue_html(data: dict) -> str:
       }}
       
       @media print {{
-        .top-bar, .nav-links, .share-section {{ display: none; }}
+        .top-bar, .nav-links, .share-section, .image-lightbox {{ display: none; }}
         body {{ background: #fff; }}
         .content-card, .overview {{ box-shadow: none; }}
       }}
@@ -1379,6 +1625,43 @@ def generate_issue_html(data: dict) -> str:
         <p><span class="brand">Artificial Insights</span> · Issue #{issue_num} · {date_display}</p>
       </footer>
     </div>
+    <dialog class="image-lightbox" id="image-lightbox" aria-label="Enlarged image">
+      <div class="image-lightbox-inner">
+        <button type="button" class="image-lightbox-close" aria-label="Close image">&times;</button>
+        <img alt="">
+        <p class="image-lightbox-caption"></p>
+      </div>
+    </dialog>
+    <script>
+    (function () {{
+      var dialog = document.getElementById('image-lightbox');
+      if (!dialog || typeof dialog.showModal !== 'function') return;
+      var img = dialog.querySelector('img');
+      var cap = dialog.querySelector('.image-lightbox-caption');
+      var closeBtn = dialog.querySelector('.image-lightbox-close');
+      document.querySelectorAll('.image-zoom').forEach(function (btn) {{
+        btn.addEventListener('click', function () {{
+          var thumb = btn.querySelector('img');
+          img.src = btn.getAttribute('data-full') || (thumb ? thumb.src : '');
+          img.alt = thumb ? thumb.alt : '';
+          var caption = btn.getAttribute('data-caption') || '';
+          cap.textContent = caption;
+          cap.hidden = !caption;
+          dialog.showModal();
+        }});
+      }});
+      function closeLightbox() {{
+        dialog.close();
+      }}
+      closeBtn.addEventListener('click', closeLightbox);
+      dialog.addEventListener('click', function (event) {{
+        if (event.target === dialog) closeLightbox();
+      }});
+      dialog.addEventListener('close', function () {{
+        img.removeAttribute('src');
+      }});
+    }})();
+    </script>
   </body>
 </html>
 '''
@@ -1396,6 +1679,7 @@ def generate_sources_html(data: dict) -> str:
         'The Feed': '📰',
         'Tool Drop': '🛠️',
         'The Breakdown': '🔬',
+        'Field Notes': '📓',
         'Ed Pulse': '🎓',
         'In Action': '🎬',
         'Failure Mode': '💥',
@@ -1404,7 +1688,7 @@ def generate_sources_html(data: dict) -> str:
     
     # Collect all sources
     sources_html = ''
-    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Ed Pulse', 'In Action', 'Failure Mode', 'Try This']:
+    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Field Notes', 'Ed Pulse', 'In Action', 'Failure Mode', 'Try This']:
         items = data['sections'].get(section_name, [])
         url_entries = []
         for item in items:

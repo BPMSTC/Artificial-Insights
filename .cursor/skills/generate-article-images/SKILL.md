@@ -26,6 +26,7 @@ Generate images only for items in:
 - Quick Scan
 - Tool Drop
 - The Breakdown
+- Field Notes
 - Ed Pulse
 - Try This
 
@@ -65,6 +66,7 @@ Use the item's `Title` plus the main body field for context:
 | Quick Scan | Teaser |
 | Tool Drop | TheNews, MyTake |
 | The Breakdown | Analysis, TheLesson |
+| Field Notes | Content (including optional `![caption](file.png)` mid-piece images) |
 | Ed Pulse | Content |
 | Try This | Intro, ThePrompt |
 
@@ -99,6 +101,14 @@ python scripts/generate_article_image.py \
 ```
 
 Keep spacing consistent with neighboring fields (`ArticleImage: filename` with one space after the colon).
+
+For **Field Notes**, a second image can sit in the middle of the explainer. Put the file in the same article-images folder, then drop this on its own line inside `Content` where the illustration belongs:
+
+```markdown
+    ![Caption that points at the thing](slug.png)
+```
+
+Do not use an `Image:` field line inside Content. That would end the Content field.
 
 ### 4. Finish
 
