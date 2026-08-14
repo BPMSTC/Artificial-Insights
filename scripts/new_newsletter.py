@@ -93,17 +93,29 @@ def create_article_images_folder(project_root: Path, issue_date: str) -> Path:
 
 
 def update_index(project_root: Path, issue_date: str, issue_number: int) -> None:
-    """Add new issue card to index.html."""
+    """Add a new issue card to index.html and point Latest Issue at it."""
     index_path = project_root / 'index.html'
     content = index_path.read_text(encoding='utf-8')
-    
-    # Skip if this issue is already in the index
-    if f'issues/{issue_date}.html' in content:
-        print(f"Index already contains issue {issue_date}. Skipping index update.")
-        return
-    
     date_display = format_date_display(issue_date)
-    
+
+    content = re.sub(
+        r'(<span class="date">📅 Latest Issue: ).*?(</span>)',
+        rf'\1{date_display} · Issue #{issue_number}\2',
+        content,
+        count=1,
+    )
+    content = re.sub(
+        r'(<a href=")issues/[^"]+\.html(">Read Latest)',
+        rf'\1issues/{issue_date}.html\2',
+        content,
+        count=1,
+    )
+
+    if f'<span class="issue-number">Issue #{issue_number}</span>' in content:
+        index_path.write_text(content, encoding='utf-8')
+        print(f"Updated Latest Issue bar in {index_path}")
+        return
+
     new_card = f'''      <article class="issue-card">
         <div class="issue-header">
           <h3>{date_display}</h3>
@@ -117,15 +129,16 @@ def update_index(project_root: Path, issue_date: str, issue_number: int) -> None
       </article>
       
       '''
-    
-    # Insert before first existing article (preserve indentation)
+
     marker = '      <article class="issue-card">'
     if marker in content:
         content = content.replace(marker, new_card.rstrip() + '\n\n' + marker, 1)
         index_path.write_text(content, encoding='utf-8')
         print(f"Updated: {index_path}")
-    else:
-        print("Warning: Could not find insertion point in index.html. Add the issue card manually.")
+        return
+
+    index_path.write_text(content, encoding='utf-8')
+    print("Warning: Could not find insertion point in index.html. Add the issue card manually.")
 
 
 def main():
