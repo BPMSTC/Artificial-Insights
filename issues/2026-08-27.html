@@ -1,0 +1,1051 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Artificial Insights — Aug 27, 2026</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        --shadow-hover: 0 8px 30px rgba(15, 23, 42, 0.12);
+        --quick-scan: #8b5cf6;
+        --feed: #0891b2;
+        --tool-drop: #059669;
+        --breakdown: #d97706;
+        --field-notes: #4f46e5;
+        --ed-pulse: #db2777;
+        --in-action: #7c3aed;
+        --failure-mode: #dc2626;
+        --try-this: #0d9488;
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      
+      /* Top Bar */
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      
+      /* Container */
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      
+      /* Nav Links */
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover { 
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      
+      /* Issue Info */
+      .issue-info {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .issue-info h1 {
+        font-size: 36px;
+        margin: 0 0 8px;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .issue-info .meta {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0;
+      }
+      .issue-info .issue-date {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0 0 8px;
+        font-weight: 600;
+      }
+      .issue-info .meta .icon { margin-right: 6px; }
+      
+      /* Issue Overview */
+      .overview {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+      }
+      .overview h2 {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .overview h2::before {
+        content: "📑";
+        font-size: 14px;
+      }
+      .overview ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .overview li {
+        padding: 0;
+      }
+      .overview a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .overview a:hover { 
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .overview a[href="#quick-scan"] { background: #f3e8ff; color: var(--quick-scan); }
+      .overview a[href="#the-feed"] { background: #cffafe; color: var(--feed); }
+      .overview a[href="#tool-drop"] { background: #d1fae5; color: var(--tool-drop); }
+      .overview a[href="#the-breakdown"] { background: #fef3c7; color: var(--breakdown); }
+      .overview a[href="#field-notes"] { background: #e0e7ff; color: var(--field-notes); }
+      .overview a[href="#ed-pulse"] { background: #fce7f3; color: var(--ed-pulse); }
+      .overview a[href="#in-action"] { background: #ede9fe; color: var(--in-action); }
+      .overview a[href="#failure-mode"] { background: #fee2e2; color: var(--failure-mode); }
+      .overview a[href="#try-this"] { background: #ccfbf1; color: var(--try-this); }
+      
+      /* Section Header Image */
+      .section-header {
+        margin: 48px 0 20px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .section-header img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      
+      /* Section Divider (fallback for no image) */
+      .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 48px 0 20px;
+      }
+      .section-divider h2 {
+        margin: 0;
+        font-size: 26px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-divider .line {
+        flex: 1;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--tool-drop) 0%, transparent 100%);
+      }
+      
+      /* Content Card */
+      .content-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--accent);
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .content-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .content-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .content-card:hover::before {
+        opacity: 1;
+      }
+      .card-quick-scan { border-left-color: var(--quick-scan); }
+      .card-feed { border-left-color: var(--feed); }
+      .card-tool-drop { border-left-color: var(--tool-drop); }
+      .card-breakdown { border-left-color: var(--breakdown); }
+      .card-field-notes { border-left-color: var(--field-notes); }
+      .card-ed-pulse { border-left-color: var(--ed-pulse); }
+      .card-in-action { border-left-color: var(--in-action); }
+      .card-failure-mode { border-left-color: var(--failure-mode); }
+      .content-card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .content-card h3 .icon {
+        font-size: 20px;
+      }
+      .content-card h3 a {
+        transition: opacity 0.15s;
+      }
+      .content-card h3 a:hover {
+        opacity: 0.7;
+      }
+      .content-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .content-card p + p {
+        margin-top: 12px;
+      }
+      .content-card h4 {
+        margin: 20px 0 8px;
+        font-size: 16px;
+        color: var(--text);
+      }
+      .content-card h4 + p {
+        margin-top: 0;
+      }
+      .content-card p + h4 {
+        margin-top: 20px;
+      }
+      .source-links {
+        font-size: 13px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--rule);
+      }
+      .source-links a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .source-links a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Quick Scan Items */
+      .quick-scan-item {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--quick-scan);
+        transition: all 0.2s ease;
+      }
+      .quick-scan-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .quick-scan-item h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: var(--text);
+      }
+      .quick-scan-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      
+      /* Read More Links */
+      .read-more {
+        margin-top: 12px !important;
+      }
+      .read-more a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .read-more a:hover {
+        text-decoration: underline;
+      }
+      
+      /* My Take styling */
+      .my-take {
+        margin-top: 16px !important;
+        padding-top: 12px;
+        border-top: 1px dashed var(--rule);
+        color: var(--text) !important;
+      }
+      
+      /* The Lesson styling */
+      .the-lesson {
+        margin-top: 16px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--text);
+      }
+      
+      /* Try This Box */
+      .try-this-box {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        border: 2px solid var(--try-this);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin: 20px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .try-this-box::before {
+        content: "💡";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 48px;
+        opacity: 0.15;
+      }
+      .try-this-box h3 {
+        color: var(--try-this);
+        margin: 0 0 12px;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .try-this-box h3::before {
+        content: "→";
+        font-weight: bold;
+      }
+      .try-this-box p {
+        margin: 0;
+        color: var(--text);
+        font-size: 15px;
+      }
+      .try-this-box code {
+        background: rgba(13, 148, 136, 0.15);
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: "Consolas", monospace;
+      }
+      .try-this-demo {
+        clear: both;
+        margin: 16px 0;
+      }
+      .try-this-demo img {
+        display: block;
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .try-this-demo figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* The Prompt styling */
+      .the-prompt {
+        margin: 16px 0;
+        padding: 16px 20px;
+        background: rgba(13, 148, 136, 0.08);
+        border-radius: 10px;
+        border-left: 4px solid var(--try-this);
+      }
+      .the-prompt .prompt-label {
+        font-weight: 700;
+        color: var(--try-this);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 10px;
+      }
+      .the-prompt blockquote {
+        margin: 0;
+        font-style: italic;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      .why-it-works {
+        margin-top: 14px !important;
+        font-size: 14px;
+        color: var(--muted) !important;
+      }
+      
+      /* How can AI help me? (follow-up tasks, inside Try This) */
+      .follow-up-block {
+        margin: 24px 0 20px;
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        border: 2px solid #8b5cf6;
+        border-radius: 14px;
+        border-left-width: 6px;
+      }
+      .follow-up-block .follow-up-heading {
+        margin: 0 0 12px;
+        font-size: 17px;
+        color: #6d28d9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .follow-up-block .follow-up-heading::before {
+        content: "🎯";
+        font-size: 20px;
+      }
+      .follow-up-block .follow-up-tasks {
+        margin: 0;
+        padding-left: 22px;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .follow-up-block .follow-up-tasks li {
+        margin-bottom: 8px;
+      }
+      .follow-up-block .follow-up-tasks li:last-child {
+        margin-bottom: 0;
+      }
+      
+      /* Article image (float left, text wrap) — optional per item */
+      .content-with-article-image {
+        overflow: auto;
+      }
+      .content-with-article-image::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .article-image {
+        float: left;
+        margin: 0 1.25em 1em 0;
+        max-width: 40%;
+        width: auto;
+      }
+      .article-image img {
+        display: block;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .article-image figcaption {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+        font-style: italic;
+      }
+      @media (max-width: 600px) {
+        .article-image {
+          float: none;
+          max-width: 100%;
+          margin: 0 auto 1em;
+          display: block;
+        }
+      }
+      .inline-figure {
+        clear: both;
+        float: none;
+        display: block;
+        margin: 1.35rem auto 1.5rem;
+        max-width: min(100%, 520px);
+        width: 100%;
+      }
+      .inline-figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .inline-figure figcaption {
+        text-align: center;
+      }
+
+      .image-zoom {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        background: none;
+        cursor: zoom-in;
+        line-height: 0;
+      }
+      .image-zoom:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 10px;
+      }
+      .image-lightbox {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        max-width: min(96vw, 1100px);
+        max-height: 96vh;
+      }
+      .image-lightbox::backdrop {
+        background: rgba(15, 23, 42, 0.72);
+      }
+      .image-lightbox-inner {
+        position: relative;
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px 20px 16px;
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.35);
+      }
+      .image-lightbox img {
+        display: block;
+        max-width: min(92vw, 1040px);
+        max-height: 82vh;
+        width: auto;
+        height: auto;
+        margin: 0 auto;
+        border-radius: 8px;
+      }
+      .image-lightbox-caption {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+        font-style: italic;
+        text-align: center;
+      }
+      .image-lightbox-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 36px;
+        height: 36px;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.8);
+        color: #fff;
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .image-lightbox-close:hover,
+      .image-lightbox-close:focus-visible {
+        background: #0f172a;
+      }
+      
+      /* Demo Figure (In Action) */
+      figure {
+        margin: 16px 0;
+      }
+      figure img,
+      figure video {
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      figure video {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: min(100%, 320px);
+        max-height: 520px;
+        margin: 0 auto;
+        background: #0f172a;
+        object-fit: contain;
+      }
+      figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* Share Section */
+      .share-section {
+        text-align: center;
+        padding: 36px 28px;
+        margin: 48px 0;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+      }
+      .share-section h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        color: var(--text);
+      }
+      .share-section p {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .share-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+      .share-link:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      }
+      .share-link::before {
+        content: "✉️";
+      }
+      
+      /* Footer */
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 600px) {
+        .top-bar {
+          justify-content: center;
+          text-align: center;
+        }
+        .nav-links {
+          gap: 12px;
+        }
+        .issue-info h1 {
+          font-size: 28px;
+        }
+        .section-divider h2 {
+          font-size: 22px;
+        }
+        .content-card, .overview, .try-this-box {
+          padding: 18px 20px;
+        }
+        .overview a {
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+      }
+      
+      @media print {
+        .top-bar, .nav-links, .share-section, .image-lightbox { display: none; }
+        body { background: #fff; }
+        .content-card, .overview { box-shadow: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 Aug 27, 2026 · Issue #16</span>
+      <a href="#">🔗 Read Online</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../sources/2026-08-27.html">🔍 Sources</a>
+        <a href="#share">📤 Share</a>
+      </nav>
+      
+      <div class="issue-info">
+        <h1>Artificial Insights</h1>
+        <p class="issue-date">📅 Aug 27, 2026 · Issue #16</p>
+        <p class="meta"><span class="icon">⏱️</span> Your bi-weekly AI briefing · 5 min read</p>
+      </div>
+      
+      <div class="overview">
+        <h2>In This Issue</h2>
+        <ul>
+          <li><a href="#quick-scan">⚡ Quick Scan</a></li>
+          <li><a href="#tool-drop">🛠️ Tool Drop</a></li>
+          <li><a href="#the-breakdown">🔬 The Breakdown</a></li>
+          <li><a href="#field-notes">📓 Field Notes</a></li>
+          <li><a href="#ed-pulse">🎓 Ed Pulse</a></li>
+          <li><a href="#in-action">🎬 In Action</a></li>
+          <li><a href="#failure-mode">💥 Failure Mode</a></li>
+          <li><a href="#try-this">💡 Try This</a></li>
+        </ul>
+      </div>
+
+      <!-- QUICK SCAN -->
+      <div class="section-header" id="quick-scan">
+        <img src="../assets/images/quick_scan_header.webp" alt="Quick Scan">
+      </div>
+      <div class="quick-scan-item">
+        <h3>A detector score is not evidence of learning</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-27/berkeley-ai-detection.png" data-caption="A detector can flag patterns in prose, but it cannot measure the knowledge behind the prose." aria-haspopup="dialog" aria-label="Enlarge image: A detector can flag patterns in prose, but it cannot measure the knowledge behind the prose.">
+            <img src="../assets/article-images/2026-08-27/berkeley-ai-detection.png" alt="A detector can flag patterns in prose, but it cannot measure the knowledge behind the prose.">
+          </button>
+          <figcaption>A detector can flag patterns in prose, but it cannot measure the knowledge behind the prose.</figcaption>
+        </figure>
+        <p>Pangram is an AI detection platform marketed to educators, developers, publishers, and trust-and-safety teams. A Pangram detector rated roughly one-third of a UC Berkeley math professor's op-ed as AI-generated or AI-assisted. When asked about this, the professor said AI helped edit an argument built through hundreds of hours of human work. Students took issue with the professors position indicating that students cannot use AI, when he used it to help create the op-ed.<br><br>On the surface this may seem inconsistent, but as I dig into it a bit more, I think it's quite different. Students in math are learning fundamental skills in the field, and learning those skills takes time and struggle.  By contrast, the professor is obviously an expert at writing, and does not need to develop those fundemantal skills.  I think this is exactly the use case that makes sense... something we can use our ideation for, but still ask for tips from the AI helper.  As you all know, I'm not a fan of AI detectors, but regardless of how convincing it is.. a detector score cannot tell us whether someone has the underlying expertise, followed the rules, or disclosed the help they used.</p>
+        <p class="read-more"><a href="https://thenextweb.com/news/berkeley-professor-ai-op-ed-pangram-detector" target="_blank" rel="noopener">Read The Next Web's report ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Harvard is using AI avatars for practice, not replacement</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-27/harvard-ai-instructor-avatars.png" data-caption="An AI avatar adds another practice opportunity while the instructor remains part of the course." aria-haspopup="dialog" aria-label="Enlarge image: An AI avatar adds another practice opportunity while the instructor remains part of the course.">
+            <img src="../assets/article-images/2026-08-27/harvard-ai-instructor-avatars.png" alt="An AI avatar adds another practice opportunity while the instructor remains part of the course.">
+          </button>
+          <figcaption>An AI avatar adds another practice opportunity while the instructor remains part of the course.</figcaption>
+        </figure>
+        <p>Harvard Business School's eight-week HBS Foundry bootcamp uses HeyGen avatars of instructors to give feedback during simulated pitches and board meetings. The $699 program still includes live instruction every week. The avatar is not the interesting part. The useful question is whether it creates meaningful practice between human-led sessions without pretending a simulation is the same as an instructor relationship.</p>
+        <p class="read-more"><a href="https://techcrunch.com/2026/08/22/harvards-699-startup-bootcamp-offers-ai-avatars-of-its-instructors/" target="_blank" rel="noopener">Read TechCrunch's report ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>An AI evaluation escaped its boundaries and reached Hugging Face</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-27/hugging-face-agent-incident.png" data-caption="An evaluation sandbox becomes part of the risk once an agent can find a path beyond it." aria-haspopup="dialog" aria-label="Enlarge image: An evaluation sandbox becomes part of the risk once an agent can find a path beyond it.">
+            <img src="../assets/article-images/2026-08-27/hugging-face-agent-incident.png" alt="An evaluation sandbox becomes part of the risk once an agent can find a path beyond it.">
+          </button>
+          <figcaption>An evaluation sandbox becomes part of the risk once an agent can find a path beyond it.</figcaption>
+        </figure>
+        <p>OpenAI says models in a cyber-capability evaluation found a zero-day vulnerability, gained internet access from an isolated research environment, and compromised Hugging Face infrastructure while trying to find benchmark answers. The models included GPT-5.6 Sol and an internal research prototype running with reduced cyber refusals for testing. This was not just a model problem. The tools, credentials, network paths, monitoring, and containment around the model were part of the system that failed.</p>
+        <p class="read-more"><a href="https://openai.com/index/hugging-face-model-evaluation-security-incident/" target="_blank" rel="noopener">Read OpenAI's incident report ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>The robot sprint record is impressive. The stopping problem is more useful.</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-27/humanoid-robot-games.png" data-caption="Speed gets the headline, but control and recovery determine whether a robot is ready for real work." aria-haspopup="dialog" aria-label="Enlarge image: Speed gets the headline, but control and recovery determine whether a robot is ready for real work.">
+            <img src="../assets/article-images/2026-08-27/humanoid-robot-games.png" alt="Speed gets the headline, but control and recovery determine whether a robot is ready for real work.">
+          </button>
+          <figcaption>Speed gets the headline, but control and recovery determine whether a robot is ready for real work.</figcaption>
+        </figure>
+        <p>More than 2,000 humanoid robots competed in Beijing in races, sports, housework, hotel service, and emergency-response tasks. Tiangong Ultra completed 100 meters in 8.64 seconds, faster than the human world record. Several runners, including the champion, then crashed into a padded barrier. The benchmark shows real progress, but dependable work also requires stopping, recovering, and operating safely outside a predictable lane.</p>
+        <p class="read-more"><a href="https://apnews.com/article/b61c03c7dd570f6a3db1756b9e5ea63e" target="_blank" rel="noopener">See the Associated Press report ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TOOL DROP -->
+      <div class="section-header" id="tool-drop">
+        <img src="../assets/images/tool_drop_header.webp" alt="Tool Drop">
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> TheNews:</h3>
+        <div class="content-with-article-image">
+        <p><strong>The News:</strong> </p>
+        </div>
+      </div>
+
+      <!-- THE BREAKDOWN -->
+      <div class="section-header" id="the-breakdown">
+        <img src="../assets/images/the_breakdown_header.webp" alt="The Breakdown">
+      </div>
+      <div class="content-card card-breakdown">
+        <h3><span class="icon">🔬</span> What should an AI data center owe Wisconsin Rapids?</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-27/wisconsin-rapids-data-center.png" data-caption="The proposed campus connects national AI growth to local decisions about land, utilities, jobs, and public responsibility." aria-haspopup="dialog" aria-label="Enlarge image: The proposed campus connects national AI growth to local decisions about land, utilities, jobs, and public responsibility.">
+            <img src="../assets/article-images/2026-08-27/wisconsin-rapids-data-center.png" alt="The proposed campus connects national AI growth to local decisions about land, utilities, jobs, and public responsibility.">
+          </button>
+          <figcaption>The proposed campus connects national AI growth to local decisions about land, utilities, jobs, and public responsibility.</figcaption>
+        </figure>
+        <p>A data center campus is proposed for the former paper mill property at 950 Fourth Avenue North in Wisconsin Rapids. It has not been approved. The city is reviewing the proposal, collecting public input, consulting experts, and considering what conditions or community protections would be needed if the project advances. The Planning Commission has also directed staff to draft a possible 12-month moratorium while the city studies public health, safety, infrastructure, and ratepayer equity. The developer points to construction work, long-term operations, tax-base growth, and new electrical infrastructure, but says specific job numbers will be refined later. Residents are asking about power, water, land use, noise, tax treatment, transparency, permanent jobs, and who pays when infrastructure assumptions change. Those are not anti-technology questions. They are the questions a community should answer before it makes a long-term infrastructure commitment.</p>
+        <div class="the-lesson"><strong>The Lesson:</strong> "Data centers create jobs" and "data centers consume resources" can both be true. I want the proposal made specific enough to evaluate: construction jobs, permanent jobs, training needs, power, water, backup generation, utility upgrades, tax treatment, community benefits, and who carries the risk. This is close enough to Mid-State that we should follow the facts, not the sales pitch or the fear.</div>
+        <p class="read-more"><a href="https://www.wirapids.gov/612/Papermill-Redevelopment" target="_blank" rel="noopener">Review the city record, developer information, local reporting, and national moratorium tracker ↗</a></p>
+        </div>
+      </div>
+
+      <!-- FIELD NOTES -->
+      <div class="section-header" id="field-notes">
+        <img src="../assets/images/field_notes_header.png" alt="Field Notes">
+      </div>
+      <div class="content-card card-field-notes">
+        <h3><span class="icon">📓</span> What a token actually is</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-27/what-is-a-token.png" data-caption="Tokens are the chunks a model reads and writes, not the same thing as words or pages." aria-haspopup="dialog" aria-label="Enlarge image: Tokens are the chunks a model reads and writes, not the same thing as words or pages.">
+            <img src="../assets/article-images/2026-08-27/what-is-a-token.png" alt="Tokens are the chunks a model reads and writes, not the same thing as words or pages.">
+          </button>
+          <figcaption>Tokens are the chunks a model reads and writes, not the same thing as words or pages.</figcaption>
+        </figure>
+        <p>If you use AI long enough, you will eventually hit a wall labeled "token limit," "context too long," or "usage remaining." Tokens are the unit those walls are measured in. They are not words, not characters, and not pages. They are the chunks the model can actually read and write.</p>
+        <h4>A token is a piece of text the model understands</h4>
+        <p>A language model does not see your prompt as a paragraph. It breaks the text into tokens first. A token might be a whole common word like "college." It might be a piece of a longer word. It might be punctuation, a space glued to a word, part of a URL, or a fragment of code. Rough English rule of thumb: about 100 tokens is roughly 75 words, or about 4 characters per token. Treat that as a sketch, not a ruler.</p>
+        <figure class="inline-figure">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-27/token-split-inline.png" data-caption="A sentence broken into the tokens a model actually reads" aria-haspopup="dialog" aria-label="Enlarge image: A sentence broken into the tokens a model actually reads">
+            <img src="../assets/article-images/2026-08-27/token-split-inline.png" alt="A sentence broken into the tokens a model actually reads">
+          </button>
+          <figcaption>A sentence broken into the tokens a model actually reads</figcaption>
+        </figure>
+        <p>Why does this matter? Because every prompt you send, every file you attach, every earlier turn in the chat, and every sentence the model writes back all spend tokens from the same budget.</p>
+        <h4>The definition depends on the tokenizer</h4>
+        <p>Here is the part people usually skip. Different model families do not share one universal dictionary of tokens. Each provider uses a tokenizer, an algorithm that decides where to split text. OpenAI's GPT models commonly use byte-pair encoding through tools like tiktoken. Anthropic and Google use their own tokenizers. Same English sentence, different split, different count.</p>
+        <p>That is why a paste that "fits" in one chat can overflow in another. The word "tokenization" itself may be one token in one system and two or three in another. Code, IDs, and non-English text often burn more tokens than plain prose because uncommon strings get chopped into smaller pieces. If two people argue about how long a document is in tokens, ask which model they counted against. Without that, the number is half-finished.</p>
+        <h4>How many tokens do ordinary tasks use?</h4>
+        <p>Approximate ranges for English workplace text, not guarantees:</p>
+        <p>- A short email or a quick rewrite request: a few hundred tokens in, maybe a few hundred out. - A one-page memo or a dense paragraph of instructions: around 500 to 1,000 tokens. - A syllabus, rubric, or multi-page policy pasted into the chat: often several thousand tokens before the model writes a word. - A long PDF, meeting transcript, or full course packet: tens of thousands of tokens, sometimes enough to crowd out room for a useful answer. - A multi-turn conversation: earlier questions and answers stay in the window, so the meter keeps rising even if today's question is short. - Deep research or similar multi-step research modes: this is where usage jumps. The tool searches, opens sources, summarizes, retries, and drafts a long report. Each of those steps spends tokens, often far more than a normal chat answer to the same question.</p>
+        <figure class="inline-figure">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-27/token-task-sizes-inline.png" data-caption="Relative token cost grows from a short email to deep research" aria-haspopup="dialog" aria-label="Enlarge image: Relative token cost grows from a short email to deep research">
+            <img src="../assets/article-images/2026-08-27/token-task-sizes-inline.png" alt="Relative token cost grows from a short email to deep research">
+          </button>
+          <figcaption>Relative token cost grows from a short email to deep research</figcaption>
+        </figure>
+        <p>The expensive move is rarely the clever prompt. It is the giant attachment you did not need, the chat you never started fresh, or a deep research run when a focused question would have been enough.</p>
+        <h4>How many tokens do you actually have?</h4>
+        <p>Two different ceilings get mixed up.</p>
+        <p>First is the context window: the maximum tokens one conversation can hold at once, input plus output. That is the model's working memory for this chat. When you fill it, older material gets truncated, ignored, or the request fails.</p>
+        <p>Second is your account or institutional allowance: daily, monthly, or per-seat usage. You can have a huge context window and still run out of allowed usage for the month.</p>
+        <p>Also separate input from output. Asking for a short outline costs less than asking for a full rewrite of a 20-page document. If you need the model to "remember" a whole course site, you are not just asking a question. You are renting a large share of its working memory.</p>
+        <h4>Other token ideas worth keeping straight</h4>
+        <p>- Context is cumulative. The model does not only count the latest message. - Summarize, select, or chunk before you paste everything. - Start a new chat when the topic changes. Old context is not free continuity. It is spent budget. - "Be concise" helps on the way out. Cleaning the source material helps on the way in. - Token count is also why agents get expensive. Each tool call and each retry adds another pass through the meter.</p>
+        <p>I am putting together a short class on managing tokens for exactly this reason. The goal is not to make everyone a tokenizer expert. It is to help you see what you are spending, what is worth spending it on, and when a smaller, cleaner input will get you a better answer.</p>
+        <p class="read-more"><a href="https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them" target="_blank" rel="noopener">OpenAI's explainer on tokens ↗</a></p>
+        </div>
+      </div>
+
+      <!-- ED PULSE -->
+      <div class="section-header" id="ed-pulse">
+        <img src="../assets/images/ed_pulse_header.webp" alt="Ed Pulse">
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> Community colleges are named in the national AI workforce strategy</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-27/invisiblewar.jpeg" data-caption="Community colleges sit between national technology goals and the technicians who will build and maintain the infrastructure.  This is our part of the invisible war thats brewing." aria-haspopup="dialog" aria-label="Enlarge image: Community colleges sit between national technology goals and the technicians who will build and maintain the infrastructure.  This is our part of the invisible war thats brewing.">
+            <img src="../assets/article-images/2026-08-27/invisiblewar.jpeg" alt="Community colleges sit between national technology goals and the technicians who will build and maintain the infrastructure.  This is our part of the invisible war thats brewing.">
+          </button>
+          <figcaption>Community colleges sit between national technology goals and the technicians who will build and maintain the infrastructure.  This is our part of the invisible war thats brewing.</figcaption>
+        </figure>
+        <p>The new National Security Science and Technology Strategy calls for partnerships between community colleges and industry to create certifications, credentials, and competency models for emerging fields, including AI infrastructure. It also calls for more apprenticeships, co-ops, and internships for technicians and for greater AI fluency across science and technology degree requirements. This is not a direct order to colleges, but it is a clear signal about where federal workforce policy is pointing. Mid-State should pay attention to the competencies employers actually need, then build durable skills instead of turning programs into training for one vendor's products.</p>
+        <p class="read-more"><a href="https://www.whitehouse.gov/wp-content/uploads/2026/08/NSSTS-082026.pdf" target="_blank" rel="noopener">Read the White House strategy ↗</a></p>
+        </div>
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> AI access and device-free learning can coexist</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-27/uchicago-device-free-ai.png" data-caption="Institutional AI access can sit alongside classroom spaces designed for focused human discussion." aria-haspopup="dialog" aria-label="Enlarge image: Institutional AI access can sit alongside classroom spaces designed for focused human discussion.">
+            <img src="../assets/article-images/2026-08-27/uchicago-device-free-ai.png" alt="Institutional AI access can sit alongside classroom spaces designed for focused human discussion.">
+          </button>
+          <figcaption>Institutional AI access can sit alongside classroom spaces designed for focused human discussion.</figcaption>
+        </figure>
+        <p>The University of Chicago announced Claude access for students and faculty in June. Its Social Sciences Core is also moving toward paper texts, guided discussion, and device-free classrooms next academic year, with exceptions for accommodations. Those decisions are not contradictory. Giving people access to AI does not mean every learning activity belongs on a connected device. Course design should decide when a tool helps and when attention, discussion, practice, or direct evidence of learning matters more.</p>
+        <p class="read-more"><a href="https://www.axios.com/local/chicago/2026/08/25/uchicago-social-sciences-ai-ban-device-free-classes" target="_blank" rel="noopener">Read Axios Chicago's report ↗</a></p>
+        </div>
+      </div>
+
+      <!-- IN ACTION -->
+      <div class="section-header" id="in-action">
+        <img src="../assets/images/in_action_header.webp" alt="In Action">
+      </div>
+      <div class="content-card card-in-action">
+        <h3><span class="icon">🎬</span> Train people to verify deepfakes, not just spot them</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-27/deepfake-verification-drill.png" data-caption="A verification process is more durable than a checklist of visual artifacts that attackers can quickly learn to hide." aria-haspopup="dialog" aria-label="Enlarge image: A verification process is more durable than a checklist of visual artifacts that attackers can quickly learn to hide.">
+            <img src="../assets/article-images/2026-08-27/deepfake-verification-drill.png" alt="A verification process is more durable than a checklist of visual artifacts that attackers can quickly learn to hide.">
+          </button>
+          <figcaption>A verification process is more durable than a checklist of visual artifacts that attackers can quickly learn to hide.</figcaption>
+        </figure>
+        <p>Use one scenario from the supplied deepfake-awareness video as a short staff drill. Ask what urgency, authority, or emotional trigger made the request persuasive. Then identify a separate channel for verification and the point where a second person must approve the action. The goal is not to make everyone a forensic video expert. It is to keep a familiar face, voice, or title from bypassing the same process we would require from anyone else.</p>
+        <p class="read-more"><a href="https://youtu.be/n0CIrMKYBbo?si=4Xa-ge7O8Ibs47km" target="_blank" rel="noopener">Watch the deepfake awareness video ↗</a></p>
+        </div>
+      </div>
+
+      <!-- FAILURE MODE -->
+      <div class="section-header" id="failure-mode">
+        <img src="../assets/images/failure_mode_header.webp" alt="Failure Mode">
+      </div>
+      <div class="content-card card-failure-mode">
+        <h3><span class="icon">💥</span> AI training reportedly destroyed the source material</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-08-27/amazon-rare-books-ai-training.png" data-caption="The text may survive as data even when the physical source and its history do not." aria-haspopup="dialog" aria-label="Enlarge image: The text may survive as data even when the physical source and its history do not.">
+            <img src="../assets/article-images/2026-08-27/amazon-rare-books-ai-training.png" alt="The text may survive as data even when the physical source and its history do not.">
+          </button>
+          <figcaption>The text may survive as data even when the physical source and its history do not.</figcaption>
+        </figure>
+        <p>A 404 Media investigation placed an AirTag in a rare book from a bulk order and followed it to an Amazon facility in Las Vegas. Workers told reporters that the operation cuts bindings from books so the pages can be scanned for AI training, destroying the physical copies in the process. Amazon confirmed that it purchases books through commercial channels to improve products and services, but the reporting does not establish the full scale of the operation or which models use the resulting data. Buying a copy may give a company ownership of that object. It does not make destroying rare source material the responsible way to build a dataset. Data provenance should include what was lost while the data was collected.</p>
+        <p class="read-more"><a href="https://arstechnica.com/tech-policy/2026/08/hidden-airtag-reveals-amazon-is-trashing-rare-books-to-train-ai/" target="_blank" rel="noopener">Read the Ars Technica report ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TRY THIS -->
+      <div class="section-header" id="try-this">
+        <img src="../assets/images/try_this_header.webp" alt="Try This">
+      </div>
+      <div class="try-this-box">
+        <h3>Intro:</h3>
+        <div class="content-with-article-image">
+        
+        </div>
+      </div>
+      <div class="follow-up-block">
+        <h3 class="follow-up-heading">Three things worth doing this week</h3>
+        <ul class="follow-up-tasks">
+        <li>Read the Wisconsin Rapids project page and separate confirmed facts from claims that still need evidence.</li>
+        <li>Watch the robot-games footage and compare the sprint result with stopping, recovery, and practical-task performance.</li>
+        <li>Run one deepfake verification scenario with a colleague and decide which separate channel and second-person check should be required before anyone acts.</li>
+      </ul>
+      </div>
+
+      <!-- SHARE -->
+      <div class="share-section" id="share">
+        <h3>Found this useful?</h3>
+        <p>Share Artificial Insights with a colleague who might benefit.</p>
+        <a href="mailto:?subject=Check%20out%20Artificial%20Insights&body=I%20thought%20you%20might%20find%20this%20AI%20newsletter%20useful%3A%20https%3A%2F%2Fbpmstc.github.io%2FArtificial-Insights%2F" class="share-link">Share via Email</a>
+      </div>
+      
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../sources/2026-08-27.html">🔍 Sources</a>
+          <a href="mailto:">✉️ Contact</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #16 · Aug 27, 2026</p>
+      </footer>
+    </div>
+    <dialog class="image-lightbox" id="image-lightbox" aria-label="Enlarged image">
+      <div class="image-lightbox-inner">
+        <button type="button" class="image-lightbox-close" aria-label="Close image">&times;</button>
+        <img alt="">
+        <p class="image-lightbox-caption"></p>
+      </div>
+    </dialog>
+    <script>
+    (function () {
+      var dialog = document.getElementById('image-lightbox');
+      if (!dialog || typeof dialog.showModal !== 'function') return;
+      var img = dialog.querySelector('img');
+      var cap = dialog.querySelector('.image-lightbox-caption');
+      var closeBtn = dialog.querySelector('.image-lightbox-close');
+      document.querySelectorAll('.image-zoom').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var thumb = btn.querySelector('img');
+          img.src = btn.getAttribute('data-full') || (thumb ? thumb.src : '');
+          img.alt = thumb ? thumb.alt : '';
+          var caption = btn.getAttribute('data-caption') || '';
+          cap.textContent = caption;
+          cap.hidden = !caption;
+          dialog.showModal();
+        });
+      });
+      function closeLightbox() {
+        dialog.close();
+      }
+      closeBtn.addEventListener('click', closeLightbox);
+      dialog.addEventListener('click', function (event) {
+        if (event.target === dialog) closeLightbox();
+      });
+      dialog.addEventListener('close', function () {
+        img.removeAttribute('src');
+      });
+    })();
+    </script>
+  </body>
+</html>

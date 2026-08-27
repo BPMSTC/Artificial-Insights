@@ -100,11 +100,13 @@ See `meeting-notes/meeting-notes-template.md` for the complete structure.
 
 - **In Action** and **Failure Mode**: Put GIFs, images, or MP4 videos in `assets/demos/YYYY-MM-DD/`. The filename must match the `Image:` field (e.g. `Image: recurring-tasks.gif` or `Image: worldcupvoice.mp4`). Use `Caption:` for the figure caption. MP4/WebM render as playable `<video>` controls; other formats use `<img>`. Do **not** use `.mov` / QuickTime — browsers often cannot play them. Convert with ffmpeg first (`python scripts/validate_demo_videos.py` will catch leftovers).
 - **Other sections** (Quick Scan, Tool Drop, The Breakdown, Field Notes, Ed Pulse, Try This): Optionally add images in `assets/article-images/YYYY-MM-DD/`. Use `ArticleImage: filename.webp` and optional `ArticleImageCaption: Your caption.` Images float left with text wrapping; omit or leave empty for no image.
-- **Field Notes mid-piece images**: Put a markdown image on its own line inside `Content` where the illustration belongs. The file still lives in `assets/article-images/YYYY-MM-DD/`. This becomes a centered block figure (not a float) and does not change other sections:
+- **Field Notes mid-piece images**: Use when the explainer needs a diagram in the middle of the piece (for example a watermark diagram or a sentence split into tokens). Put a markdown image on its own indented line inside `Content` where the illustration belongs. The file still lives in `assets/article-images/YYYY-MM-DD/`. This becomes a centered `.inline-figure` block (not a float). Keep `ArticleImage` for the float-left opener; do not use an `Image:` field inside Content. Prefer `-inline` in the filename so it is easy to tell apart from the opener:
 
 ```markdown
-    ![The watermark lives in the word choices, not in hidden characters](watermark-split.png)
+    ![A sentence broken into the tokens a model actually reads](token-split-inline.png)
 ```
+
+Examples: Issue 15 used `watermark-inline.jpeg`; Issue 16 uses `token-split-inline.png`.
 - **Failure Mode** can also use `ArticleImage` instead of `Image` for a smaller float-left image from `assets/article-images/YYYY-MM-DD/`. Prefer `Image` for GIFs and full-width clips.
 
 ### 3. Generate Newsletter (when editing existing content)
@@ -154,11 +156,11 @@ Live site: https://bpmstc.github.io/Artificial-Insights/
 
 ### Field Notes Fields
 - `Title`: Concept or literacy topic (e.g., What is a token?)
-- `Content`: Plain-language explainer; one idea per issue. Optional mid-piece image: `![Caption](filename.png)` on its own line (file in `assets/article-images/YYYY-MM-DD/`)
+- `Content`: Plain-language explainer; one idea per issue. Optional mid-piece image on its own indented line: `![Caption](filename-inline.png)` (file in `assets/article-images/YYYY-MM-DD/`; renders centered, not floated)
 - `LinkText`: Optional custom link text
 - `URL`: Optional reference link
-- `ArticleImage`: Optional float-left opener in `assets/article-images/YYYY-MM-DD/`
-- `ArticleImageCaption`: Optional caption for the article image
+- `ArticleImage`: Optional float-left opener in `assets/article-images/YYYY-MM-DD/` (separate from any mid-piece image inside Content)
+- `ArticleImageCaption`: Optional caption for the article image opener
 
 ### Ed Pulse Fields
 - `Title`: Topic

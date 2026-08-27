@@ -39,6 +39,7 @@ The Breakdown:
   ArticleImage:
   ArticleImageCaption:
 
+<!-- Field Notes mid-piece image (optional): inside Content, on its own indented line use ![Caption](name-inline.png). File goes in assets/article-images/YYYY-MM-DD/. Renders as a centered block figure, separate from ArticleImage. See README "Field Notes mid-piece images". -->
 Field Notes:
 - Title:
   Content:

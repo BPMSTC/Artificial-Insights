@@ -102,13 +102,13 @@ python scripts/generate_article_image.py \
 
 Keep spacing consistent with neighboring fields (`ArticleImage: filename` with one space after the colon).
 
-For **Field Notes**, a second image can sit in the middle of the explainer. Put the file in the same article-images folder, then drop this on its own line inside `Content` where the illustration belongs:
+For **Field Notes**, a second image can sit in the middle of the explainer (diagram of a concept, sentence split into tokens, etc.). Put the file in the same `assets/article-images/YYYY-MM-DD/` folder, then drop this on its own indented line inside `Content` where the illustration belongs. Prefer a `-inline` filename so it is distinct from the float-left `ArticleImage` opener. The generator turns this into a centered `.inline-figure`, not a float.
 
 ```markdown
-    ![Caption that points at the thing](slug.png)
+    ![A sentence broken into the tokens a model actually reads](token-split-inline.png)
 ```
 
-Do not use an `Image:` field line inside Content. That would end the Content field.
+Do not use an `Image:` field line inside Content. That would end the Content field. See also README "Field Notes mid-piece images" and `meeting-notes-template.md`.
 
 ### 4. Finish
 
