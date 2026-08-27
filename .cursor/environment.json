@@ -1,0 +1,11 @@
+{
+  "name": "Artificial Insights Newsletter",
+  "install": "python3 --version && python3 -m compileall -q scripts",
+  "terminals": [
+    {
+      "name": "preview-server",
+      "command": "python3 -m http.server 8000"
+    }
+  ],
+  "ports": [8000]
+}
