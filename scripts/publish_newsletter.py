@@ -28,25 +28,29 @@ from newsletter_index import get_latest_issue, update_index, verify_index
 PROJECT_ROOT = SCRIPT_DIR.parent
 
 
-def run(cmd: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
+def run(cmd: list[str], *, check: bool = True, capture: bool = False) -> subprocess.CompletedProcess[str]:
     print('>', ' '.join(cmd))
-    return subprocess.run(cmd, cwd=PROJECT_ROOT, text=True, check=check)
+    kwargs = {'cwd': PROJECT_ROOT, 'text': True, 'check': check}
+    if capture:
+        kwargs['stdout'] = subprocess.PIPE
+        kwargs['stderr'] = subprocess.PIPE
+    return subprocess.run(cmd, **kwargs)
 
 
 def current_branch() -> str:
-    result = run(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], check=True)
-    return result.stdout.strip()
+    result = run(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], capture=True)
+    return (result.stdout or '').strip()
 
 
 def has_uncommitted_changes() -> bool:
-    result = run(['git', 'status', '--porcelain'], check=True)
-    return bool(result.stdout.strip())
+    result = run(['git', 'status', '--porcelain'], capture=True)
+    return bool((result.stdout or '').strip())
 
 
 def remote_contains_commit(branch: str, commit: str) -> bool:
-    result = run(['git', 'branch', '-r', '--contains', commit], check=False)
+    result = run(['git', 'branch', '-r', '--contains', commit], check=False, capture=True)
     needle = f'origin/{branch}'
-    return needle in result.stdout
+    return needle in (result.stdout or '')
 
 
 def main() -> int:
@@ -101,7 +105,7 @@ def main() -> int:
     if start_branch != 'master':
         print(f'Warning: publishing from branch "{start_branch}" instead of master.')
 
-    head = run(['git', 'rev-parse', 'HEAD'], check=True).stdout.strip()
+    head = run(['git', 'rev-parse', 'HEAD'], capture=True).stdout.strip()
 
     run(['git', 'push', 'origin', 'master'])
 
