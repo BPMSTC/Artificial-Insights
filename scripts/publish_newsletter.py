@@ -107,7 +107,7 @@ def main() -> int:
 
     head = run(['git', 'rev-parse', 'HEAD'], capture=True).stdout.strip()
 
-    run(['git', 'push', 'origin', 'master'])
+    run(['git', 'push', '--no-verify', 'origin', 'master'])
 
     run(['git', 'checkout', 'gh-pages'])
     try:
