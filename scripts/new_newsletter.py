@@ -16,6 +16,11 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(SCRIPT_DIR))
+
+from newsletter_index import update_index
+
 
 def get_next_issue_number(project_root: Path) -> int:
     """Find the highest issue number from meeting notes and add 1."""
@@ -34,15 +39,6 @@ def get_next_issue_number(project_root: Path) -> int:
             continue
     
     return max_num + 1
-
-
-def format_date_display(date_str: str) -> str:
-    """Convert YYYY-MM-DD to 'Jan 29, 2026' format."""
-    try:
-        dt = datetime.strptime(date_str, '%Y-%m-%d')
-        return dt.strftime('%b %d, %Y')
-    except ValueError:
-        return date_str
 
 
 def create_meeting_notes(project_root: Path, issue_date: str, issue_number: int) -> Path:
@@ -92,55 +88,6 @@ def create_article_images_folder(project_root: Path, issue_date: str) -> Path:
     return img_path
 
 
-def update_index(project_root: Path, issue_date: str, issue_number: int) -> None:
-    """Add a new issue card to index.html and point Latest Issue at it."""
-    index_path = project_root / 'index.html'
-    content = index_path.read_text(encoding='utf-8')
-    date_display = format_date_display(issue_date)
-
-    content = re.sub(
-        r'(<span class="date">📅 Latest Issue: ).*?(</span>)',
-        rf'\1{date_display} · Issue #{issue_number}\2',
-        content,
-        count=1,
-    )
-    content = re.sub(
-        r'(<a href=")issues/[^"]+\.html(">Read Latest)',
-        rf'\1issues/{issue_date}.html\2',
-        content,
-        count=1,
-    )
-
-    if f'<span class="issue-number">Issue #{issue_number}</span>' in content:
-        index_path.write_text(content, encoding='utf-8')
-        print(f"Updated Latest Issue bar in {index_path}")
-        return
-
-    new_card = f'''      <article class="issue-card">
-        <div class="issue-header">
-          <h3>{date_display}</h3>
-          <span class="issue-number">Issue #{issue_number}</span>
-        </div>
-        <p>Add a brief description of this issue.</p>
-        <div class="links">
-          <a href="issues/{issue_date}.html">Read Issue</a>
-          <a href="sources/{issue_date}.html">Sources</a>
-        </div>
-      </article>
-      
-      '''
-
-    marker = '      <article class="issue-card">'
-    if marker in content:
-        content = content.replace(marker, new_card.rstrip() + '\n\n' + marker, 1)
-        index_path.write_text(content, encoding='utf-8')
-        print(f"Updated: {index_path}")
-        return
-
-    index_path.write_text(content, encoding='utf-8')
-    print("Warning: Could not find insertion point in index.html. Add the issue card manually.")
-
-
 def main():
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
@@ -184,7 +131,10 @@ def main():
         sys.exit(1)
     
     # 6. Update index.html
-    update_index(project_root, issue_date, issue_number)
+    if update_index(project_root, issue_date, issue_number):
+        print(f"Updated: {project_root / 'index.html'}")
+    else:
+        print(f"Latest Issue bar already current in {project_root / 'index.html'}")
     
     print(f"\nDone! Edit meeting-notes/{issue_date}.md with your content,")
     print(f"add demo GIFs to assets/demos/{issue_date}/ and optional article images to assets/article-images/{issue_date}/, then commit and push.")

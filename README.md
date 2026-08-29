@@ -27,6 +27,8 @@ newsletter/
 │       └── YYYY-MM-DD/
 ├── scripts/
 │   ├── new_newsletter.py       # Create new issue (run this first)
+│   ├── publish_newsletter.py   # Push master + gh-pages (run to go live)
+│   ├── newsletter_index.py     # index.html verification helpers
 │   └── generate_newsletter.py  # Markdown → HTML generator
 └── .git/hooks/
     └── pre-commit         # Auto-regenerates on commit
@@ -123,12 +125,28 @@ git commit -m "Update newsletter content"
 # Pre-commit hook automatically regenerates HTML
 ```
 
-### 4. Push to GitHub Pages
+### 4. Publish to GitHub Pages
+
+The live site is served from the **`gh-pages`** branch. Pushing `master` alone is not enough.
 
 ```bash
-git push
-# Also push to gh-pages branch:
-git checkout gh-pages && git merge master && git push && git checkout master
+python scripts/publish_newsletter.py
+```
+
+This verifies that `index.html` lists the latest issue, pushes `origin/master`, fast-forwards `gh-pages` from `master`, and pushes `origin/gh-pages`.
+
+If the All Issues card is missing:
+
+```bash
+python scripts/publish_newsletter.py --fix-index
+```
+
+Commit any index changes, then publish again.
+
+Optional: install a pre-push guard so a plain `git push origin master` is blocked when `gh-pages` would stay stale:
+
+```bash
+python scripts/install_git_hooks.py
 ```
 
 Live site: https://bpmstc.github.io/Artificial-Insights/

@@ -1,0 +1,51 @@
+---
+description: Publish Artificial Insights to GitHub Pages (master + gh-pages + index.html)
+alwaysApply: true
+---
+
+# Publish Newsletter
+
+The live site at https://bpmstc.github.io/Artificial-Insights/ is served from **`gh-pages`**, not `master`.
+
+## Before publishing
+
+1. Regenerate HTML if meeting notes changed:
+   `python scripts/generate_newsletter.py "meeting-notes/YYYY-MM-DD.md"`
+2. Ensure `index.html` lists the latest issue in:
+   - the top **Latest Issue** bar
+   - the **All Issues** card list
+3. Commit all changes on `master`.
+
+## Publish (required for live site updates)
+
+Use the publish script instead of a plain `git push`:
+
+```bash
+python scripts/publish_newsletter.py
+```
+
+This verifies `index.html`, pushes `origin/master`, fast-forwards `gh-pages` from `master`, and pushes `origin/gh-pages`.
+
+If `index.html` is missing the latest card:
+
+```bash
+python scripts/publish_newsletter.py --fix-index
+```
+
+Then commit and run publish again.
+
+## Do not
+
+- Do not treat `git push origin master` alone as a full publish.
+- Do not leave `index.html` on placeholder copy (`Add a brief description of this issue.`) unless the user has not supplied a summary yet.
+- Do not skip verifying the latest issue appears in **All Issues** before saying the site is live.
+
+## New issue setup
+
+Creating structure for a new issue still starts with:
+
+```bash
+python scripts/new_newsletter.py YYYY-MM-DD
+```
+
+That script creates notes, asset folders, HTML, and the new `index.html` card.

@@ -1,0 +1,58 @@
+#!/usr/bin/env python3
+"""
+Block pushing master when gh-pages would still be stale.
+
+Install:
+    python scripts/install_git_hooks.py
+"""
+
+from __future__ import annotations
+
+import subprocess
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+
+def run(cmd: list[str]) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(cmd, cwd=PROJECT_ROOT, text=True, capture_output=True)
+
+
+def main() -> int:
+    remote = ''
+    url = ''
+    for line in sys.stdin:
+        parts = line.strip().split()
+        if len(parts) >= 4 and parts[0] == 'refs/heads/master':
+            remote = parts[2]
+            url = parts[3]
+
+    if not remote:
+        return 0
+
+    fetch = run(['git', 'fetch', remote, 'gh-pages'])
+    if fetch.returncode != 0:
+        print('pre-push: could not fetch gh-pages; skipping publish check.', file=sys.stderr)
+        return 0
+
+    local_master = run(['git', 'rev-parse', 'master'])
+    remote_pages = run(['git', 'rev-parse', f'{remote}/gh-pages'])
+    contains = run(['git', 'merge-base', '--is-ancestor', local_master.stdout.strip(), remote_pages.stdout.strip()])
+
+    if contains.returncode == 0:
+        return 0
+
+    print('', file=sys.stderr)
+    print('Blocked push: origin/gh-pages does not include the master commit you are pushing.', file=sys.stderr)
+    print('The live All Issues page is served from gh-pages, not master.', file=sys.stderr)
+    print('', file=sys.stderr)
+    print('Publish both branches with:', file=sys.stderr)
+    print('  python scripts/publish_newsletter.py', file=sys.stderr)
+    print('', file=sys.stderr)
+    print('To bypass once: git push --no-verify', file=sys.stderr)
+    return 1
+
+
+if __name__ == '__main__':
+    sys.exit(main())
