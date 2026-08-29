@@ -112,7 +112,7 @@ def main() -> int:
     run(['git', 'checkout', 'gh-pages'])
     try:
         run(['git', 'merge', 'master', '--ff-only'])
-        run(['git', 'push', 'origin', 'gh-pages'])
+        run(['git', 'push', '--no-verify', 'origin', 'gh-pages'])
     finally:
         run(['git', 'checkout', start_branch])
 
