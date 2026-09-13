@@ -122,7 +122,7 @@ def parse_items(section_content: str, section_name: str) -> list:
         'Summary', 'Tags', 'URL', 'Image', 'Caption', 'Instructions',
         'Teaser', 'LinkText', 'TheNews', 'MyTake', 'Analysis', 'TheLesson',
         'Content', 'Intro', 'ThePrompt', 'WhyItWorks',
-        'ArticleImage', 'ArticleImageCaption'
+        'ArticleImage', 'ArticleImageCaption', 'Embed'
     ]
     field_pattern = '|'.join(field_names)
     
@@ -352,6 +352,22 @@ def _demo_figure_html(image: str, caption: str, issue_date: str, alt: str = '') 
 '''
 
 
+def _embed_html(url: str, caption: str, title: str = '') -> str:
+    """Full-width iframe for a hosted demo."""
+    url = (url or '').strip()
+    if not url:
+        return ''
+    caption = (caption or '').strip()
+    title_text = html.escape(title or caption or 'Live demo')
+    cap_html = f'\n          <figcaption>{html.escape(caption)}</figcaption>' if caption else ''
+    return (
+        f'''        <figure class="demo-embed">
+          <iframe src="{html.escape(url, quote=True)}" title="{title_text}" loading="lazy" allow="fullscreen; xr-spatial-tracking" referrerpolicy="no-referrer-when-downgrade"></iframe>{cap_html}
+        </figure>
+'''
+    )
+
+
 def generate_quick_scan_html(item: dict, issue_date: str) -> str:
     """Generate HTML for Quick Scan items - brief teasers with links."""
     title = item.get('Title', '')
@@ -386,8 +402,9 @@ def generate_quick_scan_html(item: dict, issue_date: str) -> str:
 def generate_tool_drop_html(item: dict, issue_date: str) -> str:
     """Generate HTML for Tool Drop - The News + My Take format.
 
-    Supports ArticleImage (float-left still from assets/article-images/) and/or
-    Image/Caption (GIF, image, or video from assets/demos/), like Failure Mode.
+    Supports ArticleImage (float-left still from assets/article-images/),
+    Image/Caption (GIF, image, or video from assets/demos/), and Embed
+    (a live hosted demo iframe).
     """
     title = item.get('Title', '')
     the_news = item.get('TheNews', '') or item.get('Summary', '')
@@ -396,6 +413,7 @@ def generate_tool_drop_html(item: dict, issue_date: str) -> str:
     urls = item.get('URLs', [])
     image = (item.get('Image') or '').strip()
     caption = (item.get('Caption') or '').strip()
+    embed = (item.get('Embed') or '').strip()
     article_img = _article_image_html(item, issue_date)
 
     link_html = ''
@@ -410,6 +428,10 @@ def generate_tool_drop_html(item: dict, issue_date: str) -> str:
     demo_html = ''
     if image:
         demo_html = '\n' + _demo_figure_html(image, caption, issue_date, title)
+    if embed:
+        # Keep Image/Caption for a local demo; Embed can sit beside it.
+        embed_caption = caption if not image else ''
+        demo_html += '\n' + _embed_html(embed, embed_caption, title)
 
     content_inner = f'''        <div class="content-with-article-image">
 {article_img}        <p><strong>The News:</strong> {format_text(the_news)}</p>{my_take_html}{demo_html}{link_html}
@@ -439,7 +461,7 @@ def generate_breakdown_html(item: dict, issue_date: str) -> str:
         link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{link_text} ↗</a></p>'
     
     content_inner = f'''        <div class="content-with-article-image">
-{article_img}        <p>{format_text(analysis)}</p>{lesson_html}{link_html}
+{article_img}        {format_body_html(analysis, issue_date)}{lesson_html}{link_html}
         </div>'''
     return f'''      <div class="content-card card-breakdown">
         <h3><span class="icon">🔬</span> {title}</h3>
@@ -1125,6 +1147,9 @@ def generate_issue_html(data: dict) -> str:
       .content-card p + p {{
         margin-top: 12px;
       }}
+      .card-breakdown p + p {{
+        margin-top: 1em;
+      }}
       .content-card h4 {{
         margin: 20px 0 8px;
         font-size: 16px;
@@ -1200,12 +1225,13 @@ def generate_issue_html(data: dict) -> str:
       
       /* The Lesson styling */
       .the-lesson {{
-        margin-top: 16px;
+        margin-top: 20px;
         padding: 14px 18px;
         background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
         border-radius: 8px;
         font-size: 15px;
         color: var(--text);
+        clear: both;
       }}
       
       /* Try This Box */
@@ -1350,6 +1376,9 @@ def generate_issue_html(data: dict) -> str:
       }}
       .article-image img {{
         display: block;
+        width: 100%;
+        height: auto;
+        max-width: 100%;
         border-radius: 10px;
         border: 1px solid var(--rule);
         box-shadow: var(--shadow);
@@ -1479,6 +1508,16 @@ def generate_issue_html(data: dict) -> str:
         margin-top: 10px;
         text-align: center;
         font-style: italic;
+      }}
+      .demo-embed iframe {{
+        display: block;
+        width: 100%;
+        height: min(78vh, 820px);
+        min-height: 560px;
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        background: #f8fafc;
+        box-shadow: var(--shadow);
       }}
       
       /* Share Section */
