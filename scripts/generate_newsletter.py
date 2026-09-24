@@ -360,9 +360,20 @@ def _embed_html(url: str, caption: str, title: str = '') -> str:
     caption = (caption or '').strip()
     title_text = html.escape(title or caption or 'Live demo')
     cap_html = f'\n          <figcaption>{html.escape(caption)}</figcaption>' if caption else ''
+    is_youtube = 'youtube.com/embed' in url or 'youtube-nocookie.com/embed' in url
+    if is_youtube:
+        allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+        referrer = 'strict-origin-when-cross-origin'
+        fullscreen = ' allowfullscreen'
+        loading = ''
+    else:
+        allow = 'fullscreen; xr-spatial-tracking'
+        referrer = 'no-referrer-when-downgrade'
+        fullscreen = ''
+        loading = ' loading="lazy"'
     return (
         f'''        <figure class="demo-embed">
-          <iframe src="{html.escape(url, quote=True)}" title="{title_text}" loading="lazy" allow="fullscreen; xr-spatial-tracking" referrerpolicy="no-referrer-when-downgrade"></iframe>{cap_html}
+          <iframe src="{html.escape(url, quote=True)}" title="{title_text}"{loading} allow="{allow}" referrerpolicy="{referrer}"{fullscreen}></iframe>{cap_html}
         </figure>
 '''
     )
@@ -625,33 +636,45 @@ def generate_failure_mode_html(item: dict, issue_date: str) -> str:
     caption = (item.get('Caption') or '').strip()
     link_text = item.get('LinkText', '')
     urls = item.get('URLs', [])
+    embed = (item.get('Embed') or '').strip()
     article_img = _article_image_html(item, issue_date)
 
     link_html = ''
     if urls:
-        if len(urls) == 1:
-            label = link_text if link_text else 'Read More'
-            link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{label} ↗</a></p>'
-        else:
-            link_parts = []
-            for url in urls:
-                domain = url.split('/')[2] if '/' in url else url
-                domain = domain.replace('www.', '')
-                link_parts.append(f'<a href="{url}" target="_blank" rel="noopener">{domain} ↗</a>')
-            link_html = f'\n        <p class="source-links">Sources: ' + ' · '.join(link_parts) + '</p>'
+        label = link_text if link_text else 'Read More'
+        link_html = f'\n        <p class="read-more"><a href="{html.escape(urls[0], quote=True)}" target="_blank" rel="noopener">{html.escape(label)} ↗</a></p>'
+        extra_labels = {
+            'deflock.org': 'See cameras on DeFlock',
+            'haveibeenflocked.com': 'Check a plate on Have I Been Flocked?',
+        }
+        extra_parts = []
+        for url in urls[1:]:
+            host = url.split('/')[2] if url.startswith('http') and '/' in url else url
+            host = host.replace('www.', '')
+            extra_label = extra_labels.get(host, host)
+            extra_parts.append(
+                f'<a href="{html.escape(url, quote=True)}" target="_blank" rel="noopener">{html.escape(extra_label)} ↗</a>'
+            )
+        if extra_parts:
+            link_html += '\n        <p class="source-links">' + ' · '.join(extra_parts) + '</p>'
+
+    embed_html = '\n' + _embed_html(embed, '' if image else caption, title) if embed else ''
 
     if image:
-        html = f'''      <div class="content-card card-failure-mode">
+        card_html = f'''      <div class="content-card card-failure-mode">
         <h3><span class="icon">💥</span> {title}</h3>
-        <p>{format_text(content)}</p>
+        <div class="content-with-article-image">
+{article_img}        <p>{format_text(content)}</p>
+        </div>
 '''
-        html += _demo_figure_html(image, caption, issue_date, title)
-        html += link_html
-        html += '      </div>\n'
-        return html
+        card_html += _demo_figure_html(image, caption, issue_date, title)
+        card_html += embed_html
+        card_html += link_html
+        card_html += '      </div>\n'
+        return card_html
 
     content_inner = f'''        <div class="content-with-article-image">
-{article_img}        <p>{format_text(content)}</p>{link_html}
+{article_img}        <p>{format_text(content)}</p>{embed_html}{link_html}
         </div>'''
     return f'''      <div class="content-card card-failure-mode">
         <h3><span class="icon">💥</span> {title}</h3>
