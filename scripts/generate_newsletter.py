@@ -207,11 +207,19 @@ def _inline_figure_html(src: str, caption: str, issue_date: str) -> str:
         path = src
     else:
         path = f"../assets/article-images/{issue_date}/{src}"
-    alt = caption or 'Illustration'
-    cap_html = (
-        f'\n          <figcaption>{html.escape(caption)}</figcaption>'
-        if caption else ''
-    )
+    alt = caption.split('|', 1)[0].strip() if caption else 'Illustration'
+    cap_html = ''
+    if caption:
+        if '|' in caption:
+            main_cap, sub_cap = caption.split('|', 1)
+            main_cap = main_cap.strip()
+            sub_cap = sub_cap.strip()
+            cap_html = (
+                f'\n          <figcaption>{html.escape(main_cap)}</figcaption>'
+                f'\n          <p class="figure-subcaption">{html.escape(sub_cap)}</p>'
+            )
+        else:
+            cap_html = f'\n          <figcaption>{html.escape(caption)}</figcaption>'
     return (
         f'<figure class="inline-figure">\n'
         f'          {_zoomable_img_html(path, alt, caption)}{cap_html}\n'
@@ -269,6 +277,48 @@ def linkify_plain_urls(text: str) -> str:
         r'<a href="\1" target="_blank" rel="noopener">\1</a>',
         text,
     )
+
+
+MAX_ISSUE_SOURCE_LINKS = 4
+
+
+def _link_domain_label(url: str) -> str:
+    if url.startswith('http') and '/' in url:
+        host = url.split('/')[2]
+    else:
+        host = url
+    return host.replace('www.', '')
+
+
+def _story_links_html(
+    urls: list,
+    link_text: str = '',
+    *,
+    max_links: int = MAX_ISSUE_SOURCE_LINKS,
+    default_label: str = 'Read More',
+    extra_labels: dict | None = None,
+) -> str:
+    """Render up to max_links source anchors on the issue page (stacked read-more rows)."""
+    if not urls:
+        return ''
+    extra_labels = extra_labels or {}
+    shown = urls[:max_links]
+    parts = []
+    for i, url in enumerate(shown):
+        if len(shown) == 1:
+            label = link_text or default_label
+        elif i == 0 and link_text:
+            label = link_text
+        else:
+            host = _link_domain_label(url)
+            label = extra_labels.get(host, host)
+        safe_url = html.escape(url, quote=True)
+        safe_label = html.escape(label)
+        parts.append(
+            f'<p class="read-more"><a href="{safe_url}" target="_blank" rel="noopener">'
+            f'{safe_label} ↗</a></p>'
+        )
+    return '\n        ' + '\n        '.join(parts)
 
 
 def _join_field_value(parts: list) -> str:
@@ -387,21 +437,11 @@ def generate_quick_scan_html(item: dict, issue_date: str) -> str:
     urls = item.get('URLs', [])
     article_img = _article_image_html(item, issue_date)
 
-    link_html = ''
-    if urls:
-        if len(urls) == 1:
-            label = link_text if link_text else 'Read More'
-            link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{label} ↗</a></p>'
-        else:
-            link_parts = []
-            for url in urls:
-                domain = url.split('/')[2] if '/' in url else url
-                domain = domain.replace('www.', '')
-                link_parts.append(f'<a href="{url}" target="_blank" rel="noopener">{domain} ↗</a>')
-            link_html = f'\n        <p class="source-links">Sources: ' + ' · '.join(link_parts) + '</p>'
+    link_html = _story_links_html(urls, link_text)
 
+    teaser_html = format_body_html(teaser, issue_date) if teaser else ''
     content_inner = f'''        <div class="content-with-article-image">
-{article_img}        <p>{format_text(teaser)}</p>{link_html}
+{article_img}        {teaser_html}{link_html}
         </div>'''
     return f'''      <div class="quick-scan-item">
         <h3>{title}</h3>
@@ -427,10 +467,7 @@ def generate_tool_drop_html(item: dict, issue_date: str) -> str:
     embed = (item.get('Embed') or '').strip()
     article_img = _article_image_html(item, issue_date)
 
-    link_html = ''
-    if urls:
-        label = link_text if link_text else 'Learn More'
-        link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{label} ↗</a></p>'
+    link_html = _story_links_html(urls, link_text, default_label='Learn More')
 
     my_take_html = ''
     if my_take:
@@ -467,10 +504,8 @@ def generate_breakdown_html(item: dict, issue_date: str) -> str:
     if the_lesson:
         lesson_html = f'\n        <div class="the-lesson"><strong>The Lesson:</strong> {format_text(the_lesson)}</div>'
     
-    link_html = ''
-    if urls:
-        link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{link_text} ↗</a></p>'
-    
+    link_html = _story_links_html(urls, link_text)
+
     content_inner = f'''        <div class="content-with-article-image">
 {article_img}        {format_body_html(analysis, issue_date)}{lesson_html}{link_html}
         </div>'''
@@ -489,19 +524,8 @@ def generate_ed_pulse_html(item: dict, issue_date: str) -> str:
     urls = item.get('URLs', [])
     article_img = _article_image_html(item, issue_date)
     
-    link_html = ''
-    if urls:
-        if len(urls) == 1:
-            label = link_text if link_text else 'Read More'
-            link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{label} ↗</a></p>'
-        else:
-            link_parts = []
-            for url in urls:
-                domain = url.split('/')[2] if '/' in url else url
-                domain = domain.replace('www.', '')
-                link_parts.append(f'<a href="{url}" target="_blank" rel="noopener">{domain} ↗</a>')
-            link_html = f'\n        <p class="source-links">Sources: ' + ' · '.join(link_parts) + '</p>'
-    
+    link_html = _story_links_html(urls, link_text)
+
     content_inner = f'''        <div class="content-with-article-image">
 {article_img}        <p>{format_text(content)}</p>{link_html}
         </div>'''
@@ -520,18 +544,7 @@ def generate_field_notes_html(item: dict, issue_date: str) -> str:
     urls = item.get('URLs', [])
     article_img = _article_image_html(item, issue_date)
 
-    link_html = ''
-    if urls:
-        if len(urls) == 1:
-            label = link_text if link_text else 'Read More'
-            link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{label} ↗</a></p>'
-        else:
-            link_parts = []
-            for url in urls:
-                domain = url.split('/')[2] if '/' in url else url
-                domain = domain.replace('www.', '')
-                link_parts.append(f'<a href="{url}" target="_blank" rel="noopener">{domain} ↗</a>')
-            link_html = f'\n        <p class="source-links">Sources: ' + ' · '.join(link_parts) + '</p>'
+    link_html = _story_links_html(urls, link_text)
 
     content_inner = f'''        <div class="content-with-article-image">
 {article_img}        {format_body_html(content, issue_date)}{link_html}
@@ -555,18 +568,8 @@ def generate_card_html(item: dict, card_class: str, icon: str) -> str:
     else:
         title_html = title
     
-    # Build links section if multiple URLs
-    links_html = ''
-    if len(urls) > 1:
-        links_html = '\n        <p class="source-links">Sources: '
-        link_parts = []
-        for i, url in enumerate(urls):
-            # Extract domain for display
-            domain = url.split('/')[2] if '/' in url else url
-            domain = domain.replace('www.', '')
-            link_parts.append(f'<a href="{url}" target="_blank" rel="noopener">{domain} ↗</a>')
-        links_html += ' · '.join(link_parts) + '</p>'
-    
+    links_html = _story_links_html(urls) if len(urls) > 1 else ''
+
     return f'''      <div class="content-card {card_class}">
         <h3><span class="icon">{icon}</span> {title_html}</h3>
         <p>{summary}</p>{links_html}
@@ -589,18 +592,7 @@ def generate_in_action_html(item: dict, issue_date: str) -> str:
     urls = item.get('URLs', [])
     article_img = _article_image_html(item, issue_date)
 
-    link_html = ''
-    if urls:
-        if len(urls) == 1:
-            label = link_text if link_text else 'Learn More'
-            link_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener">{label} ↗</a></p>'
-        else:
-            link_parts = []
-            for url in urls:
-                domain = url.split('/')[2] if '/' in url else url
-                domain = domain.replace('www.', '')
-                link_parts.append(f'<a href="{url}" target="_blank" rel="noopener">{domain} ↗</a>')
-            link_html = f'\n        <p class="source-links">Sources: ' + ' · '.join(link_parts) + '</p>'
+    link_html = _story_links_html(urls, link_text, default_label='Learn More')
 
     if image:
         demo_path = Path(__file__).parent.parent / 'assets' / 'demos' / issue_date / image
@@ -639,24 +631,14 @@ def generate_failure_mode_html(item: dict, issue_date: str) -> str:
     embed = (item.get('Embed') or '').strip()
     article_img = _article_image_html(item, issue_date)
 
-    link_html = ''
-    if urls:
-        label = link_text if link_text else 'Read More'
-        link_html = f'\n        <p class="read-more"><a href="{html.escape(urls[0], quote=True)}" target="_blank" rel="noopener">{html.escape(label)} ↗</a></p>'
-        extra_labels = {
+    link_html = _story_links_html(
+        urls,
+        link_text,
+        extra_labels={
             'deflock.org': 'See cameras on DeFlock',
             'haveibeenflocked.com': 'Check a plate on Have I Been Flocked?',
-        }
-        extra_parts = []
-        for url in urls[1:]:
-            host = url.split('/')[2] if url.startswith('http') and '/' in url else url
-            host = host.replace('www.', '')
-            extra_label = extra_labels.get(host, host)
-            extra_parts.append(
-                f'<a href="{html.escape(url, quote=True)}" target="_blank" rel="noopener">{html.escape(extra_label)} ↗</a>'
-            )
-        if extra_parts:
-            link_html += '\n        <p class="source-links">' + ' · '.join(extra_parts) + '</p>'
+        },
+    )
 
     embed_html = '\n' + _embed_html(embed, '' if image else caption, title) if embed else ''
 
@@ -724,10 +706,7 @@ def generate_try_this_html(item: dict, issue_date: str) -> str:
     if why_it_works:
         why_html = f'\n        <p class="why-it-works"><strong>Why it works:</strong> {format_text(why_it_works)}</p>'
     
-    # Add link if URL exists
-    url_html = ''
-    if urls:
-        url_html = f'\n        <p class="read-more"><a href="{urls[0]}" target="_blank" rel="noopener" style="color: var(--try-this);">Learn more ↗</a></p>'
+    url_html = _story_links_html(urls, default_label='Learn more')
     
     content_inner = f'''        <div class="content-with-article-image">
 {article_img}        {intro_html}{demo_html}{prompt_html}{why_html}{url_html}
@@ -1228,6 +1207,9 @@ def generate_issue_html(data: dict) -> str:
       .read-more {{
         margin-top: 12px !important;
       }}
+      .read-more + .read-more {{
+        margin-top: 6px !important;
+      }}
       .read-more a {{
         color: var(--accent);
         text-decoration: none;
@@ -1237,13 +1219,24 @@ def generate_issue_html(data: dict) -> str:
       .read-more a:hover {{
         text-decoration: underline;
       }}
+      .try-this-box .read-more a {{
+        color: var(--try-this);
+      }}
       
       /* My Take styling */
       .my-take {{
         margin-top: 16px !important;
-        padding-top: 12px;
-        border-top: 1px dashed var(--rule);
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%);
+        border-radius: 8px;
         color: var(--text) !important;
+      }}
+      .inline-figure .figure-subcaption {{
+        margin: 0.35rem 0 0;
+        text-align: center;
+        font-size: 0.92em;
+        color: var(--muted);
+        line-height: 1.45;
       }}
       
       /* The Lesson styling */

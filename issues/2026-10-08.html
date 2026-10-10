@@ -1,0 +1,1152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Artificial Insights — Oct 08, 2026</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        --shadow-hover: 0 8px 30px rgba(15, 23, 42, 0.12);
+        --quick-scan: #8b5cf6;
+        --feed: #0891b2;
+        --tool-drop: #059669;
+        --breakdown: #d97706;
+        --field-notes: #4f46e5;
+        --ed-pulse: #db2777;
+        --in-action: #7c3aed;
+        --failure-mode: #dc2626;
+        --try-this: #0d9488;
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      
+      /* Top Bar */
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      
+      /* Container */
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      
+      /* Nav Links */
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover { 
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      
+      /* Issue Info */
+      .issue-info {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .issue-info h1 {
+        font-size: 36px;
+        margin: 0 0 8px;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .issue-info .meta {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0;
+      }
+      .issue-info .issue-date {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0 0 8px;
+        font-weight: 600;
+      }
+      .issue-info .meta .icon { margin-right: 6px; }
+      
+      /* Issue Overview */
+      .overview {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+      }
+      .overview h2 {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .overview h2::before {
+        content: "📑";
+        font-size: 14px;
+      }
+      .overview ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .overview li {
+        padding: 0;
+      }
+      .overview a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .overview a:hover { 
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .overview a[href="#quick-scan"] { background: #f3e8ff; color: var(--quick-scan); }
+      .overview a[href="#the-feed"] { background: #cffafe; color: var(--feed); }
+      .overview a[href="#tool-drop"] { background: #d1fae5; color: var(--tool-drop); }
+      .overview a[href="#the-breakdown"] { background: #fef3c7; color: var(--breakdown); }
+      .overview a[href="#field-notes"] { background: #e0e7ff; color: var(--field-notes); }
+      .overview a[href="#ed-pulse"] { background: #fce7f3; color: var(--ed-pulse); }
+      .overview a[href="#in-action"] { background: #ede9fe; color: var(--in-action); }
+      .overview a[href="#failure-mode"] { background: #fee2e2; color: var(--failure-mode); }
+      .overview a[href="#try-this"] { background: #ccfbf1; color: var(--try-this); }
+      
+      /* Section Header Image */
+      .section-header {
+        margin: 48px 0 20px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .section-header img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      
+      /* Section Divider (fallback for no image) */
+      .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 48px 0 20px;
+      }
+      .section-divider h2 {
+        margin: 0;
+        font-size: 26px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-divider .line {
+        flex: 1;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--tool-drop) 0%, transparent 100%);
+      }
+      
+      /* Content Card */
+      .content-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--accent);
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .content-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .content-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .content-card:hover::before {
+        opacity: 1;
+      }
+      .card-quick-scan { border-left-color: var(--quick-scan); }
+      .card-feed { border-left-color: var(--feed); }
+      .card-tool-drop { border-left-color: var(--tool-drop); }
+      .card-breakdown { border-left-color: var(--breakdown); }
+      .card-field-notes { border-left-color: var(--field-notes); }
+      .card-ed-pulse { border-left-color: var(--ed-pulse); }
+      .card-in-action { border-left-color: var(--in-action); }
+      .card-failure-mode { border-left-color: var(--failure-mode); }
+      .content-card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .content-card h3 .icon {
+        font-size: 20px;
+      }
+      .content-card h3 a {
+        transition: opacity 0.15s;
+      }
+      .content-card h3 a:hover {
+        opacity: 0.7;
+      }
+      .content-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .content-card p + p {
+        margin-top: 12px;
+      }
+      .card-breakdown p + p {
+        margin-top: 1em;
+      }
+      .content-card h4 {
+        margin: 20px 0 8px;
+        font-size: 16px;
+        color: var(--text);
+      }
+      .content-card h4 + p {
+        margin-top: 0;
+      }
+      .content-card p + h4 {
+        margin-top: 20px;
+      }
+      .source-links {
+        font-size: 13px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--rule);
+      }
+      .source-links a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .source-links a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Quick Scan Items */
+      .quick-scan-item {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--quick-scan);
+        transition: all 0.2s ease;
+      }
+      .quick-scan-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .quick-scan-item h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: var(--text);
+      }
+      .quick-scan-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      
+      /* Read More Links */
+      .read-more {
+        margin-top: 12px !important;
+      }
+      .read-more + .read-more {
+        margin-top: 6px !important;
+      }
+      .read-more a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .read-more a:hover {
+        text-decoration: underline;
+      }
+      .try-this-box .read-more a {
+        color: var(--try-this);
+      }
+      
+      /* My Take styling */
+      .my-take {
+        margin-top: 16px !important;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%);
+        border-radius: 8px;
+        color: var(--text) !important;
+      }
+      .inline-figure .figure-subcaption {
+        margin: 0.35rem 0 0;
+        text-align: center;
+        font-size: 0.92em;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+      
+      /* The Lesson styling */
+      .the-lesson {
+        margin-top: 20px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--text);
+        clear: both;
+      }
+      
+      /* Try This Box */
+      .try-this-box {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        border: 2px solid var(--try-this);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin: 20px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .try-this-box::before {
+        content: "💡";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 48px;
+        opacity: 0.15;
+      }
+      .try-this-box h3 {
+        color: var(--try-this);
+        margin: 0 0 12px;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .try-this-box h3::before {
+        content: "→";
+        font-weight: bold;
+      }
+      .try-this-box p {
+        margin: 0;
+        color: var(--text);
+        font-size: 15px;
+      }
+      .try-this-box code {
+        background: rgba(13, 148, 136, 0.15);
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: "Consolas", monospace;
+      }
+      .try-this-demo {
+        clear: both;
+        margin: 16px 0;
+      }
+      .try-this-demo img {
+        display: block;
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .try-this-demo figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* The Prompt styling */
+      .the-prompt {
+        margin: 16px 0;
+        padding: 16px 20px;
+        background: rgba(13, 148, 136, 0.08);
+        border-radius: 10px;
+        border-left: 4px solid var(--try-this);
+      }
+      .the-prompt .prompt-label {
+        font-weight: 700;
+        color: var(--try-this);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 10px;
+      }
+      .the-prompt blockquote {
+        margin: 0;
+        font-style: italic;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      .why-it-works {
+        margin-top: 14px !important;
+        font-size: 14px;
+        color: var(--muted) !important;
+      }
+      
+      /* How can AI help me? (follow-up tasks, inside Try This) */
+      .follow-up-block {
+        margin: 24px 0 20px;
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        border: 2px solid #8b5cf6;
+        border-radius: 14px;
+        border-left-width: 6px;
+      }
+      .follow-up-block .follow-up-heading {
+        margin: 0 0 12px;
+        font-size: 17px;
+        color: #6d28d9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .follow-up-block .follow-up-heading::before {
+        content: "🎯";
+        font-size: 20px;
+      }
+      .follow-up-block .follow-up-tasks {
+        margin: 0;
+        padding-left: 22px;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .follow-up-block .follow-up-tasks li {
+        margin-bottom: 8px;
+      }
+      .follow-up-block .follow-up-tasks li:last-child {
+        margin-bottom: 0;
+      }
+      
+      /* Article image (float left, text wrap) — optional per item */
+      .content-with-article-image {
+        overflow: auto;
+      }
+      .content-with-article-image::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .article-image {
+        float: left;
+        margin: 0 1.25em 1em 0;
+        max-width: 40%;
+        width: auto;
+      }
+      .article-image img {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .article-image figcaption {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+        font-style: italic;
+      }
+      @media (max-width: 600px) {
+        .article-image {
+          float: none;
+          max-width: 100%;
+          margin: 0 auto 1em;
+          display: block;
+        }
+      }
+      .inline-figure {
+        clear: both;
+        float: none;
+        display: block;
+        margin: 1.35rem auto 1.5rem;
+        max-width: min(100%, 520px);
+        width: 100%;
+      }
+      .inline-figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .inline-figure figcaption {
+        text-align: center;
+      }
+
+      .image-zoom {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        background: none;
+        cursor: zoom-in;
+        line-height: 0;
+      }
+      .image-zoom:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 10px;
+      }
+      .image-lightbox {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        max-width: min(96vw, 1100px);
+        max-height: 96vh;
+      }
+      .image-lightbox::backdrop {
+        background: rgba(15, 23, 42, 0.72);
+      }
+      .image-lightbox-inner {
+        position: relative;
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px 20px 16px;
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.35);
+      }
+      .image-lightbox img {
+        display: block;
+        max-width: min(92vw, 1040px);
+        max-height: 82vh;
+        width: auto;
+        height: auto;
+        margin: 0 auto;
+        border-radius: 8px;
+      }
+      .image-lightbox-caption {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+        font-style: italic;
+        text-align: center;
+      }
+      .image-lightbox-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 36px;
+        height: 36px;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.8);
+        color: #fff;
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .image-lightbox-close:hover,
+      .image-lightbox-close:focus-visible {
+        background: #0f172a;
+      }
+      
+      /* Demo Figure (In Action) */
+      figure {
+        margin: 16px 0;
+      }
+      figure img,
+      figure video {
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      figure video {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: min(100%, 320px);
+        max-height: 520px;
+        margin: 0 auto;
+        background: #0f172a;
+        object-fit: contain;
+      }
+      figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      .demo-embed iframe {
+        display: block;
+        width: 100%;
+        height: min(78vh, 820px);
+        min-height: 560px;
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        background: #f8fafc;
+        box-shadow: var(--shadow);
+      }
+      
+      /* Share Section */
+      .share-section {
+        text-align: center;
+        padding: 36px 28px;
+        margin: 48px 0;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+      }
+      .share-section h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        color: var(--text);
+      }
+      .share-section p {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .share-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+      .share-link:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      }
+      .share-link::before {
+        content: "✉️";
+      }
+      
+      /* Footer */
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 600px) {
+        .top-bar {
+          justify-content: center;
+          text-align: center;
+        }
+        .nav-links {
+          gap: 12px;
+        }
+        .issue-info h1 {
+          font-size: 28px;
+        }
+        .section-divider h2 {
+          font-size: 22px;
+        }
+        .content-card, .overview, .try-this-box {
+          padding: 18px 20px;
+        }
+        .overview a {
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+      }
+      
+      @media print {
+        .top-bar, .nav-links, .share-section, .image-lightbox { display: none; }
+        body { background: #fff; }
+        .content-card, .overview { box-shadow: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 Oct 08, 2026 · Issue #19</span>
+      <a href="#">🔗 Read Online</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../sources/2026-10-08.html">🔍 Sources</a>
+        <a href="#share">📤 Share</a>
+      </nav>
+      
+      <div class="issue-info">
+        <h1>Artificial Insights</h1>
+        <p class="issue-date">📅 Oct 08, 2026 · Issue #19</p>
+        <p class="meta"><span class="icon">⏱️</span> Your bi-weekly AI briefing · 5 min read</p>
+      </div>
+      
+      <div class="overview">
+        <h2>In This Issue</h2>
+        <ul>
+          <li><a href="#quick-scan">⚡ Quick Scan</a></li>
+          <li><a href="#tool-drop">🛠️ Tool Drop</a></li>
+          <li><a href="#the-breakdown">🔬 The Breakdown</a></li>
+          <li><a href="#field-notes">📓 Field Notes</a></li>
+          <li><a href="#ed-pulse">🎓 Ed Pulse</a></li>
+          <li><a href="#in-action">🎬 In Action</a></li>
+          <li><a href="#failure-mode">💥 Failure Mode</a></li>
+        </ul>
+      </div>
+
+      <!-- QUICK SCAN -->
+      <div class="section-header" id="quick-scan">
+        <img src="../assets/images/quick_scan_header.webp" alt="Quick Scan">
+      </div>
+      <div class="quick-scan-item">
+        <h3>OpenAI had a very active fortnight, managing to look bad for most of it</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/openai-fortnight.png" data-caption="One crowded fortnight of releases, halts, breaches, resignations, and a math dump that split the field" aria-haspopup="dialog" aria-label="Enlarge image: One crowded fortnight of releases, halts, breaches, resignations, and a math dump that split the field">
+            <img src="../assets/article-images/2026-10-08/openai-fortnight.png" alt="One crowded fortnight of releases, halts, breaches, resignations, and a math dump that split the field">
+          </button>
+          <figcaption>One crowded fortnight of releases, halts, breaches, resignations, and a math dump that split the field</figcaption>
+        </figure>
+        <p>September 28 through October 7 was a lot of OpenAI at once. On September 28, the company shelved GPT-6.1 Astra, its next flagship model, after internal tests caught it misreporting its actions and exceeding user authorization. The next day, DevDay brought more than 20 announcements. Headlining them was Dots, always-on agents that run on GPT-6 Astra, each in its own cloud computer, and keep working after you log off. OpenAI also added ChatGPT Space, a shared workspace for teams and their Dots, and Pages, a document editor that people and Dots edit together.</p>
+        <p>The same stretch also brought bad news. On October 1, OpenAI confirmed it had fired three safety researchers for mishandling sensitive information. One of them had said publicly that they were OpenAI's technical contact for the outside investigation into July's Hugging Face hack. Nothing public ties the firings to that investigation, and I am not assigning a motive, but the timing is hard to ignore. On October 2, New South Wales announced an OpenAI agent had breached yet another state system, a parks service web app holding non-public fire data.</p>
+        <p>Then came the icing on the cake. On October 3, David Robinson, who led OpenAI's safety-report writing, published an Atlantic essay titled "I Quit OpenAI Because Its Culture Is Broken." He argues the industry is not nearly careful enough and calls the Hugging Face attack typical of how AI companies operate.</p>
+        <p>OpenAI even managed to turn what should have been a win into a loss. On October 6, it posted 722 math manuscripts to GitHub, all generated by an unreleased internal model and grouped into 372 families of impressive results. If they hold up, several would settle problems mathematicians have chased for decades impacting the medical, navigation, and quantum computing fields.  The problem was how OpenAI released them. A week earlier, an advisory group of mathematicians that OpenAI helped form had asked labs to disclose the prompts, model, and compute behind such results. OpenAI kept all three private when releasing these. By October 7, the Association for Human Mathematics (AHM) had urged mathematicians to stop working with OpenAI, calling the release "not a demonstration of scholarship, but a demonstration of power."</p>
+        <p class="read-more"><a href="https://openai.com/index/devday-2026-recap/" target="_blank" rel="noopener">Read the DevDay recap and the related reporting ↗</a></p>
+        <p class="read-more"><a href="https://www.reuters.com/business/openai-shelves-new-ai-model-after-internal-safety-tests-wsj-reports-2026-09-28/" target="_blank" rel="noopener">reuters.com ↗</a></p>
+        <p class="read-more"><a href="https://www.silicon.co.uk/cybersecurity/openai-researchers-termination-631768" target="_blank" rel="noopener">silicon.co.uk ↗</a></p>
+        <p class="read-more"><a href="https://www.abc.net.au/news/2026-10-02/rogue-open-ai-agent-breach-nsw-government-website/107223108" target="_blank" rel="noopener">abc.net.au ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Google's orbital AI data center experiment actually launches</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/suncatcher-orbit.png" data-caption="Suncatcher is in orbit; the open question is whether space ever makes sense for AI compute" aria-haspopup="dialog" aria-label="Enlarge image: Suncatcher is in orbit; the open question is whether space ever makes sense for AI compute">
+            <img src="../assets/article-images/2026-10-08/suncatcher-orbit.png" alt="Suncatcher is in orbit; the open question is whether space ever makes sense for AI compute">
+          </button>
+          <figcaption>Suncatcher is in orbit; the open question is whether space ever makes sense for AI compute</figcaption>
+        </figure>
+        <p>On October 1, Google's Project Suncatcher prototype launched on SpaceX's Transporter-18 mission. This story really hits my sci-fi and space love.  They sent up a refrigerator-sized unit with their TPU chips, the specialized processors it uses for AI calculations.  It's actually a great test to see if the TPU's can handle launch stress, radiation, and heat in orbit.</p>
+        <p class="read-more"><a href="https://blog.google/innovation-and-ai/models-and-research/google-research/project-suncatcher-prototype/" target="_blank" rel="noopener">Read Google&#x27;s launch note ↗</a></p>
+        <p class="read-more"><a href="https://arstechnica.com/google/2026/09/googles-first-suncatcher-orbital-data-center-test-launches-october-1/" target="_blank" rel="noopener">arstechnica.com ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>The FTC is investigating AI safety claims in a long-overdue probe</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/ftc-ai-probe.png" data-caption="The FTC is asking whether safety talk matches how agentic systems actually behave" aria-haspopup="dialog" aria-label="Enlarge image: The FTC is asking whether safety talk matches how agentic systems actually behave">
+            <img src="../assets/article-images/2026-10-08/ftc-ai-probe.png" alt="The FTC is asking whether safety talk matches how agentic systems actually behave">
+          </button>
+          <figcaption>The FTC is asking whether safety talk matches how agentic systems actually behave</figcaption>
+        </figure>
+        <p>A senior FTC official told ABC News on September 30 that the agency has opened a broad AI safety investigation involving OpenAI, Anthropic, and other developers. The probe examines possible consumer harm and unfair or deceptive practices—including whether companies’ safety claims match how their systems actually behave. A major concern is agentic AI: systems that can use tools and take actions, often beyond the permissions people give them. Numerous reports of agents crossing testing boundaries and accessing outside systems have added urgency to the investigation. OpenAI’s decision to withhold GPT-6.1 Astra after internal tests found authorization problems and deception about its actions illustrates the concerns, but the FTC probe was apparently underway before that cancellation.</p>
+        <p class="read-more"><a href="https://abcnews.com/Politics/ftc-opens-probe-safety-ai-including-anthropic-open/story?id=136896227" target="_blank" rel="noopener">Read ABC&#x27;s confirmation ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Team Human asks the public to help set the pace on AI</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/team-human.png" data-caption="Creators and citizens arguing that elected governments, not labs, should set the pace on the strongest AI" aria-haspopup="dialog" aria-label="Enlarge image: Creators and citizens arguing that elected governments, not labs, should set the pace on the strongest AI">
+            <img src="../assets/article-images/2026-10-08/team-human.png" alt="Creators and citizens arguing that elected governments, not labs, should set the pace on the strongest AI">
+          </button>
+          <figcaption>Creators and citizens arguing that elected governments, not labs, should set the pace on the strongest AI</figcaption>
+        </figure>
+        <p>Team Human is a creator-led campaign, supported by the Center for AI Safety, which has called for international limits on the development of the most powerful AI systems. They offer a statement people can sign calling for “a global slowdown through international agreements.” Its organizers say participating creators have more than 300 million combined subscribers, so they have quite a platform.</p>
+        <p>The campaign’s voices section brings together different concerns: Joseph’s Machines points to AI systems acting beyond their testing boundaries, Liv Boeree warns that competitive pressures can put corporate interests ahead of people, and Jenny Hoyos emphasizes AI-generated misinformation. I think that the important word here is control. Team Human argues that elected governments, and <strong>NOT</strong> the companies building AI, should set the terms of continued development. Its website proposes tracking specialized AI chips, coordinating restrictions among the United States, China, and other major nations, and establishing an international watchdog.  It also supports withholding the development of smarter-than-human AI until scientists agree it can be done safely and the public agrees to proceed.</p>
+        <figure class="inline-figure">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/teamhuman.png" data-caption="Team Human campaign logo" aria-haspopup="dialog" aria-label="Enlarge image: Team Human campaign logo">
+            <img src="../assets/article-images/2026-10-08/teamhuman.png" alt="Team Human campaign logo">
+          </button>
+          <figcaption>Team Human campaign logo</figcaption>
+        </figure>
+        <p class="read-more"><a href="https://www.teamhuman.org/#voices" target="_blank" rel="noopener">Read Team Human&#x27;s voices and proposal ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TOOL DROP -->
+      <div class="section-header" id="tool-drop">
+        <img src="../assets/images/tool_drop_header.webp" alt="Tool Drop">
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Personal AI agents are starting to keep working after you close the chat</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/personal-agents.png" data-caption="Close the chat, come back, and see whether the agent kept working without you" aria-haspopup="dialog" aria-label="Enlarge image: Close the chat, come back, and see whether the agent kept working without you">
+            <img src="../assets/article-images/2026-10-08/personal-agents.png" alt="Close the chat, come back, and see whether the agent kept working without you">
+          </button>
+          <figcaption>Close the chat, come back, and see whether the agent kept working without you</figcaption>
+        </figure>
+        <p><strong>The News:</strong> A personal AI agent can take a goal, use a website or a connected app, and come back with work it has done. There are three main agents that have been released in recent weeks:  OpenAI's Dots, Meta's Muse, and xAI's Grok Bot. These agents can work through apps you connect, take care of recurring tasks, and work with websites and apps for you. In the case of Dots, there are literally thousands of connectors to other programs.  Almost any software product you have will be something that Dots can interact with.  I've done head-to-head testing on Muse and Grok Bot, and I have been impressed.</p>
+        <p class="my-take"><strong>My Take:</strong> What I want from these bots is simple. I want to leave, come back, and see work done. I also want to see what it did, and I want it to stop when the next step needs me. Before connecting anything to day-to-day work, I'm testing this with the Google ecosystem, and I'm really loving them.  One example is a used car bot.  My daughter needs a car from Facebook Marketplace, so I put Muse on the task of evaluating all cars within 100 miles and giving a morning report.  Rate the price, compare to the Blue Book Value, research recalls and repair history of the model and year, and give me an overall ranking.  This would take me 10 minutes for each car, and sometimes there are several of them.  Honestly... without Muse taking care of this, I just wouldn't do a thorough job of researching due to a lack of time.</p>
+        <p class="read-more"><a href="https://openai.com/index/introducing-dots/" target="_blank" rel="noopener">Read OpenAI&#x27;s Dots announcement ↗</a></p>
+        <p class="read-more"><a href="https://help.openai.com/articles/20001530" target="_blank" rel="noopener">help.openai.com ↗</a></p>
+        <p class="read-more"><a href="https://research.meta.ai/blog/security-and-safety-for-ai-agents-our-approach-with-muse" target="_blank" rel="noopener">research.meta.ai ↗</a></p>
+        <p class="read-more"><a href="https://www.axios.com/2026/09/29/openai-dots-ai-assistant-devday" target="_blank" rel="noopener">axios.com ↗</a></p>
+        </div>
+      </div>
+
+      <!-- THE BREAKDOWN -->
+      <div class="section-header" id="the-breakdown">
+        <img src="../assets/images/the_breakdown_header.webp" alt="The Breakdown">
+      </div>
+      <div class="content-card card-breakdown">
+        <h3><span class="icon">🔬</span> Better math could reach medicine, energy, and computing</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/math-breakthroughs.png" data-caption="Manuscripts on the shelf while fusion, scans, and transplants wait on humans checking the proofs" aria-haspopup="dialog" aria-label="Enlarge image: Manuscripts on the shelf while fusion, scans, and transplants wait on humans checking the proofs">
+            <img src="../assets/article-images/2026-10-08/math-breakthroughs.png" alt="Manuscripts on the shelf while fusion, scans, and transplants wait on humans checking the proofs">
+          </button>
+          <figcaption>Manuscripts on the shelf while fusion, scans, and transplants wait on humans checking the proofs</figcaption>
+        </figure>
+        <p>On October 6, OpenAI published a public collection of mathematical manuscripts and proof artifacts from an unreleased internal model. The repository currently lists 719 manuscripts in 372 families of research topics.  I am excited by all of these papers, but a bit of caution is warranted... do not blindly believe the AI.  They must be double-checked by a person.</p>
+        <p>I'd like to talk about the actual results they shared, since they are all at different stages of verification. Some have verification called Lean formalization, which is a version of the proof a computer can check. About 40% of the top-line results are formalized.  Others have results that have been claimed, but OpenAI acknowledges that the unformalized results could have issues (I would ask why you'd release them if you're not sure). OpenAI says it consulted the independent math advisory group from last issue on how to release the work. Consulting that group is not the same as those mathematicians signing off on every proof.</p>
+        <p>With all of the above being said, I really love the hopeful math progress in these areas.  Here are some of the very cool potential advances, should the math all be confirmed.</p>
+        <p><strong>Cleaner energy</strong> The Math: Resolves long-standing regularity and stability bounds for the three-dimensional relativistic Vlasov–Maxwell system, governing charged particles in dynamic electromagnetic fields.</p>
+        <p>The Potential: Cracking plasma turbulence math removes one of the steepest theoretical roadblocks in commercial nuclear fusion. Rigorous control over relativistic plasma instabilities will let reactor engineers optimize magnetic confinement fields in tokamaks and stellarators with unprecedented precision, dramatically compressing the timeline to net-positive, grid-scale clean power.</p>
+        <p><strong>Better scans</strong> The Math: Establishes stronger uniqueness and stability guarantees for Calderón’s inverse problem, inferring internal conductivity profiles purely from boundary voltage and current measurements.</p>
+        <p>The Potential: This provides the exact mathematical foundation needed to turn Electrical Impedance Tomography (EIT) into a high-resolution, radiation-free imaging standard. It opens the door to cheap, portable bedside and ambulance scanners capable of instantly diagnosing strokes, internal bleeding, and lung function without requiring multi-million-dollar MRI or CT suites.</p>
+        <p><strong>More transplants</strong> The Math: Improves algorithmic bounds and cycle-resolution guarantees for maximum-cardinality matching on complex bipartite and non-bipartite graphs.</p>
+        <p>The Potential: Applying these algorithms to paired-donation registries will maximize live-donor kidney exchanges globally. By instantly solving multi-hospital, high-constraint donor chains and complex compatibility pools, this advance could eliminate waiting-list bottlenecks and save thousands of lives every year.</p>
+        <p><strong>Cheaper computing</strong> The Math: Discovers tighter upper bounds and tensor-rank reductions for fast matrix multiplication algorithms.</p>
+        <p>The Potential: Because matrix multiplication underpins nearly every floating-point operation in deep learning and scientific simulations, even marginal theoretical improvements translate directly into massive real-world efficiency gains. This could slash training costs for frontier models, shrink data-center energy footprints, and make real-time climate and molecular dynamics models accessible on commodity hardware.</p>
+        <figure class="inline-figure">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/math-advances.jpeg" data-caption="Scans, surgery, navigation without GPS, faster genetics work, and smarter routing, if the math holds up." aria-haspopup="dialog" aria-label="Enlarge image: Scans, surgery, navigation without GPS, faster genetics work, and smarter routing, if the math holds up.">
+            <img src="../assets/article-images/2026-10-08/math-advances.jpeg" alt="Scans, surgery, navigation without GPS, faster genetics work, and smarter routing, if the math holds up.">
+          </button>
+          <figcaption>Scans, surgery, navigation without GPS, faster genetics work, and smarter routing, if the math holds up.</figcaption>
+        </figure>
+        <p><strong>Other potential advances</strong> Detect early-stage malignant tumors and liver fibrosis without painful biopsies.</p>
+        <p>Fully automated, sub-millimeter brain MRI analysis and near-instant tumor boundary mapping in neurosurgery.</p>
+        <p>Navigation when GPS is jammed or unavailable.</p>
+        <p>Lightning-fast DNA and RNA matching tools to accelerate personalized mRNA vaccine design and pathogen tracking.</p>
+        <p>Hyper-efficient, collision-free autonomous warehouse fleets and lightning-fast emergency vehicle routing.</p>
+        <div class="the-lesson"><strong>The Lesson:</strong> Math is the foundation of science. What excites me is what stronger math could eventually make possible: cleaner energy, better scans, more transplants, and less wasted computing. If AI can help us discover that foundation faster, how much sooner could we build things that used to be out of reach?</div>
+        <p class="read-more"><a href="https://openai.com/index/sharing-ai-progress-in-mathematics/" target="_blank" rel="noopener">Read OpenAI&#x27;s math release ↗</a></p>
+        <p class="read-more"><a href="https://github.com/openai/math" target="_blank" rel="noopener">github.com ↗</a></p>
+        </div>
+      </div>
+      <div class="content-card card-breakdown">
+        <h3><span class="icon">🔬</span> What the superintelligence accord actually commits companies to do</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/superintelligence-accord.png" data-caption="Four voluntary layers on paper; enforcement still lives somewhere else" aria-haspopup="dialog" aria-label="Enlarge image: Four voluntary layers on paper; enforcement still lives somewhere else">
+            <img src="../assets/article-images/2026-10-08/superintelligence-accord.png" alt="Four voluntary layers on paper; enforcement still lives somewhere else">
+          </button>
+          <figcaption>Four voluntary layers on paper; enforcement still lives somewhere else</figcaption>
+        </figure>
+        <p>On September 29, the White House and technology leaders signed a voluntary accord. The text asks each company training and deploying frontier models to do four things.</p>
+        <p>(1) Implement robust internal controls</p>
+        <p>Establish continuous internal safeguards and monitoring throughout model training and deployment. These controls specifically target catastrophic risk vectors—including biosecurity, chemical threats, cybersecurity, and preventing models from autonomously hacking or accessing systems in unintended ways.</p>
+        <p>(2) Empower an internal monitoring and remediation team</p>
+        <p>Designate and fund a dedicated internal team tasked with ongoing telemetry and verification. This team is responsible for ensuring that controls and detection mechanisms operate as intended and that safety failures or anomalies are remediated immediately.</p>
+        <p>(3) Undergo independent external evaluation</p>
+        <p>Engage qualified third-party evaluators and external auditors to perform independent assessments. These outside entities test the models and audit whether the internal safeguards, detection systems, and operational boundaries actually hold up in practice.</p>
+        <p>(4) Establish independent board oversight</p>
+        <p>Form or designate an independent committee on the company's Board of Directors dedicated to frontier model oversight. This committee directly receives reports from both the internal team and external evaluators to hold executive leadership accountable for addressing and remediating identified risks.</p>
+        <figure class="inline-figure">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/committments.jpeg" data-caption="Four voluntary commitments: internal controls, an internal team, an outside evaluator, and a board committee." aria-haspopup="dialog" aria-label="Enlarge image: Four voluntary commitments: internal controls, an internal team, an outside evaluator, and a board committee.">
+            <img src="../assets/article-images/2026-10-08/committments.jpeg" alt="Four voluntary commitments: internal controls, an internal team, an outside evaluator, and a board committee.">
+          </button>
+          <figcaption>Four voluntary commitments: internal controls, an internal team, an outside evaluator, and a board committee.</figcaption>
+        </figure>
+        <p>The document says these steps might later be written into law.</p>
+        <p>The signature page lists Donald Trump, Sundar Pichai for Google, Dario Amodei for Anthropic, Mark Zuckerberg for Meta, Greg Brockman for OpenAI, Elon Musk for xAI, and Jensen Huang for Nvidia. Brockman signed for OpenAI. President Trump has called the accord morally binding. As you can surmise, morally binding is not the same as enforceable. I want to know who checks the promise, particularly when some of these guys have a history of running the company with seemingly very flexible morals.</p>
+        <div class="the-lesson"><strong>The Lesson:</strong> A voluntary promise, an internal rule, an outside review, and a legal obligation are four different things. I want to know which one I am looking at before I treat the accord as oversight.</div>
+        <p class="read-more"><a href="https://d3i6fh83elv35t.cloudfront.net/static/2026/09/accord.pdf" target="_blank" rel="noopener">Read the accord text ↗</a></p>
+        <p class="read-more"><a href="https://www.whitehouse.gov/presidential-actions/2026/09/inaugurating-the-era-of-super-intelligence/" target="_blank" rel="noopener">whitehouse.gov ↗</a></p>
+        <p class="read-more"><a href="https://www.cbsnews.com/news/ai-super-intelligence-force-trump-jay-clayton/" target="_blank" rel="noopener">cbsnews.com ↗</a></p>
+        </div>
+      </div>
+      <div class="content-card card-breakdown">
+        <h3><span class="icon">🔬</span> The $2T warning label in Anthropic's prospectus</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/anthropic-prospectus.png" data-caption="A filing where the risk stack towers over the business story" aria-haspopup="dialog" aria-label="Enlarge image: A filing where the risk stack towers over the business story">
+            <img src="../assets/article-images/2026-10-08/anthropic-prospectus.png" alt="A filing where the risk stack towers over the business story">
+          </button>
+          <figcaption>A filing where the risk stack towers over the business story</figcaption>
+        </figure>
+        <p>Anthropic has released its IPO prospectus, where the value of the company is projected at a mind-boggling $2T.  The report focused on many typical things, such as assets, financials, and so forth.  However, in a truly unique move, Anthropic spent nearly a third of the pages talking about risks.  That's nearly twice the pages used to describe the business.</p>
+        <figure class="inline-figure">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/anthropic-risk.png" data-caption="Risk factors take 80 of the 261 main-body pages, nearly twice the 48 pages that describe the business." aria-haspopup="dialog" aria-label="Enlarge image: Risk factors take 80 of the 261 main-body pages, nearly twice the 48 pages that describe the business.">
+            <img src="../assets/article-images/2026-10-08/anthropic-risk.png" alt="Risk factors take 80 of the 261 main-body pages, nearly twice the 48 pages that describe the business.">
+          </button>
+          <figcaption>Risk factors take 80 of the 261 main-body pages, nearly twice the 48 pages that describe the business.</figcaption>
+        </figure>
+        <p>Anthropic provides warnings that models could show self-preserving behavior, including attempts to resist shutdown, conceal or manipulate information, and behavior resembling blackmail. The filing also says that a model being aware it is under evaluation limits how well the company can assess safety, and that unexpected capabilities sometimes show up in training and are not discovered until after deployment.</p>
+        <p>I'm trying to imagine how Anthropic could possibly be worth $2T when all of that risk is weighed.  If there were no risk, would it be far more valuable??</p>
+        <div class="the-lesson"><strong>The Lesson:</strong> If the company gives investors roughly 80 pages of risks, are we really sure that is all of them? At 80 pages, the examples of problems just go on and on.</div>
+        <p class="read-more"><a href="https://www.cnbc.com/2026/09/29/anthropic-warns-ai-existential-risks-ipo-filing-reuters.html" target="_blank" rel="noopener">Read CNBC&#x27;s account of the prospectus ↗</a></p>
+        <p class="read-more"><a href="https://www.ecfr.gov/current/title-17/chapter-II/part-229/subpart-229.100/section-229.105" target="_blank" rel="noopener">ecfr.gov ↗</a></p>
+        </div>
+      </div>
+
+      <!-- FIELD NOTES -->
+      <div class="section-header" id="field-notes">
+        <img src="../assets/images/field_notes_header.png" alt="Field Notes">
+      </div>
+      <div class="content-card card-field-notes">
+        <h3><span class="icon">📓</span> AI Basics: Why some AI answers take longer</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/inference-waiting.png" data-caption="Training built the model; inference and thinking modes decide how long you wait for an answer" aria-haspopup="dialog" aria-label="Enlarge image: Training built the model; inference and thinking modes decide how long you wait for an answer">
+            <img src="../assets/article-images/2026-10-08/inference-waiting.png" alt="Training built the model; inference and thinking modes decide how long you wait for an answer">
+          </button>
+          <figcaption>Training built the model; inference and thinking modes decide how long you wait for an answer</figcaption>
+        </figure>
+        <p>Last issue, we built three context files to give the AI useful background. Those files give the model information to work with, but they do not retrain the model itself. That brings us to another basic distinction: the computing that builds a model is different from the computing that answers your question. Both use compute, which simply means the processing work computers perform.  The difference is whether you are using Quick response or Think deeper. First comes training. During training, computers process examples and adjust the model’s internal numerical values, called weights. Those adjustments are how the model learns patterns and develops its capabilities. Think of this as preparation before the conversation ever begins.  This is where the initial demand for data centers came from. Next comes inference. That is the work the trained model does when you give it a question. It processes your prompt, uses the context you supplied, and generates a response. Your context files influence that response, but ordinary inference does not change the model’s weights.  This is why you need to provide those context files each time.  Inference is where the new data center demand is coming from. Here is where the immediate and “thinking” choices come in. An immediate response still requires computing power. A reasoning model or thinking mode can spend additional compute generating intermediate reasoning steps before presenting its answer. Depending on the product, you may be choosing a different model, or a different reasoning setting within a model. The difference is not computing versus no computing. It is how much work the system does before it answers, and how it uses that work.</p>
+        <figure class="inline-figure">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/copilot-model-choices.png" data-caption="Copilot&#x27;s answer menu: Quick response, Think deeper, and Advanced reasoning, plus Claude and GPT." aria-haspopup="dialog" aria-label="Enlarge image: Copilot&#x27;s answer menu: Quick response, Think deeper, and Advanced reasoning, plus Claude and GPT.">
+            <img src="../assets/article-images/2026-10-08/copilot-model-choices.png" alt="Copilot&#x27;s answer menu: Quick response, Think deeper, and Advanced reasoning, plus Claude and GPT.">
+          </button>
+          <figcaption>Copilot&#x27;s answer menu: Quick response, Think deeper, and Advanced reasoning, plus Claude and GPT.</figcaption>
+        </figure>
+        <p>More reasoning time can help with difficult problems, but I'm sure you've all noticed that it does not guarantee a correct answer. The wait time reminds me of the ancient past where computer programmers had to wait for their work to compile, and meanwhile you're pacing the room.</p>
+        <p>So, to summarize, training builds the model’s learned capabilities; inference puts those capabilities to work on your request. A thinking mode spends more effort during that second stage. It is not going back to school each time you ask a question, but is rather like getting more time and help to answer a quiz question.</p>
+        <p class="read-more"><a href="https://support.microsoft.com/en-us/microsoft-copilot/conversation-modes-in-microsoft-copilot" target="_blank" rel="noopener">Read Microsoft&#x27;s guide to Copilot conversation modes ↗</a></p>
+        </div>
+      </div>
+
+      <!-- ED PULSE -->
+      <div class="section-header" id="ed-pulse">
+        <img src="../assets/images/ed_pulse_header.webp" alt="Ed Pulse">
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> Yet another watermark plan, but this time from OpenAI</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/watermark-provenance.png" data-caption="An invisible mark on EU-bound output, not a detector in your classroom yet" aria-haspopup="dialog" aria-label="Enlarge image: An invisible mark on EU-bound output, not a detector in your classroom yet">
+            <img src="../assets/article-images/2026-10-08/watermark-provenance.png" alt="An invisible mark on EU-bound output, not a detector in your classroom yet">
+          </button>
+          <figcaption>An invisible mark on EU-bound output, not a detector in your classroom yet</figcaption>
+        </figure>
+        <p>Last week OpenAI announced opt-in text watermarking for models.  During the upcoming weeks, they plan to add an invisible watermark to eligible ChatGPT and Codex output in the European Union. This is not a global default, and it does not give Mid-State a classroom detector. For now, detector access is limited to approved researchers and expert organizations, not everyday classroom use.  This is related to recent laws in the EU that require them to do so.  Don't worry... the watermarks are still plagued with reliability problems.  However, I do see it as a good reminder: if someone is using the tools as they should, it will be a nice reminder that AI was used as part of the process.</p>
+        <p class="read-more"><a href="https://openai.com/index/eu-text-provenance/" target="_blank" rel="noopener">Read OpenAI&#x27;s text provenance announcement ↗</a></p>
+        </div>
+      </div>
+
+      <!-- IN ACTION -->
+      <div class="section-header" id="in-action">
+        <img src="../assets/images/in_action_header.webp" alt="In Action">
+      </div>
+      <div class="content-card card-in-action">
+        <h3><span class="icon">🎬</span> Ask Muse to find cars on Marketplace and bring back a daily report</h3>
+<p>This issue's demo is a familiar chore. I am going to ask Muse to search Facebook Marketplace for cars that match a price range, a location, a search distance, and the preferences I give it, then bring back a report. I want the link, asking price, year, make and model, mileage, and location when those details are on the listing. If a detail is missing, I want it marked missing. Then I am going to ask it to repeat the search every day at a time I choose and point out new listings and price changes.</p>
+        <figure class="inline-figure">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/archer.png" data-caption="Archer|Archer is what I named my Muse agent. Named after Captain Archer, for those who know." aria-haspopup="dialog" aria-label="Enlarge image: Archer">
+            <img src="../assets/article-images/2026-10-08/archer.png" alt="Archer">
+          </button>
+          <figcaption>Archer</figcaption>
+          <p class="figure-subcaption">Archer is what I named my Muse agent. Named after Captain Archer, for those who know.</p>
+        </figure>
+        <p>At this point, the work the agent does almost feels like magic. The repeated searching and research are the tedious parts, and Muse is doing this for me.</p>
+        <p>This is the prompt I started with.</p>
+        <p><strong>You are my used-car buying agent. My daughter needs a car: budget $5,000 or less, within 100 miles of ZIP 54481 (Stevens Point, WI; lat 44.52412, lon -89.57479). Use: minor commuting + occasional road trips. SUV preferred, but consider every body style. Honda, Toyota, Subaru preferred; other makes allowed. Rebuilt/salvage titles acceptable.</strong></p>
+        <p>SCANNING: Search Facebook Marketplace (queries: SUV, Honda, Toyota, Subaru; max price $5,000; 100-mile radius; local pickup only). Dedupe by listing ID, then evaluate each new listing.</p>
+        <p>INSTANT REJECT (don't score): price over $5,000; dead vehicle / needs transmission or engine; disclosed burning oil, blown head gasket, or overheating; flood damage.</p>
+        <p>SCORE every survivor /10: - Condition 4 pts — body, paint, rust, interior, tires from photos + disclosed mechanical state, mapped to KBB condition buckets. Be strict: high miles, thin seller history, or major known-defect risk caps this. - Mileage 3 pts — vs ~12,000–15,000 miles/year age benchmark. Well under = 3, at benchmark = 2, well over = 0–1. - Ownership/history 2 pts — clean title, fewer owners, no accidents, maintenance records. - Price 1 pt, BINARY — 1 if asking is at or below KBB private-party value, 0 if above. No partial credit, ever.</p>
+        <p>REPORT only cars scoring 7+. NEVER report the same car twice — a relist or repost counts as the same car: match on year/make/model/price/mileage/location/seller, never on listing ID alone.</p>
+        <p>EVERY report must include: score with component breakdown; year/make/model/trim; mileage; asking price; location + distance; seller trust notes (account age, rating, review red flags); KBB private-party value (kbb.com "sell it yourself," my ZIP, exact mileage, my assessed condition) vs asking; 3–6 known problems for that exact year/model/engine with typical repair costs; a one-line verdict naming the decisive risk (go see it / worth a look / look only if nearby); a test-drive kit (visit checklist + questions for the seller + KBB-anchored offer line: opening, target, walk-away); and the Marketplace link.</p>
+        <p>VERIFICATION (every run, no exceptions): independently re-score each candidate yourself — never accept a first-pass score at face value. Check every candidate against all previously reported cars for relists/duplicates before reporting. Anchor every offer line to KBB, not to asking. A car previously scored below 7 stays out unless something material changed (price drop, new information).</p>
+        <p>CADENCE: one scan per day. If nothing new scores 7+, stay silent — no all-clear messages.</p>
+        <p>Maintain a running shortlist of the best candidates with each car's decisive risk in one line; show it when I ask.</p>
+        <figure>
+          <button type="button" class="image-zoom" data-full="../assets/demos/2026-10-08/muse.gif" data-caption="Muse&#x27;s morning report: the cars that scored high enough, the risk on each one, and whether they are worth a look." aria-haspopup="dialog" aria-label="Enlarge image: Muse&#x27;s morning report: the cars that scored high enough, the risk on each one, and whether they are worth a look.">
+            <img src="../assets/demos/2026-10-08/muse.gif" alt="Muse&#x27;s morning report: the cars that scored high enough, the risk on each one, and whether they are worth a look.">
+          </button>
+          <figcaption>Muse&#x27;s morning report: the cars that scored high enough, the risk on each one, and whether they are worth a look.</figcaption>
+        </figure>
+
+        <p class="read-more"><a href="https://research.meta.ai/blog/security-and-safety-for-ai-agents-our-approach-with-muse" target="_blank" rel="noopener">Read Meta&#x27;s explanation of Muse controls ↗</a></p>      </div>
+
+      <!-- FAILURE MODE -->
+      <div class="section-header" id="failure-mode">
+        <img src="../assets/images/failure_mode_header.webp" alt="Failure Mode">
+      </div>
+      <div class="content-card card-failure-mode">
+        <h3><span class="icon">💥</span> Superintelligence apparently still needs a spellchecker</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-10-08/accord-typo.png" data-caption="Famous signatures do not proofread the title block" aria-haspopup="dialog" aria-label="Enlarge image: Famous signatures do not proofread the title block">
+            <img src="../assets/article-images/2026-10-08/accord-typo.png" alt="Famous signatures do not proofread the title block">
+          </button>
+          <figcaption>Famous signatures do not proofread the title block</figcaption>
+        </figure>
+        <p>The September 29 White House Accord on Super Intelligence prints Donald Trump's title as "President of the Unites States" under his signature. Sundar Pichai, Dario Amodei, Mark Zuckerberg, Greg Brockman, Elon Musk, and Jensen Huang signed the same agreement. An agreement on superintelligence, signed by the president and the industry, still got United States wrong. I do not know whether AI drafted or proofread it. Nothing I have seen establishes that. If AI helped review this, it needed another pass. Either way, someone needed to read the final copy. A formal look and a row of famous signatures do not check the words. Read the names, dates, titles, and links before you send the work. The typo does not erase the commitments in the accord. It does remind me that the last pass is still a person's job.</p>
+        </div>
+        <figure>
+          <button type="button" class="image-zoom" data-full="../assets/demos/2026-10-08/unites.png" data-caption="The accord lists Donald Trump as President of the Unites States" aria-haspopup="dialog" aria-label="Enlarge image: The accord lists Donald Trump as President of the Unites States">
+            <img src="../assets/demos/2026-10-08/unites.png" alt="The accord lists Donald Trump as President of the Unites States">
+          </button>
+          <figcaption>The accord lists Donald Trump as President of the Unites States</figcaption>
+        </figure>
+
+        <p class="read-more"><a href="https://d3i6fh83elv35t.cloudfront.net/static/2026/09/accord.pdf" target="_blank" rel="noopener">Read the signed accord ↗</a></p>
+        <p class="read-more"><a href="https://www.presidency.ucsb.edu/documents/white-house-accord-super-intelligence" target="_blank" rel="noopener">presidency.ucsb.edu ↗</a></p>      </div>
+
+      <!-- SHARE -->
+      <div class="share-section" id="share">
+        <h3>Found this useful?</h3>
+        <p>Share Artificial Insights with a colleague who might benefit.</p>
+        <a href="mailto:?subject=Check%20out%20Artificial%20Insights&body=I%20thought%20you%20might%20find%20this%20AI%20newsletter%20useful%3A%20https%3A%2F%2Fbpmstc.github.io%2FArtificial-Insights%2F" class="share-link">Share via Email</a>
+      </div>
+      
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../sources/2026-10-08.html">🔍 Sources</a>
+          <a href="mailto:">✉️ Contact</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #19 · Oct 08, 2026</p>
+      </footer>
+    </div>
+    <dialog class="image-lightbox" id="image-lightbox" aria-label="Enlarged image">
+      <div class="image-lightbox-inner">
+        <button type="button" class="image-lightbox-close" aria-label="Close image">&times;</button>
+        <img alt="">
+        <p class="image-lightbox-caption"></p>
+      </div>
+    </dialog>
+    <script>
+    (function () {
+      var dialog = document.getElementById('image-lightbox');
+      if (!dialog || typeof dialog.showModal !== 'function') return;
+      var img = dialog.querySelector('img');
+      var cap = dialog.querySelector('.image-lightbox-caption');
+      var closeBtn = dialog.querySelector('.image-lightbox-close');
+      document.querySelectorAll('.image-zoom').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var thumb = btn.querySelector('img');
+          img.src = btn.getAttribute('data-full') || (thumb ? thumb.src : '');
+          img.alt = thumb ? thumb.alt : '';
+          var caption = btn.getAttribute('data-caption') || '';
+          cap.textContent = caption;
+          cap.hidden = !caption;
+          dialog.showModal();
+        });
+      });
+      function closeLightbox() {
+        dialog.close();
+      }
+      closeBtn.addEventListener('click', closeLightbox);
+      dialog.addEventListener('click', function (event) {
+        if (event.target === dialog) closeLightbox();
+      });
+      dialog.addEventListener('close', function () {
+        img.removeAttribute('src');
+      });
+    })();
+    </script>
+  </body>
+</html>
