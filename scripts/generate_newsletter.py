@@ -8,6 +8,7 @@ Usage:
 """
 
 import html
+from html import escape as html_escape
 import re
 import sys
 import os
@@ -47,6 +48,7 @@ def parse_markdown(content: str) -> dict:
         'Ed Pulse',
         'In Action',
         'Failure Mode',
+        'The Tinfoil Files',
         'Try This'
     ]
     
@@ -66,6 +68,15 @@ def parse_markdown(content: str) -> dict:
                     break
             
             section_content = content[start:end].strip()
+            if section_name == 'The Tinfoil Files':
+                (
+                    data['tinfoil_kicker'],
+                    data['tinfoil_intro'],
+                    data['tinfoil_image'],
+                    data['tinfoil_image_caption'],
+                    data['tinfoil_lesson'],
+                    section_content,
+                ) = _split_tinfoil_section(section_content)
             items = parse_items(section_content, section_name)
             data['sections'][section_name] = items
     
@@ -113,6 +124,78 @@ def parse_follow_up_tasks(content: str) -> list:
     return tasks
 
 
+def _split_tinfoil_section(section_content: str) -> tuple:
+    """Pull Kicker, Intro, a section image, and a trailing TheLesson off The Tinfoil Files."""
+    lines = section_content.splitlines()
+    kicker = ''
+    if lines and re.match(r'^Kicker:\s*', lines[0]):
+        kicker = re.sub(r'^Kicker:\s*', '', lines[0]).strip()
+        lines = lines[1:]
+        while lines and not lines[0].strip():
+            lines = lines[1:]
+    intro, rest = _split_tinfoil_intro('\n'.join(lines))
+    image, caption, rest = _split_tinfoil_image(rest)
+    lesson, rest = _split_tinfoil_lesson(rest)
+    return kicker, intro, image, caption, lesson, rest
+
+
+def _split_tinfoil_intro(section_content: str) -> tuple:
+    """Pull a leading Intro: block off The Tinfoil Files. Blank lines stay paragraphs."""
+    lines = section_content.splitlines()
+    if not lines or not re.match(r'^Intro:\s*', lines[0]):
+        return '', section_content
+    paragraphs = []
+    current = [re.sub(r'^Intro:\s*', '', lines[0]).strip()]
+    rest_start = 1
+    for i, line in enumerate(lines[1:], start=1):
+        if re.match(r'^- Title:', line) or re.match(r'^Image:\s*', line):
+            rest_start = i
+            break
+        if not line.strip():
+            text = ' '.join(part for part in current if part).strip()
+            if text:
+                paragraphs.append(text)
+            current = []
+        else:
+            current.append(line.strip())
+        rest_start = i + 1
+    else:
+        rest_start = len(lines)
+    text = ' '.join(part for part in current if part).strip()
+    if text:
+        paragraphs.append(text)
+    rest = '\n'.join(lines[rest_start:]).strip()
+    return '\n\n'.join(paragraphs), rest
+
+
+def _split_tinfoil_image(section_content: str) -> tuple:
+    """Pull a leading Image/Caption pair off The Tinfoil Files, before the items."""
+    lines = section_content.splitlines()
+    index = 0
+    while index < len(lines) and not lines[index].strip():
+        index += 1
+    image = ''
+    caption = ''
+    if index < len(lines) and re.match(r'^Image:\s*', lines[index]):
+        image = re.sub(r'^Image:\s*', '', lines[index]).strip()
+        index += 1
+        if index < len(lines) and re.match(r'^Caption:\s*', lines[index]):
+            caption = re.sub(r'^Caption:\s*', '', lines[index]).strip()
+            index += 1
+    return image, caption, '\n'.join(lines[index:]).strip()
+
+
+def _split_tinfoil_lesson(section_content: str) -> tuple:
+    """Pull an unindented trailing TheLesson: off the section. Item lessons stay put."""
+    match = re.search(r'(?m)^TheLesson:\s*', section_content)
+    if not match:
+        return '', section_content
+    lesson = ' '.join(
+        line.strip() for line in section_content[match.end():].splitlines() if line.strip()
+    )
+    return lesson, section_content[:match.start()].rstrip()
+
+
 def parse_items(section_content: str, section_name: str) -> list:
     """Parse items from a section's content."""
     items = []
@@ -122,7 +205,7 @@ def parse_items(section_content: str, section_name: str) -> list:
         'Summary', 'Tags', 'URL', 'Image', 'Caption', 'Instructions',
         'Teaser', 'LinkText', 'TheNews', 'MyTake', 'Analysis', 'TheLesson',
         'Content', 'Intro', 'ThePrompt', 'WhyItWorks',
-        'ArticleImage', 'ArticleImageCaption', 'Embed'
+        'ArticleImage', 'ArticleImageCaption', 'Embed', 'TheUneasyPart'
     ]
     field_pattern = '|'.join(field_names)
     
@@ -199,7 +282,7 @@ def format_text(text: str) -> str:
 INLINE_IMAGE_RE = re.compile(r'!\[([^\]]*)\]\(([^)]+)\)')
 
 
-def _inline_figure_html(src: str, caption: str, issue_date: str) -> str:
+def _inline_figure_html(src: str, caption: str, issue_date: str, wide: bool = False) -> str:
     """Block figure for a markdown image inside a long body field."""
     src = (src or '').strip()
     caption = (caption or '').strip()
@@ -220,27 +303,64 @@ def _inline_figure_html(src: str, caption: str, issue_date: str) -> str:
             )
         else:
             cap_html = f'\n          <figcaption>{html.escape(caption)}</figcaption>'
+    figure_class = 'inline-figure wide' if wide else 'inline-figure'
     return (
-        f'<figure class="inline-figure">\n'
+        f'<figure class="{figure_class}">\n'
         f'          {_zoomable_img_html(path, alt, caption)}{cap_html}\n'
         f'        </figure>'
     )
 
 
 def _format_prose_html(text: str) -> list:
-    """Turn a prose fragment into paragraph and h4 HTML snippets."""
-    text = format_text(text)
+    """Turn a prose fragment into paragraphs, h4 subheads, and bullet lists.
+
+    A line that starts with "- " or "* " becomes a list item. Wrapped
+    continuation lines stay in that item. A blank line ends the list.
+    """
     chunks = re.split(r'(?:<br><br>|\n\n)+', text)
     parts = []
     for chunk in chunks:
-        chunk = chunk.strip()
-        if not chunk:
-            continue
-        heading = re.match(r'^##\s+(.+)$', chunk)
+        parts.extend(_format_chunk_html(chunk))
+    return parts
+
+
+def _format_chunk_html(chunk: str) -> list:
+    """Render one paragraph-sized chunk, including any bullet lines inside it."""
+    parts = []
+    prose = []
+    items = []
+
+    def flush_prose():
+        text = ' '.join(part for part in prose if part).strip()
+        prose.clear()
+        if not text:
+            return
+        heading = re.match(r'^##\s+(.+)$', text)
         if heading:
-            parts.append(f'<h4>{heading.group(1).strip()}</h4>')
+            parts.append(f'<h4>{format_text(heading.group(1).strip())}</h4>')
         else:
-            parts.append(f'<p>{chunk}</p>')
+            parts.append(f'<p>{format_text(text)}</p>')
+
+    def flush_items():
+        if not items:
+            return
+        lis = ''.join(f'<li>{format_text(item)}</li>' for item in items)
+        parts.append(f'<ul>{lis}</ul>')
+        items.clear()
+
+    for line in chunk.split('\n'):
+        line = line.strip()
+        if not line:
+            continue
+        bullet = re.match(r'^[-*]\s+(.+)$', line)
+        if bullet:
+            flush_prose()
+            items.append(bullet.group(1).strip())
+        else:
+            flush_items()
+            prose.append(line)
+    flush_prose()
+    flush_items()
     return parts
 
 
@@ -263,7 +383,9 @@ def format_body_html(text: str, issue_date: str = '') -> str:
             i += 1
         else:
             alt, src = pieces[i], pieces[i + 1]
-            parts.append(_inline_figure_html(src, alt, issue_date))
+            src = src.strip()
+            wide = src.lower().endswith('baconsoda.webp')
+            parts.append(_inline_figure_html(src, alt, issue_date, wide=wide))
             i += 2
     return '\n        '.join(parts)
 
@@ -322,19 +444,36 @@ def _story_links_html(
 
 
 def _join_field_value(parts: list) -> str:
-    """Join field value parts, preserving blank lines as <br><br>."""
+    """Join field value parts, preserving blank lines as <br><br> and bullet lines."""
     result = []
     buffer = []
+    list_items = []
+
+    def flush_prose():
+        if buffer:
+            result.append(' '.join(buffer))
+            buffer.clear()
+
+    def flush_list():
+        if list_items:
+            result.append('\n' + '\n'.join(list_items))
+            list_items.clear()
+
     for part in parts:
         if part == '\n\n':
-            if buffer:
-                result.append(' '.join(buffer))
+            flush_prose()
+            flush_list()
             result.append('<br><br>')
-            buffer = []
+        elif re.match(r'^[-*]\s+', part):
+            flush_prose()
+            list_items.append(part)
+        elif list_items:
+            list_items[-1] = f'{list_items[-1]} {part}'
         else:
+            flush_list()
             buffer.append(part)
-    if buffer:
-        result.append(' '.join(buffer))
+    flush_prose()
+    flush_list()
     return ''.join(result)
 
 
@@ -473,6 +612,14 @@ def generate_tool_drop_html(item: dict, issue_date: str) -> str:
     if my_take:
         my_take_html = f'\n        <p class="my-take"><strong>My Take:</strong> {format_text(my_take)}</p>'
 
+    news_body = format_body_html(the_news, issue_date) if the_news else ''
+    if news_body.startswith('<p>'):
+        news_html = '<p><strong>The News:</strong> ' + news_body[len('<p>'):]
+    elif news_body:
+        news_html = f'<p><strong>The News:</strong></p>\n        {news_body}'
+    else:
+        news_html = ''
+
     demo_html = ''
     if image:
         demo_html = '\n' + _demo_figure_html(image, caption, issue_date, title)
@@ -482,7 +629,7 @@ def generate_tool_drop_html(item: dict, issue_date: str) -> str:
         demo_html += '\n' + _embed_html(embed, embed_caption, title)
 
     content_inner = f'''        <div class="content-with-article-image">
-{article_img}        <p><strong>The News:</strong> {format_text(the_news)}</p>{my_take_html}{demo_html}{link_html}
+{article_img}        {news_html}{my_take_html}{demo_html}{link_html}
         </div>'''
     return f'''      <div class="content-card card-tool-drop">
         <h3><span class="icon">🛠️</span> {title}</h3>
@@ -642,11 +789,13 @@ def generate_failure_mode_html(item: dict, issue_date: str) -> str:
 
     embed_html = '\n' + _embed_html(embed, '' if image else caption, title) if embed else ''
 
+    body = format_body_html(content, issue_date) if content else ''
+
     if image:
         card_html = f'''      <div class="content-card card-failure-mode">
         <h3><span class="icon">💥</span> {title}</h3>
         <div class="content-with-article-image">
-{article_img}        <p>{format_text(content)}</p>
+{article_img}        {body}
         </div>
 '''
         card_html += _demo_figure_html(image, caption, issue_date, title)
@@ -656,10 +805,44 @@ def generate_failure_mode_html(item: dict, issue_date: str) -> str:
         return card_html
 
     content_inner = f'''        <div class="content-with-article-image">
-{article_img}        <p>{format_text(content)}</p>{embed_html}{link_html}
+{article_img}        {body}{embed_html}{link_html}
         </div>'''
     return f'''      <div class="content-card card-failure-mode">
         <h3><span class="icon">💥</span> {title}</h3>
+{content_inner}
+      </div>
+'''
+
+
+def generate_tinfoil_html(item: dict, issue_date: str) -> str:
+    """A dark-file card. TheUneasyPart is the line that says why the item is in the file."""
+    title = item.get('Title', '')
+    content = item.get('Content', '') or item.get('Teaser', '') or item.get('Summary', '')
+    uneasy = (item.get('TheUneasyPart') or '').strip()
+    link_text = item.get('LinkText', '')
+    urls = item.get('URLs', [])
+    article_img = _article_image_html(item, issue_date)
+    link_html = _story_links_html(
+        urls,
+        link_text,
+        extra_labels={
+            'dwarkesh.com': "Ajeya Cotra on Dwarkesh Patel",
+            'openai.com': "OpenAI's statement",
+            'pm.gov.au': "Read the Prime Minister's account",
+        },
+    )
+    uneasy_html = ''
+    if uneasy:
+        uneasy_html = (
+            f'\n        <p class="tinfoil-uneasy"><strong>How can this go wrong:</strong> '
+            f'{format_text(uneasy)}</p>'
+        )
+    body = format_body_html(content, issue_date) if content else ''
+    content_inner = f'''        <div class="content-with-article-image">
+{article_img}        {body}{uneasy_html}{link_html}
+        </div>'''
+    return f'''      <div class="content-card card-tinfoil">
+        <h3><span class="icon">🗂️</span> {title}</h3>
 {content_inner}
       </div>
 '''
@@ -750,6 +933,7 @@ def generate_issue_html(data: dict) -> str:
         'Ed Pulse': '🎓',
         'In Action': '🎬',
         'Failure Mode': '💥',
+        'The Tinfoil Files': '🗂️',
         'Try This': '💡'
     }
     
@@ -761,7 +945,8 @@ def generate_issue_html(data: dict) -> str:
         'Field Notes': 'card-field-notes',
         'Ed Pulse': 'card-ed-pulse',
         'In Action': 'card-in-action',
-        'Failure Mode': 'card-failure-mode'
+        'Failure Mode': 'card-failure-mode',
+        'The Tinfoil Files': 'card-tinfoil'
     }
     
     header_images = {
@@ -773,6 +958,7 @@ def generate_issue_html(data: dict) -> str:
         'Ed Pulse': 'ed_pulse_header.webp',
         'In Action': 'in_action_header.webp',
         'Failure Mode': 'failure_mode_header.webp',
+        'The Tinfoil Files': 'tinfoil_files_header.png',
         'Try This': 'try_this_header.webp'
     }
     
@@ -785,6 +971,7 @@ def generate_issue_html(data: dict) -> str:
         'Ed Pulse': 'ed-pulse',
         'In Action': 'in-action',
         'Failure Mode': 'failure-mode',
+        'The Tinfoil Files': 'tinfoil-files',
         'Try This': 'try-this'
     }
 
@@ -795,9 +982,10 @@ def generate_issue_html(data: dict) -> str:
     # Build sections HTML
     sections_html = ''
     
-    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Field Notes', 'Ed Pulse', 'In Action', 'Failure Mode', 'Try This']:
+    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Field Notes', 'Ed Pulse', 'In Action', 'Failure Mode', 'The Tinfoil Files', 'Try This']:
         items = data['sections'].get(section_name, [])
-        if not items:
+        is_tinfoil = section_name == 'The Tinfoil Files'
+        if not items and not (is_tinfoil and data.get('tinfoil_intro')):
             continue
         
         section_id = section_ids[section_name]
@@ -814,21 +1002,42 @@ def generate_issue_html(data: dict) -> str:
                 resolved_header = candidate.name
                 break
 
+        header_id = '' if is_tinfoil else f' id="{section_id}"'
+        if is_tinfoil:
+            sections_html += f'      <div class="tinfoil-files" id="{section_id}">\n'
+
         if resolved_header:
             sections_html += f'''
       <!-- {section_name.upper()} -->
-      <div class="section-header" id="{section_id}">
+      <div class="section-header"{header_id}>
         <img src="../assets/images/{resolved_header}" alt="{section_name}">
       </div>
 '''
         else:
             sections_html += f'''
       <!-- {section_name.upper()} -->
-      <div class="section-divider" id="{section_id}">
+      <div class="section-divider"{header_id}>
         <h2><span class="icon">{icon}</span> {section_name}</h2>
         <div class="line"></div>
       </div>
 '''
+        if is_tinfoil and data.get('tinfoil_kicker'):
+            sections_html += (
+                f'      <h2 class="tinfoil-kicker">{html_escape(data["tinfoil_kicker"])}</h2>\n'
+            )
+        if is_tinfoil and data.get('tinfoil_intro'):
+            for paragraph in data['tinfoil_intro'].split('\n\n'):
+                if paragraph.strip():
+                    sections_html += (
+                        f'      <p class="tinfoil-intro">{html_escape(paragraph.strip())}</p>\n'
+                    )
+        if is_tinfoil and data.get('tinfoil_image'):
+            sections_html += '      ' + _inline_figure_html(
+                data['tinfoil_image'],
+                data.get('tinfoil_image_caption') or '',
+                data['issue_date'],
+                wide=True,
+            ) + '\n'
         
         for item in items:
             if section_name == 'Quick Scan':
@@ -845,11 +1054,21 @@ def generate_issue_html(data: dict) -> str:
                 sections_html += generate_in_action_html(item, data['issue_date'])
             elif section_name == 'Failure Mode':
                 sections_html += generate_failure_mode_html(item, data['issue_date'])
+            elif section_name == 'The Tinfoil Files':
+                sections_html += generate_tinfoil_html(item, data['issue_date'])
             elif section_name == 'Try This':
                 sections_html += generate_try_this_html(item, data['issue_date'])
             else:
                 card_class = card_classes.get(section_name, '')
                 sections_html += generate_card_html(item, card_class, icon)
+
+        if is_tinfoil:
+            if data.get('tinfoil_lesson'):
+                sections_html += (
+                    f'      <p class="tinfoil-lesson"><strong>The lesson:</strong> '
+                    f'{html_escape(data["tinfoil_lesson"])}</p>\n'
+                )
+            sections_html += '      </div>\n'
         
         # After Try This items, add "How can AI help me?" block if we have follow-up tasks
         if section_name == 'Try This' and data.get('follow_up_tasks'):
@@ -860,8 +1079,8 @@ def generate_issue_html(data: dict) -> str:
     
     # Build overview items (only for sections that have content)
     overview_items = ''
-    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Field Notes', 'Ed Pulse', 'In Action', 'Failure Mode', 'Try This']:
-        if data['sections'].get(section_name):
+    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Field Notes', 'Ed Pulse', 'In Action', 'Failure Mode', 'The Tinfoil Files', 'Try This']:
+        if data['sections'].get(section_name) or (section_name == 'The Tinfoil Files' and data.get('tinfoil_intro')):
             section_id = section_ids[section_name]
             icon = section_icons[section_name]
             overview_items += f'          <li><a href="#{section_id}">{icon} {section_name}</a></li>\n'
@@ -893,6 +1112,9 @@ def generate_issue_html(data: dict) -> str:
         --in-action: #7c3aed;
         --failure-mode: #dc2626;
         --try-this: #0d9488;
+        --tinfoil: #d6d3d1;
+        --tinfoil-bg: #1c1917;
+        --tinfoil-card: #292524;
       }}
       * {{ box-sizing: border-box; }}
       body {{
@@ -1050,6 +1272,7 @@ def generate_issue_html(data: dict) -> str:
       .overview a[href="#ed-pulse"] {{ background: #fce7f3; color: var(--ed-pulse); }}
       .overview a[href="#in-action"] {{ background: #ede9fe; color: var(--in-action); }}
       .overview a[href="#failure-mode"] {{ background: #fee2e2; color: var(--failure-mode); }}
+      .overview a[href="#tinfoil-files"] {{ background: #292524; color: #e7e5e4; }}
       .overview a[href="#try-this"] {{ background: #ccfbf1; color: var(--try-this); }}
       
       /* Section Header Image */
@@ -1125,6 +1348,70 @@ def generate_issue_html(data: dict) -> str:
       .card-ed-pulse {{ border-left-color: var(--ed-pulse); }}
       .card-in-action {{ border-left-color: var(--in-action); }}
       .card-failure-mode {{ border-left-color: var(--failure-mode); }}
+      .tinfoil-files {{
+        background: var(--tinfoil-bg);
+        color: #f5f5f4;
+        margin: 48px 0 28px;
+        padding: 8px 18px 22px;
+        border-radius: 16px;
+        border: 1px solid #a8a29e;
+      }}
+      .tinfoil-files .section-header {{
+        margin: 12px 0 16px;
+      }}
+      .tinfoil-files .tinfoil-kicker {{
+        margin: 2px 4px 12px;
+        font-size: 22px;
+        line-height: 1.3;
+        color: #fafaf9;
+      }}
+      .tinfoil-files .tinfoil-intro {{
+        margin: 0 4px 12px;
+        color: #d6d3d1;
+        font-size: 15px;
+      }}
+      .tinfoil-files .tinfoil-lesson {{
+        margin: 6px 0 8px;
+        padding: 14px 16px;
+        background: #0c0a09;
+        border: 1px solid #a8a29e;
+        border-radius: 10px;
+        color: #f5f5f4;
+        font-size: 15px;
+      }}
+      .tinfoil-files .tinfoil-lesson strong {{
+        color: #fafaf9;
+      }}
+      .tinfoil-files .content-card {{
+        background: var(--tinfoil-card);
+        color: #f5f5f4;
+        border-color: #44403c;
+        border-left-color: var(--tinfoil);
+        box-shadow: none;
+      }}
+      .tinfoil-files .content-card h3,
+      .tinfoil-files .content-card p,
+      .tinfoil-files .content-card strong {{
+        color: #f5f5f4;
+      }}
+      .tinfoil-files .content-card p {{
+        color: #d6d3d1;
+      }}
+      .tinfoil-files .tinfoil-uneasy {{
+        margin-top: 14px !important;
+        padding: 12px 14px;
+        background: #1c1917;
+        border-radius: 8px;
+        border: 1px solid #57534e;
+        color: #e7e5e4 !important;
+      }}
+      .tinfoil-files .read-more a {{
+        color: #e7e5e4;
+      }}
+      .tinfoil-files .article-image figcaption,
+      .tinfoil-files .inline-figure figcaption {{
+        color: #a8a29e;
+      }}
       .content-card h3 {{
         margin: 0 0 10px;
         font-size: 18px;
@@ -1201,6 +1488,28 @@ def generate_issue_html(data: dict) -> str:
         margin: 0;
         color: var(--muted);
         font-size: 15px;
+      }}
+      .quick-scan-item p + p {{
+        margin-top: 12px;
+      }}
+      .quick-scan-item ul,
+      .content-card ul {{
+        margin: 12px 0 0;
+        padding-left: 1.2em;
+        color: var(--muted);
+        font-size: 15px;
+      }}
+      .quick-scan-item li,
+      .content-card li {{
+        margin: 0 0 8px;
+      }}
+      .quick-scan-item li:last-child,
+      .content-card li:last-child {{
+        margin-bottom: 0;
+      }}
+      .quick-scan-item ul + p,
+      .content-card ul + p {{
+        margin-top: 12px;
       }}
       
       /* Read More Links */
@@ -1420,6 +1729,9 @@ def generate_issue_html(data: dict) -> str:
         margin: 1.35rem auto 1.5rem;
         max-width: min(100%, 520px);
         width: 100%;
+      }}
+      .inline-figure.wide {{
+        max-width: 100%;
       }}
       .inline-figure img {{
         display: block;
@@ -1738,12 +2050,13 @@ def generate_sources_html(data: dict) -> str:
         'Ed Pulse': '🎓',
         'In Action': '🎬',
         'Failure Mode': '💥',
+        'The Tinfoil Files': '🗂️',
         'Try This': '💡'
     }
     
     # Collect all sources
     sources_html = ''
-    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Field Notes', 'Ed Pulse', 'In Action', 'Failure Mode', 'Try This']:
+    for section_name in ['Quick Scan', 'The Feed', 'Tool Drop', 'The Breakdown', 'Field Notes', 'Ed Pulse', 'In Action', 'Failure Mode', 'The Tinfoil Files', 'Try This']:
         items = data['sections'].get(section_name, [])
         url_entries = []
         for item in items:

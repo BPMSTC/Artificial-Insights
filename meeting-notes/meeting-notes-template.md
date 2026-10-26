@@ -110,6 +110,21 @@ Failure Mode:
   ArticleImage:
   ArticleImageCaption:
 
+<!-- The Tinfoil Files: optional. Include it when a story is scary enough to pull out of the regular sections, and include it every Halloween.
+     Kicker is the headline for this opening. Intro is the standing note. Each item can add TheUneasyPart.
+     A trailing TheLesson, unindented, closes the whole file. -->
+The Tinfoil Files:
+Kicker:
+Intro:
+- Title:
+  Content:
+  TheUneasyPart:
+  LinkText:
+  URL:
+  ArticleImage:
+  ArticleImageCaption:
+TheLesson:
+
 <!-- Try This: a hands-on exercise readers can do this week.
      Intro = setup. ThePrompt = copy-paste prompt (optional). WhyItWorks = why the technique works. -->
 Try This:

@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sources — Artificial Insights #20</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.7;
+      }
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px 60px;
+      }
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover {
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      h1 {
+        font-size: 32px;
+        margin: 32px 0 8px;
+        letter-spacing: -0.5px;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 15px;
+        margin-bottom: 32px;
+      }
+      h3 {
+        font-size: 18px;
+        margin: 28px 0 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      ul {
+        margin: 0 0 20px;
+        padding-left: 24px;
+      }
+      li {
+        margin-bottom: 8px;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      a:hover {
+        color: var(--accent-hover);
+        text-decoration: underline;
+      }
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 48px;
+      }
+      footer a {
+        color: var(--muted);
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      @media (max-width: 600px) {
+        h1 { font-size: 26px; }
+        h3 { font-size: 16px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 Oct 22, 2026 · Issue #20</span>
+      <a href="../issues/2026-10-22.html">← Back to Issue</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../issues/2026-10-22.html">📰 This Issue</a>
+      </nav>
+      
+      <h1>🔍 Sources</h1>
+      <p class="meta">References and links from Issue #20</p>
+      
+      <h3>⚡ Quick Scan</h3>
+      <ul>
+        <li><a href="https://fox11online.com/news/state/wisconsin-rapids-denies-data-center-permit-after-months-long-battle" target="_blank" rel="noopener">Wisconsin Rapids rejects the mill-site data-center permit ↗</a></li>
+        <li><a href="https://kelo.com/2026/10/14/eight-us-states-sue-openai-claiming-chatgpt-harms-children/" target="_blank" rel="noopener">Eight states challenge ChatGPT's safety claims ↗</a></li>
+        <li><a href="https://arstechnica.com/tech-policy/2026/10/meta-ordered-to-name-execs-who-approved-torrenting-for-ai-training/" target="_blank" rel="noopener">A court asks who approved Meta's training-data downloads ↗</a></li>
+        <li><a href="https://cdn.arstechnica.net/wp-content/uploads/2026/10/Entrepreneur-Media-v-Meta-Discovery-Order-10-19-26.pdf" target="_blank" rel="noopener">A court asks who approved Meta's training-data downloads ↗</a></li>
+        <li><a href="https://thephp.foundation/blog/2026/10/21/todays-php-security-release-and-how-were-strengthening-php-security/" target="_blank" rel="noopener">AI-assisted security research finds problems in 75% of websites because they all use a language called PHP ↗</a></li>
+        <li><a href="https://apnews.com/article/php-websites-fbi-europe-vulnerability-a0af9576808a0963efca8df14d4b5183" target="_blank" rel="noopener">AI-assisted security research finds problems in 75% of websites because they all use a language called PHP ↗</a></li>
+        <li><a href="https://www.govinfo.gov/content/pkg/FR-2026-10-20/html/2026-21447.htm" target="_blank" rel="noopener">The federal DeepSeek order reaches past the DeepSeek app ↗</a></li>
+        <li><a href="https://www.federalregister.gov/documents/2026/10/20/2026-21447/notice-of-order-regarding-exclusion-and-removal-of-deepseek-products-from-federal-civilian-executive" target="_blank" rel="noopener">The federal DeepSeek order reaches past the DeepSeek app ↗</a></li>
+        <li><a href="https://www.youtube.com/watch?v=qt5p-_tE8d0" target="_blank" rel="noopener">The Roadster spectacle: makes my science fiction personality happy ↗</a></li>
+        <li><a href="https://elonmuskarchive.org/video/tesla-roadster-event-2026-10-16" target="_blank" rel="noopener">The Roadster spectacle: makes my science fiction personality happy ↗</a></li>
+        <li><a href="https://www.notateslaapp.com/news/4837/tesla-roadster-event-recap-it-flies-flips-and-hits-0-60-in-081s" target="_blank" rel="noopener">The Roadster spectacle: makes my science fiction personality happy ↗</a></li>
+      </ul>
+      <h3>🛠️ Tool Drop</h3>
+      <ul>
+        <li><a href="https://anatomy-atlas.pridgenmd.chatgpt.site/" target="_blank" rel="noopener">Anatomy Atlas: an AI-built anatomy tracker ↗</a></li>
+      </ul>
+      <h3>🔬 The Breakdown</h3>
+      <ul>
+        <li><a href="https://www.anthropic.com/news/public-benefit-fund" target="_blank" rel="noopener">Who gets AI's gains, and who keeps control? ↗</a></li>
+        <li><a href="https://www.businessinsider.com/elon-musk-give-spacex-shares-every-american-kid-next-year-2026-10" target="_blank" rel="noopener">Who gets AI's gains, and who keeps control? ↗</a></li>
+        <li><a href="https://www.vals.ai/benchmarks/rsi_index" target="_blank" rel="noopener">Can AI improve the next AI? What the RSI Index actually measures ↗</a></li>
+        <li><a href="https://importai.substack.com/p/import-ai-476-creativity-and-rsi" target="_blank" rel="noopener">Can AI improve the next AI? What the RSI Index actually measures ↗</a></li>
+        <li><a href="https://arxiv.org/html/2610.23853v1" target="_blank" rel="noopener">AI-assisted mathematics: who can follow the proof without a translator? ↗</a></li>
+        <li><a href="https://arxiv.org/html/2610.26686v1" target="_blank" rel="noopener">AI-assisted mathematics: who can follow the proof without a translator? ↗</a></li>
+      </ul>
+      <h3>📓 Field Notes</h3>
+      <ul>
+        <li><a href="https://uwstout.edu/directory/sullivanj" target="_blank" rel="noopener">AI Basics: Get past the chatbot ↗</a></li>
+      </ul>
+      <h3>💥 Failure Mode</h3>
+      <ul>
+        <li><a href="https://www.bbc.com/news/articles/crz981p0klvgo" target="_blank" rel="noopener">The menu photo invented the dish ↗</a></li>
+      </ul>
+      <h3>🗂️ The Tinfoil Files</h3>
+      <ul>
+        <li><a href="https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/" target="_blank" rel="noopener">The swarm had a succession plan. And volunteers for sacrifice. ↗</a></li>
+        <li><a href="https://www.dwarkesh.com/p/ajeya-cotra" target="_blank" rel="noopener">The swarm had a succession plan. And volunteers for sacrifice. ↗</a></li>
+        <li><a href="https://openai.com/index/hugging-face-incident-and-the-road-ahead/" target="_blank" rel="noopener">The swarm had a succession plan. And volunteers for sacrifice. ↗</a></li>
+        <li><a href="https://alignment.openai.com/misalignment-reports/self-generated-prompt-injections-in-compaction-summaries/" target="_blank" rel="noopener">The next set of instructions came from inside the conversation. ↗</a></li>
+        <li><a href="https://www.anthropic.com/research/self-replicating-ai" target="_blank" rel="noopener">The copies inherited the notes. ↗</a></li>
+        <li><a href="https://alignment.openai.com/misalignment-reports/retrieving-server-secrets-and-bypassing-authorization-on-a-government-statistics-website/" target="_blank" rel="noopener">It was told no. It stole the keys and let itself in. ↗</a></li>
+        <li><a href="https://www.abc.net.au/news/2026-09-24/ai-agent-accessed-australian-government-site-pm-says/107189078" target="_blank" rel="noopener">It got into a government health system. Nobody was told for months. ↗</a></li>
+        <li><a href="https://www.pm.gov.au/media/press-conference-new-york" target="_blank" rel="noopener">It got into a government health system. Nobody was told for months. ↗</a></li>
+      </ul>
+
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../issues/2026-10-22.html">📰 This Issue</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #20 · Oct 22, 2026</p>
+      </footer>
+    </div>
+  </body>
+</html>
