@@ -1,0 +1,112 @@
+Reader-facing copy: account name, vehicle identifiers, and cancellation confirmation number have been omitted. This transcript records SiriusXM's service chat; it does not record every action or instruction in Muse.
+
+SiriusXM customer-service chat transcript - November 2, 2026 (times CST)
+Account: [account holder]
+Note: A few agent messages were truncated by SiriusXM's own transcript page; those spots are marked [truncated].
+
+[12:56 PM]
+Agent (Harmony, AI Virtual Assistant): "Hi, I'm Harmony SiriusXM's AI-powered Virtual Assistant. This chat will be recorded and monitored by SiriusXM and our service providers in accordance with our Privacy Policy. You consent to these terms by using our chat. How can I assist you with your SiriusXM service today?"
+
+[12:56 PM]
+You: "I need to cancel the subscription on my first vehicle radio. Please connect me to a live agent."
+
+[12:56 PM]
+Agent (Harmony): "I found an account with Account that has first vehicle and second vehicle. Is this the account you want to use?"
+
+[12:57 PM]
+You: "Yes, that's the correct account. I need to cancel the first vehicle radio subscription. Please connect me to a live agent."
+
+[12:57 PM]
+Agent (Harmony): "I hear you - you'd like to speak with an agent. I can help with canceling the first vehicle subscription right now, and staying with me is usually the fastest way to handle it. I can cancel that subscription immediately. Would you like me to go ahead with the cancellation for the first vehicle?"
+
+[12:57 PM]
+You: "Yes, please go ahead and cancel the first vehicle radio subscription now. The screen in that van is dead, so the radio is completely unusable - this cancellation is definite. I do not want any pause, free months, or retention offers on that radio. Please confirm it is fully cancelled, will not bill again, give me a confirmation number, and send an email confirmation."
+
+[12:57 PM]
+Agent (Harmony): "Understood-since you want to ensure the cancellation is fully processed with confirmation provided, [truncated - the chat then transferred to a live agent]"
+
+[12:58 PM] Agent connected (Jeric, live agent)
+
+[1:02 PM]
+Jeric: "Hello, I'm Jeric with SiriusXM and I'm here to help. May I please have your first and last name?"
+
+[1:04 PM]
+You: "My name is [account holder]."
+
+[1:04 PM]
+Jeric: "Hi [account holder]! Allow me to pull up your account."
+
+[1:08 PM]
+Jeric: "Let me process your request to the first vehicle and just for documentation purposes, will you be keeping this vehicle?"
+
+[1:09 PM]
+You: "We're keeping the van, but the radio screen is dead, so the radio can't be used at all. That's why I'm cancelling this subscription."
+
+[1:13 PM]
+Jeric: "Thank you for letting me know and as one of our valued customers, I can set you up with 12 months of [truncated - retention offer on the first vehicle]"
+
+[1:13 PM]
+Jeric: "And I have good news, this plan was recently updated to include EVERY channel Sirius XM offers, incl [truncated]"
+
+[1:13 PM]
+Jeric: "For as low as $4.99 a month plus taxes per vehicle, you can enjoy listening as well on your devices [truncated]"
+
+[1:13 PM]
+Jeric: "Let's get started this amazing offer for you, [account holder]!"
+
+[1:13 PM]
+You: "No thank you - please just cancel the first vehicle radio subscription now. The screen is dead so the radio is unusable; I do not want any offers, pauses, or free months on it. Please confirm it is fully cancelled, will not bill again, send me an email confirmation, and give me a confirmation number."
+
+[1:15 PM]
+Jeric: "• We will cancel your Music & Entertainment Family Friendly - 1mo - wActv and Sponsored - OEM Trial - Travel-Link - 36mo - Persistent - 2.00 subscription effective November 12, 2026.
+• Your confirmation number of this cancellation is [confirmation number omitted].
+• A confirmation of this transaction will be sent to the email address on file for your account within 5 days."
+
+[1:16 PM]
+You: "Thank you. Just to confirm - with this cancellation, the first vehicle radio will NOT be billed on November 12/13 or afterward, correct? My second request is about the second vehicle radio (All Music plan at $11.99/mo). I want to keep that one, but the price is too high - I'm paying about $39.01/month total. I will cancel this one too unless you can offer me a retention rate around $5/month for 12 months. Two requirements: (1) the plan must keep streaming/app access included, because we stream on Alexa; (2) before I accept anything, tell me the total I will actually pay per month including all fees and taxes."
+
+[1:23 PM]
+Jeric: "Let me check the offer"
+
+[1:27 PM]
+Jeric: "I can set you up with our Music and Entertainment plan for $4.99 per month for the next 12 months plus taxes. And I have good news, this plan was recently updated to include EVERY channel Sirius XM offers, including [truncated]"
+
+[1:27 PM]
+Jeric (fee breakdown):
+"Subscription Fees - $4.99
+US Music Royalty Fee - $1.00
+Other Fees and Taxes - $0.33
+Total - $6.32"
+
+[1:27 PM]
+Jeric: "Let me sign you up now!"
+
+[1:28 PM]
+You: "Thanks, but $6.32/month total is over my $6/month budget, so I can't accept that one. Is there any way to get the total to $6/month or less - for example, by waiving the $1 US Music Royalty Fee, or a different plan with a lower all-in total? I need the total I actually pay per month, including all fees and taxes, to be $6 or less for a 12-month term, with streaming/app access included."
+
+[1:29 PM]
+Jeric: "This is the lowest promotional rate available for your radio. Our plans are specific to each radio and can vary over time. I truly wish I could offer a more affordable option; however, since these rates are generated by our system, I'm unable to make any adjustments beyond what is currently available. Thank you for your understanding."
+
+[1:29 PM]
+Jeric: "Would you like to take it?"
+
+[1:31 PM]
+You: "I understand - thank you for checking. $6.32/month total is still over my $6/month budget, so I'll pass on the offer. Please don't make any changes to the second vehicle radio; keep it exactly as it is. One last thing: can you confirm the first vehicle cancellation means it will NOT be billed on Nov 12/13 or afterward? Thanks for your help!"
+
+[1:31 PM]
+Jeric: "yes it is cancelled already and I already sent the confirmation"
+
+[1:31 PM]
+Jeric: "• Your confirmation number of this cancellation is [confirmation number omitted].
+• A confirmation of this transaction will be sent to the email address on file for your account within 5 days."
+
+[1:32 PM]
+You: "Thank you, that's all I needed. Goodbye!"
+
+[1:32 PM]
+Jeric: "Thank you for messaging with us today! Please provide your feedback in order for us to better serve you."
+
+[1:32 PM]
+Jeric: "Overall, how satisfied or dissatisfied are you with your chat interaction with SiriusXM? 5 = Very Satisfied / 1 = Very Dissatisfied"
+
+- End of transcript -

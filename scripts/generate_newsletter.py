@@ -303,7 +303,12 @@ def _inline_figure_html(src: str, caption: str, issue_date: str, wide: bool = Fa
             )
         else:
             cap_html = f'\n          <figcaption>{html.escape(caption)}</figcaption>'
-    figure_class = 'inline-figure wide' if wide else 'inline-figure'
+    classes = ['inline-figure']
+    if wide:
+        classes.append('wide')
+    if Path(src).name.lower() in {'dazzle.jpeg', 'dazzle.jpg', 'dazzle.png'}:
+        classes.append('logo')
+    figure_class = ' '.join(classes)
     return (
         f'<figure class="{figure_class}">\n'
         f'          {_zoomable_img_html(path, alt, caption)}{cap_html}\n'
@@ -338,6 +343,11 @@ def _format_chunk_html(chunk: str) -> list:
         heading = re.match(r'^##\s+(.+)$', text)
         if heading:
             parts.append(f'<h4>{format_text(heading.group(1).strip())}</h4>')
+            return
+        speaker = re.match(r'^(Muse|Harmony)\b', re.sub(r'\*+', '', text))
+        if speaker:
+            kind = 'chat-mine' if speaker.group(1) == 'Muse' else 'chat-theirs'
+            parts.append(f'<p class="chat-line {kind}">{format_text(text)}</p>')
         else:
             parts.append(f'<p>{format_text(text)}</p>')
 
@@ -384,7 +394,8 @@ def format_body_html(text: str, issue_date: str = '') -> str:
         else:
             alt, src = pieces[i], pieces[i + 1]
             src = src.strip()
-            wide = src.lower().endswith('baconsoda.webp')
+            src_name = Path(src).name.lower()
+            wide = src_name.endswith('baconsoda.webp') or 'guided-learning' in src_name
             parts.append(_inline_figure_html(src, alt, issue_date, wide=wide))
             i += 2
     return '\n        '.join(parts)
@@ -674,7 +685,7 @@ def generate_ed_pulse_html(item: dict, issue_date: str) -> str:
     link_html = _story_links_html(urls, link_text)
 
     content_inner = f'''        <div class="content-with-article-image">
-{article_img}        <p>{format_text(content)}</p>{link_html}
+{article_img}        {format_body_html(content, issue_date)}{link_html}
         </div>'''
     return f'''      <div class="content-card card-ed-pulse">
         <h3><span class="icon">🎓</span> {title}</h3>
@@ -1740,6 +1751,23 @@ def generate_issue_html(data: dict) -> str:
       }}
       .inline-figure figcaption {{
         text-align: center;
+      }}
+      .inline-figure.logo {{
+        max-width: 320px;
+      }}
+      .chat-line {{
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+      }}
+      .chat-mine {{
+        background: var(--accent-soft);
+        border-color: #93c5fd;
+        box-shadow: inset 4px 0 0 var(--accent);
+      }}
+      .chat-theirs {{
+        background: #f8fafc;
+        box-shadow: inset 4px 0 0 #94a3b8;
       }}
 
       .image-zoom {{
