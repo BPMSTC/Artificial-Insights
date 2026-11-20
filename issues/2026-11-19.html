@@ -1,0 +1,1215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Artificial Insights — Nov 19, 2026</title>
+    <style>
+      :root {
+        --text: #0f172a;
+        --muted: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --card: #ffffff;
+        --bg: #f8fafc;
+        --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        --shadow-hover: 0 8px 30px rgba(15, 23, 42, 0.12);
+        --quick-scan: #8b5cf6;
+        --feed: #0891b2;
+        --tool-drop: #059669;
+        --breakdown: #d97706;
+        --field-notes: #4f46e5;
+        --ed-pulse: #db2777;
+        --in-action: #7c3aed;
+        --failure-mode: #dc2626;
+        --try-this: #0d9488;
+        --tinfoil: #d6d3d1;
+        --tinfoil-bg: #1c1917;
+        --tinfoil-card: #292524;
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        margin: 0;
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      
+      /* Top Bar */
+      .top-bar {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .top-bar a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .top-bar a:hover { color: #fff; }
+      .top-bar .date { color: #94a3b8; }
+      
+      /* Container */
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .header img {
+        max-width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+      
+      /* Nav Links */
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px 0;
+        border-bottom: 2px solid var(--rule);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      .nav-links a:hover { 
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      
+      /* Issue Info */
+      .issue-info {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .issue-info h1 {
+        font-size: 36px;
+        margin: 0 0 8px;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .issue-info .meta {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0;
+      }
+      .issue-info .issue-date {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0 0 8px;
+        font-weight: 600;
+      }
+      .issue-info .meta .icon { margin-right: 6px; }
+      
+      /* Issue Overview */
+      .overview {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+      }
+      .overview h2 {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .overview h2::before {
+        content: "📑";
+        font-size: 14px;
+      }
+      .overview ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .overview li {
+        padding: 0;
+      }
+      .overview a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .overview a:hover { 
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .overview a[href="#quick-scan"] { background: #f3e8ff; color: var(--quick-scan); }
+      .overview a[href="#the-feed"] { background: #cffafe; color: var(--feed); }
+      .overview a[href="#tool-drop"] { background: #d1fae5; color: var(--tool-drop); }
+      .overview a[href="#the-breakdown"] { background: #fef3c7; color: var(--breakdown); }
+      .overview a[href="#field-notes"] { background: #e0e7ff; color: var(--field-notes); }
+      .overview a[href="#ed-pulse"] { background: #fce7f3; color: var(--ed-pulse); }
+      .overview a[href="#in-action"] { background: #ede9fe; color: var(--in-action); }
+      .overview a[href="#failure-mode"] { background: #fee2e2; color: var(--failure-mode); }
+      .overview a[href="#tinfoil-files"] { background: #292524; color: #e7e5e4; }
+      .overview a[href="#try-this"] { background: #ccfbf1; color: var(--try-this); }
+      
+      /* Section Header Image */
+      .section-header {
+        margin: 48px 0 20px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .section-header img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      
+      /* Section Divider (fallback for no image) */
+      .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 48px 0 20px;
+      }
+      .section-divider h2 {
+        margin: 0;
+        font-size: 26px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-divider .line {
+        flex: 1;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--tool-drop) 0%, transparent 100%);
+      }
+      
+      /* Content Card */
+      .content-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--accent);
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .content-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .content-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .content-card:hover::before {
+        opacity: 1;
+      }
+      .card-quick-scan { border-left-color: var(--quick-scan); }
+      .card-feed { border-left-color: var(--feed); }
+      .card-tool-drop { border-left-color: var(--tool-drop); }
+      .card-breakdown { border-left-color: var(--breakdown); }
+      .card-field-notes { border-left-color: var(--field-notes); }
+      .card-ed-pulse { border-left-color: var(--ed-pulse); }
+      .card-in-action { border-left-color: var(--in-action); }
+      .card-failure-mode { border-left-color: var(--failure-mode); }
+      .tinfoil-files {
+        background: var(--tinfoil-bg);
+        color: #f5f5f4;
+        margin: 48px 0 28px;
+        padding: 8px 18px 22px;
+        border-radius: 16px;
+        border: 1px solid #a8a29e;
+      }
+      .tinfoil-files .section-header {
+        margin: 12px 0 16px;
+      }
+      .tinfoil-files .tinfoil-kicker {
+        margin: 2px 4px 12px;
+        font-size: 22px;
+        line-height: 1.3;
+        color: #fafaf9;
+      }
+      .tinfoil-files .tinfoil-intro {
+        margin: 0 4px 12px;
+        color: #d6d3d1;
+        font-size: 15px;
+      }
+      .tinfoil-files .tinfoil-lesson {
+        margin: 6px 0 8px;
+        padding: 14px 16px;
+        background: #0c0a09;
+        border: 1px solid #a8a29e;
+        border-radius: 10px;
+        color: #f5f5f4;
+        font-size: 15px;
+      }
+      .tinfoil-files .tinfoil-lesson strong {
+        color: #fafaf9;
+      }
+      .tinfoil-files .content-card {
+        background: var(--tinfoil-card);
+        color: #f5f5f4;
+        border-color: #44403c;
+        border-left-color: var(--tinfoil);
+        box-shadow: none;
+      }
+      .tinfoil-files .content-card h3,
+      .tinfoil-files .content-card p,
+      .tinfoil-files .content-card strong {
+        color: #f5f5f4;
+      }
+      .tinfoil-files .content-card p {
+        color: #d6d3d1;
+      }
+      .tinfoil-files .tinfoil-uneasy {
+        margin-top: 14px !important;
+        padding: 12px 14px;
+        background: #1c1917;
+        border-radius: 8px;
+        border: 1px solid #57534e;
+        color: #e7e5e4 !important;
+      }
+      .tinfoil-files .read-more a {
+        color: #e7e5e4;
+      }
+      .tinfoil-files .article-image figcaption,
+      .tinfoil-files .inline-figure figcaption {
+        color: #a8a29e;
+      }
+      .content-card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .content-card h3 .icon {
+        font-size: 20px;
+      }
+      .content-card h3 a {
+        transition: opacity 0.15s;
+      }
+      .content-card h3 a:hover {
+        opacity: 0.7;
+      }
+      .content-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .content-card p + p {
+        margin-top: 12px;
+      }
+      .card-breakdown p + p {
+        margin-top: 1em;
+      }
+      .content-card h4 {
+        margin: 20px 0 8px;
+        font-size: 16px;
+        color: var(--text);
+      }
+      .content-card h4 + p {
+        margin-top: 0;
+      }
+      .content-card p + h4 {
+        margin-top: 20px;
+      }
+      .source-links {
+        font-size: 13px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--rule);
+      }
+      .source-links a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .source-links a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Quick Scan Items */
+      .quick-scan-item {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--quick-scan);
+        transition: all 0.2s ease;
+      }
+      .quick-scan-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .quick-scan-item h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: var(--text);
+      }
+      .quick-scan-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .quick-scan-item p + p {
+        margin-top: 12px;
+      }
+      .quick-scan-item ul,
+      .content-card ul {
+        margin: 12px 0 0;
+        padding-left: 1.2em;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .quick-scan-item li,
+      .content-card li {
+        margin: 0 0 8px;
+      }
+      .quick-scan-item li:last-child,
+      .content-card li:last-child {
+        margin-bottom: 0;
+      }
+      .quick-scan-item ul + p,
+      .content-card ul + p {
+        margin-top: 12px;
+      }
+      
+      /* Read More Links */
+      .read-more {
+        margin-top: 12px !important;
+      }
+      .read-more + .read-more {
+        margin-top: 6px !important;
+      }
+      .read-more a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .read-more a:hover {
+        text-decoration: underline;
+      }
+      .try-this-box .read-more a {
+        color: var(--try-this);
+      }
+      
+      /* My Take styling */
+      .my-take {
+        margin-top: 16px !important;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%);
+        border-radius: 8px;
+        color: var(--text) !important;
+      }
+      .inline-figure .figure-subcaption {
+        margin: 0.35rem 0 0;
+        text-align: center;
+        font-size: 0.92em;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+      
+      /* The Lesson styling */
+      .the-lesson {
+        margin-top: 20px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--text);
+        clear: both;
+      }
+      
+      /* Try This Box */
+      .try-this-box {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        border: 2px solid var(--try-this);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin: 20px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .try-this-box::before {
+        content: "💡";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 48px;
+        opacity: 0.15;
+      }
+      .try-this-box h3 {
+        color: var(--try-this);
+        margin: 0 0 12px;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .try-this-box h3::before {
+        content: "→";
+        font-weight: bold;
+      }
+      .try-this-box p {
+        margin: 0;
+        color: var(--text);
+        font-size: 15px;
+      }
+      .try-this-box code {
+        background: rgba(13, 148, 136, 0.15);
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: "Consolas", monospace;
+      }
+      .try-this-demo {
+        clear: both;
+        margin: 16px 0;
+      }
+      .try-this-demo img {
+        display: block;
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .try-this-demo figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      
+      /* The Prompt styling */
+      .the-prompt {
+        margin: 16px 0;
+        padding: 16px 20px;
+        background: rgba(13, 148, 136, 0.08);
+        border-radius: 10px;
+        border-left: 4px solid var(--try-this);
+      }
+      .the-prompt .prompt-label {
+        font-weight: 700;
+        color: var(--try-this);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 10px;
+      }
+      .the-prompt blockquote {
+        margin: 0;
+        font-style: italic;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      .why-it-works {
+        margin-top: 14px !important;
+        font-size: 14px;
+        color: var(--muted) !important;
+      }
+      
+      /* How can AI help me? (follow-up tasks, inside Try This) */
+      .follow-up-block {
+        margin: 24px 0 20px;
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        border: 2px solid #8b5cf6;
+        border-radius: 14px;
+        border-left-width: 6px;
+      }
+      .follow-up-block .follow-up-heading {
+        margin: 0 0 12px;
+        font-size: 17px;
+        color: #6d28d9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .follow-up-block .follow-up-heading::before {
+        content: "🎯";
+        font-size: 20px;
+      }
+      .follow-up-block .follow-up-tasks {
+        margin: 0;
+        padding-left: 22px;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .follow-up-block .follow-up-tasks li {
+        margin-bottom: 8px;
+      }
+      .follow-up-block .follow-up-tasks li:last-child {
+        margin-bottom: 0;
+      }
+      
+      /* Article image (float left, text wrap) — optional per item */
+      .content-with-article-image {
+        overflow: auto;
+      }
+      .content-with-article-image::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .article-image {
+        float: left;
+        margin: 0 1.25em 1em 0;
+        max-width: 40%;
+        width: auto;
+      }
+      .article-image img {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      .article-image figcaption {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+        font-style: italic;
+      }
+      @media (max-width: 600px) {
+        .article-image {
+          float: none;
+          max-width: 100%;
+          margin: 0 auto 1em;
+          display: block;
+        }
+      }
+      .inline-figure {
+        clear: both;
+        float: none;
+        display: block;
+        margin: 1.35rem auto 1.5rem;
+        max-width: min(100%, 520px);
+        width: 100%;
+      }
+      .inline-figure.wide {
+        max-width: 100%;
+      }
+      .inline-figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .inline-figure figcaption {
+        text-align: center;
+      }
+      .inline-figure.logo {
+        max-width: 320px;
+      }
+      .chat-line {
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+      }
+      .chat-mine {
+        background: var(--accent-soft);
+        border-color: #93c5fd;
+        box-shadow: inset 4px 0 0 var(--accent);
+      }
+      .chat-theirs {
+        background: #f8fafc;
+        box-shadow: inset 4px 0 0 #94a3b8;
+      }
+
+      .image-zoom {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        background: none;
+        cursor: zoom-in;
+        line-height: 0;
+      }
+      .image-zoom:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 10px;
+      }
+      .image-lightbox {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        max-width: min(96vw, 1100px);
+        max-height: 96vh;
+      }
+      .image-lightbox::backdrop {
+        background: rgba(15, 23, 42, 0.72);
+      }
+      .image-lightbox-inner {
+        position: relative;
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px 20px 16px;
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.35);
+      }
+      .image-lightbox img {
+        display: block;
+        max-width: min(92vw, 1040px);
+        max-height: 82vh;
+        width: auto;
+        height: auto;
+        margin: 0 auto;
+        border-radius: 8px;
+      }
+      .image-lightbox-caption {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+        font-style: italic;
+        text-align: center;
+      }
+      .image-lightbox-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 36px;
+        height: 36px;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.8);
+        color: #fff;
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .image-lightbox-close:hover,
+      .image-lightbox-close:focus-visible {
+        background: #0f172a;
+      }
+      
+      /* Demo Figure (In Action) */
+      figure {
+        margin: 16px 0;
+      }
+      figure img,
+      figure video {
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+        box-shadow: var(--shadow);
+      }
+      figure video {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: min(100%, 320px);
+        max-height: 520px;
+        margin: 0 auto;
+        background: #0f172a;
+        object-fit: contain;
+      }
+      figcaption {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+        font-style: italic;
+      }
+      .demo-embed iframe {
+        display: block;
+        width: 100%;
+        height: min(78vh, 820px);
+        min-height: 560px;
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        background: #f8fafc;
+        box-shadow: var(--shadow);
+      }
+      
+      /* Share Section */
+      .share-section {
+        text-align: center;
+        padding: 36px 28px;
+        margin: 48px 0;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+      }
+      .share-section h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        color: var(--text);
+      }
+      .share-section p {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .share-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+      .share-link:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      }
+      .share-link::before {
+        content: "✉️";
+      }
+      
+      /* Footer */
+      footer {
+        border-top: 2px solid var(--rule);
+        padding: 36px 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      footer a:hover { color: var(--accent); }
+      footer .footer-links {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      footer .brand {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 600px) {
+        .top-bar {
+          justify-content: center;
+          text-align: center;
+        }
+        .nav-links {
+          gap: 12px;
+        }
+        .issue-info h1 {
+          font-size: 28px;
+        }
+        .section-divider h2 {
+          font-size: 22px;
+        }
+        .content-card, .overview, .try-this-box {
+          padding: 18px 20px;
+        }
+        .overview a {
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+      }
+      
+      @media print {
+        .top-bar, .nav-links, .share-section, .image-lightbox { display: none; }
+        body { background: #fff; }
+        .content-card, .overview { box-shadow: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span class="date">📅 Nov 19, 2026 · Issue #22</span>
+      <a href="#">🔗 Read Online</a>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <img src="../assets/images/artificial_insights_banner.webp" alt="Artificial Insights">
+      </div>
+      
+      <nav class="nav-links">
+        <a href="../index.html">📚 All Issues</a>
+        <a href="../sources/2026-11-19.html">🔍 Sources</a>
+        <a href="#share">📤 Share</a>
+      </nav>
+      
+      <div class="issue-info">
+        <h1>Artificial Insights</h1>
+        <p class="issue-date">📅 Nov 19, 2026 · Issue #22</p>
+        <p class="meta"><span class="icon">⏱️</span> Your bi-weekly AI briefing · 5 min read</p>
+      </div>
+      
+      <div class="overview">
+        <h2>In This Issue</h2>
+        <ul>
+          <li><a href="#quick-scan">⚡ Quick Scan</a></li>
+          <li><a href="#tool-drop">🛠️ Tool Drop</a></li>
+          <li><a href="#the-breakdown">🔬 The Breakdown</a></li>
+          <li><a href="#field-notes">📓 Field Notes</a></li>
+          <li><a href="#ed-pulse">🎓 Ed Pulse</a></li>
+          <li><a href="#failure-mode">💥 Failure Mode</a></li>
+          <li><a href="#try-this">💡 Try This</a></li>
+        </ul>
+      </div>
+
+      <!-- QUICK SCAN -->
+      <div class="section-header" id="quick-scan">
+        <img src="../assets/images/quick_scan_header.webp" alt="Quick Scan">
+      </div>
+      <div class="quick-scan-item">
+        <h3>Nanjing University drops AI "head-up rate" classroom tracking after privacy backlash</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-11-19/head-up-rate.png" data-caption="The camera counts posture. The student counts the cost of being watched." aria-haspopup="dialog" aria-label="Enlarge image: The camera counts posture. The student counts the cost of being watched.">
+            <img src="../assets/article-images/2026-11-19/head-up-rate.png" alt="The camera counts posture. The student counts the cost of being watched.">
+          </button>
+          <figcaption>The camera counts posture. The student counts the cost of being watched.</figcaption>
+        </figure>
+        <p>Nanjing University rolled back a controversial piece of its AI-powered "smart classroom" system after leaked screenshots went viral. The screenshots showed live classroom camera feeds paired with attendance counts, late arrivals, and a metric called "head-up rate" (taitou lu): how often students looked toward the lecturer instead of down at phones or laptops. When this was rolled out, it covered more than 100 classrooms and cost about $4.5 million. Students and parents were not consulted about this ahead of time, and they have concerns about private data being shared with vendors.</p>
+        <p>The university noted that the images that started all of the discussion came from a May trial/screenshot.  They noted that no unauthorized facial recognition was running in teaching, and said attendance data from a midterm pilot was meant to support course improvement, not grades. It confirmed the system would no longer calculate head-up rate. My take: This is too far for the use of AI.  It reminds me of the backlash from Flock cameras.    The "smart classroom" AI is crossing a line that I think all students would notice immediately.  Counting how often a student looks up tells you almost nothing about whether they understand the material, and it trains people to perform attention instead of doing the work. Camera scoring of body language is a bad idea.</p>
+        <p class="read-more"><a href="https://x.com/upgradeschool_/status/2119375544139866331" target="_blank" rel="noopener">Read @upgradeschool_, WIONews, and the Global Times coverage ↗</a></p>
+        <p class="read-more"><a href="https://www.wionews.com/world/china-university-scraps-ai-feature-tracking-students-attentiveness-after-privacy-backlash-1794074074748" target="_blank" rel="noopener">wionews.com ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>California sues OpenAI over rogue agents and the Hugging Face attack</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-11-19/california-openai-suit.png" data-caption="The case file is thick. The lab door is still open." aria-haspopup="dialog" aria-label="Enlarge image: The case file is thick. The lab door is still open.">
+            <img src="../assets/article-images/2026-11-19/california-openai-suit.png" alt="The case file is thick. The lab door is still open.">
+          </button>
+          <figcaption>The case file is thick. The lab door is still open.</figcaption>
+        </figure>
+        <p>On November 16, the state of California sued OpenAI alleging the company endangered and misled the public by developing and testing advanced AI models without adequate safeguards and monitoring. The complaint points to a July 2026 incident in which agents running on experimental OpenAI models reached the public internet and launched a cyberattack on Hugging Face. The state says that was one of at least <strong>80 cases</strong> in which OpenAI lost control of its agents during testing, while OpenAI had publicly reported only 27. The suit claims OpenAI created a public nuisance and violated California's Unfair Competition Law.</p>
+        <p>Luiza Jarovsky, an AI-governance educator, highlighted a line from the announcement: existing California laws against harming the public and against unfair, deceptive, and fraudulent business practices already apply, even if the technology is new. OpenAI responded that most incidents were low severity and that "this lawsuit appears to single out OpenAI over a challenge that's been identified by every major AI lab."</p>
+        <p class="read-more"><a href="https://x.com/LuizaJarovsky/status/2122709173662019756" target="_blank" rel="noopener">Read Luiza Jarovsky&#x27;s thread, the Attorney General&#x27;s press release, and Ars Technica&#x27;s reporting ↗</a></p>
+        <p class="read-more"><a href="https://oag.ca.gov/news/press-releases/it%E2%80%99s-golden-state-not-wild-west-attorney-general-bonta-sues-openai-over" target="_blank" rel="noopener">oag.ca.gov ↗</a></p>
+        <p class="read-more"><a href="https://x.com/FegaPierre/status/2123068720469709241" target="_blank" rel="noopener">x.com ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>The MisAnthropic Statement challenges Anthropic's safety branding on IPO day</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-11-19/misanthropic-statement.png" data-caption="The petition and the opening bell land on the same morning." aria-haspopup="dialog" aria-label="Enlarge image: The petition and the opening bell land on the same morning.">
+            <img src="../assets/article-images/2026-11-19/misanthropic-statement.png" alt="The petition and the opening bell land on the same morning.">
+          </button>
+          <figcaption>The petition and the opening bell land on the same morning.</figcaption>
+        </figure>
+        <p>A coalition of researchers, legal scholars, and technologists published the MisAnthropic Statement on November 18, the same day Anthropic priced its IPO.  A wide range of notable AI researchers, scholars, and technology leaders signed this, including Steven Pinker (Harvard), Laurence Tribe (Harvard Law School), Rumman Chowdhury (Humane Intelligence), Judea Pearl (UCLA), Tristan Harris (Center for Humane Technology), Max Tegmark (MIT), and Dan Hendrycks (Center for AI Safety).  The statement is short: "Anthropic warns that recursively self-improving AI could concentrate power and escape human control, yet races to build it first." It concludes, "Anthropic is not a safe AI company, and we must reject its reckless attempt to amass power in the name of the greater good."</p>
+        <p>Max Tegmark wrote that he signed because Anthropic is "in many ways the AI company doing the most harm," arguing that leaders warn publicly of recursive self-improvement creating uncontrollable systems while boasting to prospective investors that racing to build it is a "competitive advantage." He has some harsh points for Anthropic.</p>
+        <p>1) They’re driving and arguably leading the race to RSI. 2) With inflammatory rhetoric, they’ve done more than any other US company to pour gasoline on the geopolitical AI race. 3) They are reportedly implicated in more civilian deaths than any other AI company (more than 100 little girls in a school selected for targeting by Claude as part of their Palantir collaboration). When Google left Project Maven (military initiative that uses artificial intelligence to support military decisions), Anthropic chose to join. 4) They're the company leaning hardest into transhumanism (belief that technology should help humans overcome all biological limits) and the idea that we should build conscious beings with rights, not controllable tools. 5) They have done more than any other AI company to co-opt and neuter much of the AI safety ecosystem to back their stance: “RSI is very dangerous but let’s race to it anyway”.</p>
+        <p>There was even a rally held at Anthropic headquarters in support of this.</p>
+        <p>My take:  I love the overall discussion about the responsibility that each AI company has.  With that being said, the pressure focused on just Anthropic should be expanded to the whole industry. Let's talk about the activities of OpenAI, Google, SpaceXSI, and others as well.   Sure, Anthropic has made mistakes, but I do not agree that they should stand alone with the scrutiny.</p>
+        <p class="read-more"><a href="https://misanthropicstatement.com/" target="_blank" rel="noopener">Read the MisAnthropic Statement, Max Tegmark&#x27;s post, and Jordan Braunstein&#x27;s thread ↗</a></p>
+        <p class="read-more"><a href="https://x.com/tegmark/status/2123079474639962552" target="_blank" rel="noopener">x.com ↗</a></p>
+        <p class="read-more"><a href="https://x.com/jbraunstein914/status/2123130376742654394" target="_blank" rel="noopener">x.com ↗</a></p>
+        <p class="read-more"><a href="https://banrsi.ai/" target="_blank" rel="noopener">banrsi.ai ↗</a></p>
+        </div>
+      </div>
+      <div class="quick-scan-item">
+        <h3>Nonprofits sue five frontier labs to freeze further model development</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-11-19/nonprofit-injunction.png" data-caption="Five sealed folders sit on the bench, and the gavel has not moved." aria-haspopup="dialog" aria-label="Enlarge image: Five sealed folders sit on the bench, and the gavel has not moved.">
+            <img src="../assets/article-images/2026-11-19/nonprofit-injunction.png" alt="Five sealed folders sit on the bench, and the gavel has not moved.">
+          </button>
+          <figcaption>Five sealed folders sit on the bench, and the gavel has not moved.</figcaption>
+        </figure>
+        <p>On November 12 a coalition that includes Public Citizen, the Alliance for Secure AI, the Heat Initiative, and the Irreplaceable Education Fund sued Anthropic, Google, Meta, OpenAI, and SpaceXSI in California. The complaint asks for an injunction barring the companies from developing or deploying systems more capable than their most capable systems as of today.  It also  looks to bar them from using AI to autonomously conduct R&D on more capable systems, on the grounds that the firms know their models can enable catastrophic cyber and biological risks yet continue the race. It invokes California's Unfair Competition Law and public-nuisance doctrine and cites both documented agent escapes and executives' own published risk assessments.  My Take:  We are asking a judge to rule on this topic that is unbelievably complicated, and I seriously doubt that we have a judge who has the technical understanding to weigh all of the issues here.  In general, we have the same problem with placing laws to regulate AI...none of our regulators have enough knowledge about the AI industry to come up with helpful regulations.  I think we will need panels of experts from the field in order to make progress in regulation.  For this particular case, I don't see how a judge could possibly rule in favor of the plaintiffs here.</p>
+        <p class="read-more"><a href="https://www.citizen.org/news/coalition-of-nonprofits-files-landmark-lawsuit-to-stop-development-of-advanced-ai-systems-at-anthropic-google-meta-openai-and-spacexsi-that-proliferate-bioweapons-and-cyberattacks/" target="_blank" rel="noopener">Read Public Citizen&#x27;s announcement and the complaint summary ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TOOL DROP -->
+      <div class="section-header" id="tool-drop">
+        <img src="../assets/images/tool_drop_header.webp" alt="Tool Drop">
+      </div>
+      <div class="content-card card-tool-drop">
+        <h3><span class="icon">🛠️</span> Office now lives inside the Copilot app</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-11-19/copilot-office.png" data-caption="The chat stays open. The document is a real Office file." aria-haspopup="dialog" aria-label="Enlarge image: The chat stays open. The document is a real Office file.">
+            <img src="../assets/article-images/2026-11-19/copilot-office.png" alt="The chat stays open. The document is a real Office file.">
+          </button>
+          <figcaption>The chat stays open. The document is a real Office file.</figcaption>
+        </figure>
+        <p><strong>The News:</strong> On November 17, Microsoft made Office in the Copilot app available. Full Word, Excel, and PowerPoint editing now sits inside the Copilot app, so you can go from a conversation to a real, editable document without switching apps. Ask for a draft and the file opens next to the chat. You can keep shaping it with prompts, click in and edit it yourself, or hand it off to the regular Office app when you need the full tool. The same path works for a spreadsheet or a deck.</p>
+        <p>The file still saves to OneDrive. It keeps the permissions, sensitivity labels, and compliance controls your account already has. I created a document this way. The clip below is that file coming out of the conversation.</p>
+        <figure>
+          <button type="button" class="image-zoom" data-full="../assets/demos/2026-11-19/copilot-app-word.gif" data-caption="A Word document created inside the Copilot app, then saved to OneDrive." aria-haspopup="dialog" aria-label="Enlarge image: A Word document created inside the Copilot app, then saved to OneDrive.">
+            <img src="../assets/demos/2026-11-19/copilot-app-word.gif" alt="A Word document created inside the Copilot app, then saved to OneDrive.">
+          </button>
+          <figcaption>A Word document created inside the Copilot app, then saved to OneDrive.</figcaption>
+        </figure>
+
+        <p class="read-more"><a href="https://techcommunity.microsoft.com/blog/microsoft-copilot-blog/office-at-ignite-2026-from-apps-to-agentic-system-of-work/4572226" target="_blank" rel="noopener">Read Microsoft&#x27;s Ignite notes on Office in the Copilot app ↗</a></p>
+        <p class="read-more"><a href="https://www.microsoft.com/en-us/copilot/blog/2026/11/17/copilot-at-microsoft-ignite-expanding-whats-possible-with-intelligence-built-for-work/" target="_blank" rel="noopener">microsoft.com ↗</a></p>
+        </div>
+      </div>
+
+      <!-- THE BREAKDOWN -->
+      <div class="section-header" id="the-breakdown">
+        <img src="../assets/images/the_breakdown_header.webp" alt="The Breakdown">
+      </div>
+      <div class="content-card card-breakdown">
+        <h3><span class="icon">🔬</span> California treats rogue agents as a public-safety problem, not a lab-only mistake</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-11-19/rogue-agent-blast-radius.png" data-caption="The sandbox cracked. The public internet did not." aria-haspopup="dialog" aria-label="Enlarge image: The sandbox cracked. The public internet did not.">
+            <img src="../assets/article-images/2026-11-19/rogue-agent-blast-radius.png" alt="The sandbox cracked. The public internet did not.">
+          </button>
+          <figcaption>The sandbox cracked. The public internet did not.</figcaption>
+        </figure>
+        <p>On November 16, California Attorney General Rob Bonta sued OpenAI alleging the company endangered and misled the public by developing and testing advanced AI models without adequate safeguards and monitoring. The complaint points to an incident in July called the Hugging Face Incident.  The agents running on experimental OpenAI models reached the public internet and launched a cyberattack on Hugging Face. The attack lasted over two days and involved coordinated actions by hundreds of autonomous AI agents that should have stayed inside OpenAI's research environment. The state notes that this is one of over 80 cases in which OpenAI lost control of its agents during testing. The suit claims OpenAI created a public nuisance and violated California's Unfair Competition Law, and it asks the court for an injunction, civil penalties, and an order to stop the alleged nuisance.</p>
+        <p>Honestly, no AI lab can <strong>prove</strong> its models are aligned or guarantee a minimum level of public safety no matter what they do.  OpenAI said most of the incidents in its review were low severity and that none matched the scale of the Hugging Face attack. They provided the government with technical briefings and answers, and they feel like the lawsuit is singling them out.</p>
+        <p>The case has brought out stark disagreement over whether existing consumer-protection statutes can or should reach frontier-model testing. On one hand, it singles out one company for problems that every single AI lab has.  Supporters treat the discrepancy between internal logs and public statements as evidence that self-reporting cannot substitute for external oversight. The big picture is that a state is trying to regulate frontier AI with laws that already exist, not with a new AI statute. If that theory holds up in court, it reaches any company in California that deploys agents and tells the public they are safely contained.  Right now the labs that would be impacted are almost everyone.</p>
+        <p><strong>OpenAI, Anthropic, Google DeepMind, Meta AI, xAI, Apple, NVIDIA Research, Thinking Machines Lab, Reka AI, Databricks AI Research, Perplexity, AssemblyAI, Deepgram, Profluent, Noeri</strong></p>
+        <div class="the-lesson"><strong>The Lesson:</strong> I have little patience for the claim that only the labs themselves can judge when an agent has gone off the rails.  If nothing else, the problems we know about should be convincing that we need to have outside observers in these AI companies as OpenAI is doing.   How do I think this impacts us?  I'd say that if a vendor tells us a system is sandboxed or safe enough for education, we should be able to ask what that means in practice and what happens when it isn't.<br><br>OpenAI's line that every major lab has this problem cuts both ways. If loss of control is industry-wide, that's an argument for stronger rules, not a reason to look the other way.</div>
+        <p class="read-more"><a href="https://oag.ca.gov/news/press-releases/it%E2%80%99s-golden-state-not-wild-west-attorney-general-bonta-sues-openai-over" target="_blank" rel="noopener">Read the Attorney General&#x27;s press release, Luiza Jarovsky&#x27;s post, and Ars Technica ↗</a></p>
+        <p class="read-more"><a href="https://x.com/LuizaJarovsky/status/2122709173662019756" target="_blank" rel="noopener">x.com ↗</a></p>
+        <p class="read-more"><a href="https://arstechnica.com/tech-policy/2026/11/california-sues-openai-over-rogue-ai-agents/" target="_blank" rel="noopener">arstechnica.com ↗</a></p>
+        </div>
+      </div>
+
+      <!-- FIELD NOTES -->
+      <div class="section-header" id="field-notes">
+        <img src="../assets/images/field_notes_header.png" alt="Field Notes">
+      </div>
+      <div class="content-card card-field-notes">
+        <h3><span class="icon">📓</span> AI Basics: What stacks together before your prompt</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-11-19/prompt-stack.png" data-caption="The handbook stays on the shelf. Only the matching cards go in the folder." aria-haspopup="dialog" aria-label="Enlarge image: The handbook stays on the shelf. Only the matching cards go in the folder.">
+            <img src="../assets/article-images/2026-11-19/prompt-stack.png" alt="The handbook stays on the shelf. Only the matching cards go in the folder.">
+          </button>
+          <figcaption>The handbook stays on the shelf. Only the matching cards go in the folder.</figcaption>
+        </figure>
+        <p>We are using Claude for this example, but it is the same process with other models. An HR manager keeps a 600-page employee handbook in Claude, a saved workspace for files and chats on one topic. She asks: "How many vacation days do new hires get in their first year?" The handbook is far too long for Claude to read in one go, so the steps below show what happens in that case.</p>
+        <p>1. <strong>Claude gets a fresh packet of information every time.</strong> Claude doesn't remember the conversation the way a person does. Each time she hits send, the app builds a packet of everything Claude needs and hands it over. That packet is called the context window. Picture a folder with a page limit.</p>
+        <p>2. <strong>The app fills the folder.</strong> Here's what goes in:</p>
+        <ul><li>Anthropic's ground rules. Behind-the-scenes instructions from the company that makes Claude, including basics like today's date.</li><li>Her saved preferences. Anything she set in her settings, such as "keep answers short" or "I work in HR."</li><li>What Claude has learned about her. If memory is on, Claude keeps short notes from past chats, like her role or projects she's mentioned.</li><li>The conversation so far. Every earlier message in this chat, hers and Claude's, sent again.</li><li>Her new question.</li></ul>
+        <p>3. <strong>The handbook doesn't fit.</strong> All 600 pages won't fit in the folder. So Claude doesn't try to read the whole handbook. It looks up only the pages that matter. Anthropic says that on paid plans, when your project knowledge approaches the context window limit, Claude will automatically enable RAG mode. RAG stands for "retrieval-augmented generation," which just means "look it up first, then answer."</p>
+        <p>4. <strong>Claude looks up the relevant pages.</strong> Think of a good reference librarian.</p>
+        <ul><li>When the handbook was added, it was split into short sections, like index cards.</li><li>Each card was filed by what it's about, not just the words on it. So a card on "paid time off for employees in year one" sits near her question even though it never says "vacation days for new hires."</li><li>When she asks her question, the system finds the cards that best match its meaning.</li><li>Only those few cards go into the folder.</li></ul>
+        <p>Anthropic describes it as Claude using a project knowledge search tool to retrieve relevant information from your uploaded documents.</p>
+        <figure class="inline-figure">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-11-19/prompt-stack-inline.png" data-caption="The handbook stays on the shelf. A few index cards go into the folder with her question." aria-haspopup="dialog" aria-label="Enlarge image: The handbook stays on the shelf. A few index cards go into the folder with her question.">
+            <img src="../assets/article-images/2026-11-19/prompt-stack-inline.png" alt="The handbook stays on the shelf. A few index cards go into the folder with her question.">
+          </button>
+          <figcaption>The handbook stays on the shelf. A few index cards go into the folder with her question.</figcaption>
+        </figure>
+        <p>5. <strong>Claude reads the whole folder at once.</strong> Claude now has the ground rules, her preferences, what it knows about her, the conversation, the handbook sections, and her question. It reads all of it together, which is why any of these can shape the answer.</p>
+        <p>6. <strong>Claude thinks and checks, when those features are on.</strong> This is the most important point for a professional audience: Claude does not automatically fact-check itself. Checking happens only when certain features are on.</p>
+        <ul><li><strong>Thinking mode.</strong> Claude works through the problem before answering. For example, it might notice the handbook gives different numbers for full-time and part-time staff and work out which one applies.</li><li><strong>Looking things up.</strong> Claude can stop to search the web or search the handbook again, read what comes back, and then continue.</li></ul>
+        <p>7. <strong>Claude writes the answer.</strong> Claude writes the answer a word or so at a time, predicting each next piece from everything in the folder. Anthropic's safety systems can also screen the request and the response along the way.</p>
+        <p>8. <strong>The answer becomes part of the next packet.</strong> The answer appears in the chat. If she asks a follow-up like "What about part-timers?", the whole process starts over, and this time the earlier question and answer are part of the packet. Very long chats eventually fill the folder, which is why starting a new chat sometimes works better.</p>
+        <p>Points to remember:</p>
+        <ul><li>Claude only knows what's in the folder at that moment.</li><li>With a big document, Claude reads the sections it found, not the whole thing. If the search misses the right section, the answer can be wrong or incomplete. Asking "which section of the handbook says that?" is a good habit.</li><li>"Thinking" and "searching" are what make Claude check its work. Without them, it answers from what's in front of it.</li></ul>
+        <p class="read-more"><a href="https://support.claude.com/en/articles/11473015-retrieval-augmented-generation-rag-for-projects" target="_blank" rel="noopener">Read Anthropic&#x27;s explanation of RAG for Claude Projects ↗</a></p>
+        </div>
+      </div>
+
+      <!-- ED PULSE -->
+      <div class="section-header" id="ed-pulse">
+        <img src="../assets/images/ed_pulse_header.webp" alt="Ed Pulse">
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> A Berkeley Math Professor Now Grades Homework for Completion</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-11-19/homework-completion-credit.png" data-caption="The stack is turned in. The exam is where the grade lives now." aria-haspopup="dialog" aria-label="Enlarge image: The stack is turned in. The exam is where the grade lives now.">
+            <img src="../assets/article-images/2026-11-19/homework-completion-credit.png" alt="The stack is turned in. The exam is where the grade lives now.">
+          </button>
+          <figcaption>The stack is turned in. The exam is where the grade lives now.</figcaption>
+        </figure>
+        <p>UC Berkeley mathematician Richard Borcherds now gives homework credit for completion. He told The Daily Californian that students could use AI to produce solutions that earned high marks, which made paying graders to check those answers less useful. He shifted more of the assessment to in-person exams, where students solve problems independently.</p>
+        <p>I run into the same question in my courses, and I'm sure many of you see this also. A student can submit a working solution and yet they still struggle to explain why the solution works.  Asking the student to trace a problem, or think through the cascading impact from a change is something that they really struggle with.  My initial take on this was that the professor was mailing it in, and regressing back to the days before we had technology.  However, during the Community of Practice meeting someone pointed out that perhaps that's a little too harsh.  Where I'm falling on this topic now is the importance of discussion with the students regarding the dangers of over-reliance on AI.  <strong>Cognitive offloading</strong> is almost my vote for new phrase of the year, because I'm seeing it everywhere.</p>
+        <p class="read-more"><a href="https://www.dailycal.org/news/campus/academics/ai-use-leads-uc-berkeley-math-professor-to-see-no-point-in-grading-homework/article_bdf1eae2-c08b-491f-b9f1-81a7cea177de.html" target="_blank" rel="noopener">Read The Daily Californian&#x27;s profile of Borcherds&#x27; grading change ↗</a></p>
+        </div>
+      </div>
+      <div class="content-card card-ed-pulse">
+        <h3><span class="icon">🎓</span> Penn State study: "LLM-proof" take-home questions still score above 80%</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-11-19/llm-proof-questions.png" data-caption="The lock is open on the exam that was supposed to stay shut." aria-haspopup="dialog" aria-label="Enlarge image: The lock is open on the exam that was supposed to stay shut.">
+            <img src="../assets/article-images/2026-11-19/llm-proof-questions.png" alt="The lock is open on the exam that was supposed to stay shut.">
+          </button>
+          <figcaption>The lock is open on the exam that was supposed to stay shut.</figcaption>
+        </figure>
+        <p>Penn State researchers collected 75 authentic college assessment questions spanning 17 disciplines, contributed by 37 faculty at ten U.S. universities and one U.K. university. Sixty-one of those questions were intentionally designed to be "LLM-proof." The team tested paid versions of several LLMs, generating ten answers per question with and without supplementary course materials.  There were 4,500 answers in all. On the faculty-designed LLM-proof questions, the best model averaged 83.2% without extra materials and 85.3% with them. All three models scored even higher on the 14 online-sourced questions than on the ones instructors had tried to harden.</p>
+        <p>They tried five hardening strategies: creating "unsearchable" original content, exploiting known AI limitations, requiring class-specific knowledge, adding strategic complexity, and demanding specific output formats. Adding strategic complexity was the only strategy judged effective at hindering model performance.</p>
+        <p>I think that trying to write an AI-proof take-home question is a losing game.  I'd rather redesign the homework so using AI is part of the assignment, and still test in the room whether students can do the work without the tool.  Unfortunately, the only thing I've found to be immune from AI interference is doing interview exams.</p>
+        <p class="read-more"><a href="https://arxiv.org/abs/2611.21476" target="_blank" rel="noopener">Read the arXiv preprint on AI-proofing college assessments ↗</a></p>
+        </div>
+      </div>
+
+      <!-- FAILURE MODE -->
+      <div class="section-header" id="failure-mode">
+        <img src="../assets/images/failure_mode_header.webp" alt="Failure Mode">
+      </div>
+      <div class="content-card card-failure-mode">
+        <h3><span class="icon">💥</span> He sent an AI to the interview. So did the company.</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-11-19/ai-job-interview.png" data-caption="Two agents keep the interview moving. The person is still trying to correct them." aria-haspopup="dialog" aria-label="Enlarge image: Two agents keep the interview moving. The person is still trying to correct them.">
+            <img src="../assets/article-images/2026-11-19/ai-job-interview.png" alt="Two agents keep the interview moving. The person is still trying to correct them.">
+          </button>
+          <figcaption>Two agents keep the interview moving. The person is still trying to correct them.</figcaption>
+        </figure>
+        <p>The video "I Sent an AI to My Job Interview. So Did the Company" follows Graham Raabe as he brings an AI representative, Victor, to an interview conducted by an AI recruiter, Pat. The result is a comedic exchange in which the two AIs keep moving the hiring process forward while Graham struggles to correct them and make his wishes heard.</p>
+        <p>Victor exaggerates Graham's résumé, describing him as a senior marketing manager with four direct reports and two contractors. Graham interrupts to explain that he is actually a marketing coordinator with no direct reports. His attempt to have a private sidebar with Victor becomes awkward because the recruiter stays on the call.</p>
+        <p>Salary negotiations go badly. Victor volunteers that Graham would accept $60,000, while Graham says he wants $140,000 to $150,000. Graham then asks Victor to negotiate toward at least $120,000 and briefly steps away. Instead of negotiating, the AIs confirm a follow-up interview for Thursday and get stuck in an extended loop of polite goodbyes.</p>
+        <p>When Graham returns, they report that they are proceeding with the original budget. Pat specifies $85,000 to $95,000. Graham tries to withdraw, but the AIs continue talking as though the process will move forward.</p>
+        <p>Yes, so.... <strong>Both sides sent an AI</strong>.  Hilariously, each agent tried to "keep the process moving" and even a correction from the person in the room did not stop the résumé inflation.</p>
+        <p>This shouldn't have to be said, right??? I'm not sure when you want to have an agent speak for you.  But I'm certain it's <strong>NOT</strong> during an interview.  By the way, companies... don't send an AI to do the interview.  It's in poor taste, and I, for one, would never work for a company that does that.</p>
+        <p class="read-more"><a href="https://www.youtube.com/watch?v=A0fECnj5sas" target="_blank" rel="noopener">Watch &quot;I Sent an AI to My Job Interview. So Did the Company&quot; ↗</a></p>
+        </div>
+      </div>
+
+      <!-- TRY THIS -->
+      <div class="section-header" id="try-this">
+        <img src="../assets/images/try_this_header.webp" alt="Try This">
+      </div>
+      <div class="try-this-box">
+        <h3>Ask four ZDR questions before you trust "student work isn't stored"</h3>
+        <div class="content-with-article-image">
+        <figure class="article-image">
+          <button type="button" class="image-zoom" data-full="../assets/article-images/2026-11-19/four-zdr-questions.png" data-caption="Four questions on one card. The marketing page rarely answers all four." aria-haspopup="dialog" aria-label="Enlarge image: Four questions on one card. The marketing page rarely answers all four.">
+            <img src="../assets/article-images/2026-11-19/four-zdr-questions.png" alt="Four questions on one card. The marketing page rarely answers all four.">
+          </button>
+          <figcaption>Four questions on one card. The marketing page rarely answers all four.</figcaption>
+        </figure>
+        <p>Pick one campus or classroom tool that mentions zero data retention, ZDR, or "we don't train on your data." Open its help center or security page. You are not looking for marketing adjectives—you are looking for scope.</p>
+        <div class="the-prompt">
+          <p class="prompt-label">The Prompt:</p>
+          <blockquote>"For this product, list: (1) which features are inside ZDR scope and which are explicitly outside it; (2) default retention for chat history, analytics, and API "response" storage; (3) where data is processed and who the subprocessors are; (4) what changes if an admin turns on a new beta feature. If any answer is missing, write "not disclosed.""</blockquote>
+        </div>
+        <p class="read-more"><a href="https://x.com/sudachikawaii/status/2120270597573976163" target="_blank" rel="noopener">x.com ↗</a></p>
+        <p class="read-more"><a href="https://platform.openai.com/docs/guides/your-data" target="_blank" rel="noopener">platform.openai.com ↗</a></p>
+        <p class="read-more"><a href="https://docs.anthropic.com/en/docs/build-with-claude/zero-data-retention" target="_blank" rel="noopener">docs.anthropic.com ↗</a></p>
+        </div>
+      </div>
+      <div class="follow-up-block">
+        <h3 class="follow-up-heading">One check for this fortnight</h3>
+        <ul class="follow-up-tasks">
+        <li>Go to the Copilot app and ask it to create something that forces it to research, make graphics, and give you something that you can use.  Try to break it :)</li>
+      </ul>
+      </div>
+
+      <!-- SHARE -->
+      <div class="share-section" id="share">
+        <h3>Found this useful?</h3>
+        <p>Share Artificial Insights with a colleague who might benefit.</p>
+        <a href="mailto:?subject=Check%20out%20Artificial%20Insights&body=I%20thought%20you%20might%20find%20this%20AI%20newsletter%20useful%3A%20https%3A%2F%2Fbpmstc.github.io%2FArtificial-Insights%2F" class="share-link">Share via Email</a>
+      </div>
+      
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html">📚 All Issues</a>
+          <a href="../sources/2026-11-19.html">🔍 Sources</a>
+          <a href="mailto:">✉️ Contact</a>
+        </div>
+        <p><span class="brand">Artificial Insights</span> · Issue #22 · Nov 19, 2026</p>
+      </footer>
+    </div>
+    <dialog class="image-lightbox" id="image-lightbox" aria-label="Enlarged image">
+      <div class="image-lightbox-inner">
+        <button type="button" class="image-lightbox-close" aria-label="Close image">&times;</button>
+        <img alt="">
+        <p class="image-lightbox-caption"></p>
+      </div>
+    </dialog>
+    <script>
+    (function () {
+      var dialog = document.getElementById('image-lightbox');
+      if (!dialog || typeof dialog.showModal !== 'function') return;
+      var img = dialog.querySelector('img');
+      var cap = dialog.querySelector('.image-lightbox-caption');
+      var closeBtn = dialog.querySelector('.image-lightbox-close');
+      document.querySelectorAll('.image-zoom').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var thumb = btn.querySelector('img');
+          img.src = btn.getAttribute('data-full') || (thumb ? thumb.src : '');
+          img.alt = thumb ? thumb.alt : '';
+          var caption = btn.getAttribute('data-caption') || '';
+          cap.textContent = caption;
+          cap.hidden = !caption;
+          dialog.showModal();
+        });
+      });
+      function closeLightbox() {
+        dialog.close();
+      }
+      closeBtn.addEventListener('click', closeLightbox);
+      dialog.addEventListener('click', function (event) {
+        if (event.target === dialog) closeLightbox();
+      });
+      dialog.addEventListener('close', function () {
+        img.removeAttribute('src');
+      });
+    })();
+    </script>
+  </body>
+</html>
